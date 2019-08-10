@@ -7,7 +7,7 @@ The source comes setup for local use, compile using an IDE like Visual Studio, a
 The aim is for it to eventually become an exact replica of version 7.0 of Realm of the Mad God while offering a great amount of flexibility, allowing for easy modifications in order to make the source your own!
 
 ## Why 7.0?
-I chose to make the server compatible with version 7.0 because I feel that it is a good balance between the current, and oldschool RotMG, coming with candy features like backpacks and skins, but leaving behind the mess of pets and language strings found in newer clients. And also because the 7.0 got publicly leaked, fully deobfuscated, making this a lot easier to make possible.
+I chose to make the server compatible with version 7.0 because I feel that it is a good balance between the current, and oldschool RotMG, coming with candy features like backpacks and skins, but leaving behind the mess of pets and language strings found in newer clients. And also because the 7.0 client got publicly leaked, fully deobfuscated, making this a lot easier to make possible.
 
 ## Ongoing checklist
 - [x] NLog for logging
