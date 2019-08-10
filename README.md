@@ -2,7 +2,7 @@
 This is a C# server emulator for the 7.0 vanilla Realm of the Mad God client. Uses NLog for performant logging, and redis for fast in-memory data access.
 
 The source comes setup for local use, compile using an IDE like Visual Studio, and you should be good to go. To play locally, a vanilla RotMG version 7.0 client is required (connecting to localhost). 
-- You will find a vanilla 7.0 client, connecting to localhost, in the root folder of the source: [../webmain.swf](https://github.com/moistosaurus/realm-src/webmain.swf)
+- You will find a vanilla 7.0 client, connecting to localhost, in the root folder of the source > [../webmain.swf](https://github.com/moistosaurus/realm-src/blob/master/webmain.swf)
 
 The aim is for it to eventually become an exact replica of version 7.0 of Realm of the Mad God while offering a great amount of flexibility, allowing for easy modifications in order to make the source your own!
 
