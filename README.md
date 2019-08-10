@@ -6,6 +6,8 @@ The source comes setup for local use, compile using an IDE like Visual Studio, a
 
 The aim is for it to eventually become an exact replica of version 7.0 of Realm of the Mad God while offering a great amount of flexibility, allowing for easy modifications in order to make the source your own!
 
+If you'd like to run this server on platforms other than Windows, I strongly recommend porting the source to [NET Core](https://dotnet.microsoft.com/download). It is made to be cross-platform, and porting it is a very straightforward process (should only require very minor changes to the source code).
+
 ## Why 7.0?
 I chose to make the server compatible with version 7.0 because I feel that it is a good balance between the current, and oldschool RotMG, coming with candy features like backpacks and skins, but leaving behind the mess of pets and language strings found in newer clients. And also because the 7.0 client got publicly leaked, fully deobfuscated, making this a lot easier to make possible.
 
