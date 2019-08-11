@@ -14,7 +14,9 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 ## Ongoing checklist
 - [x] NLog for logging
 - [x] Config files
-- [ ] Resource loading
+- [x] Resources
+- [ ] XmlData
+- [ ] Static/export files
 - [ ] Database
 - [ ] Request handling for server
 

@@ -82,7 +82,7 @@ namespace common
             else if (t == typeof(ushort))
                 return (T)Convert.ChangeType(Convert.ToUInt16(val, 16), t);
             else if (t == typeof(int))
-                return (T)Convert.ChangeType(int.Parse(val), t);
+                return (T)Convert.ChangeType(FromString(val), t);
             else if (t == typeof(uint))
                 return (T)Convert.ChangeType(Convert.ToUInt32(val, 16), t);
             else if (t == typeof(double))
@@ -108,7 +108,7 @@ namespace common
             else if (t == typeof(ushort))
                 return (T)Convert.ChangeType(Convert.ToUInt16(val, 16), t);
             else if (t == typeof(int))
-                return (T)Convert.ChangeType(int.Parse(val), t);
+                return (T)Convert.ChangeType(FromString(val), t);
             else if (t == typeof(uint))
                 return (T)Convert.ChangeType(Convert.ToUInt32(val, 16), t);
             else if (t == typeof(double))
@@ -122,11 +122,29 @@ namespace common
             return def;
         }
 
-        public static int[] ToIntArray(this string s, string p)
+        public static int FromString(string x)
         {
-            string[] sep = new string[] { p };
-            var split = s.Split(sep, StringSplitOptions.None);
-            return split.Select(o => o.Contains("-") ? int.Parse(o) : (int)Convert.ToUInt32(o, 16)).ToArray();
+            return x.Contains("x") ? Convert.ToInt32(x, 16) : int.Parse(x);
+        }
+
+        public static bool HasElement(this XElement e, string name)
+        {
+            return e.Element(name) != null;
+        }
+
+        public static bool HasAttribute(this XElement e, string name)
+        {
+            return e.Attribute(name) != null;
+        }
+
+        public static T[] CommaToArray<T>(this string x)
+        {
+            if (typeof(T) == typeof(ushort))
+                return x.Split(',').Select(_ => (T)(object)(ushort)FromString(_.Trim())).ToArray();
+            if (typeof(T) == typeof(string))
+                return x.Split(',').Select(_ => (T)(object)_.Trim()).ToArray();
+            else //assume int
+                return x.Split(',').Select(_ => (T)(object)FromString(_.Trim())).ToArray();
         }
     }
 }

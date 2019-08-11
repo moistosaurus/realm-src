@@ -32,6 +32,12 @@ namespace common.resources
         {
             Log.Info("Loading XmlData...");
             LoadXmls();
+
+            Log.Info("Loaded {0} Tiles...", Tiles.Count);
+            Log.Info("Loaded {0} Items...", Items.Count);
+            Log.Info("Loaded {0} Objects...", Objects.Count);
+            Log.Info("Loaded {0} Players...", Players.Count);
+            Log.Info("Loaded {0} Skins...", Skins.Count);
         }
 
         private void LoadXmls()
@@ -48,7 +54,33 @@ namespace common.resources
         {
             foreach (var e in root.Elements("Object"))
             {
+                var cls = e.GetValue<string>("Class");
+                if (string.IsNullOrWhiteSpace(cls))
+                    continue;
 
+                var id = e.GetAttribute<string>("id");
+                var type = e.GetAttribute<ushort>("type");
+                var displayId = e.GetValue<string>("DisplayId");
+                var displayName = string.IsNullOrWhiteSpace(displayId) ? id : displayId;
+
+                if (ObjectTypeToId.ContainsKey(type))
+                    Log.Warn("'{0}' and '{1}' have the same type of '0x{2:x4}'", id, ObjectTypeToId[type], type);
+
+                if (IdToObjectType.ContainsKey(id))
+                    Log.Warn("'0x{0:x4}' and '0x{1:x4}' have the same id of '{2}'", type, IdToObjectType[id], id);
+
+                ObjectTypeToId[type] = id;
+                ObjectTypeToElement[type] = e;
+                IdToObjectType[id] = type;
+                DisplayIdToObjectType[displayName] = type;
+
+                switch (cls)
+                {
+                    case "Equipment":
+                    case "Dye":
+                        Items[type] = new Item(type, e);
+                        break;
+                }
             }
         }
 

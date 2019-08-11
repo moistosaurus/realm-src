@@ -12,9 +12,12 @@ namespace common.resources
         static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public const string SourcePath = "resources/";
 
+        public readonly XmlData XmlData;
+
         public Resources()
         {
             Log.Info("Loading resources...");
+            XmlData = new XmlData();
         }
     }
 }
