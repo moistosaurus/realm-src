@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using common.resources;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,12 +18,12 @@ namespace common
         public readonly ServerSettings ServerSettings;
         public readonly WorldSettings WorldSettings;
 
-        public ServerConfig(string configPath)
+        public ServerConfig()
         {
             Log.Info("Loading config files...");
-            DbSettings = new DbSettings(XElement.Parse(Utils.Read(configPath + "db.config")));
-            ServerSettings = new ServerSettings(XElement.Parse(Utils.Read(configPath + "server.config")));
-            WorldSettings = new WorldSettings(XElement.Parse(Utils.Read(configPath + "world.config")));
+            DbSettings = new DbSettings(XElement.Parse(Utils.Read(Resources.SourcePath + "db.config")));
+            ServerSettings = new ServerSettings(XElement.Parse(Utils.Read(Resources.SourcePath + "server.config")));
+            WorldSettings = new WorldSettings(XElement.Parse(Utils.Read(Resources.SourcePath + "world.config")));
         }
     }
 

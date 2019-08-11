@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,12 @@ namespace common.resources
 {
     public class Resources
     {
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
         public const string SourcePath = "resources/";
 
         public Resources()
         {
-
+            Log.Info("Loading resources...");
         }
     }
 }

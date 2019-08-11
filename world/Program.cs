@@ -16,7 +16,9 @@ namespace world
         static readonly Logger Log = LogManager.GetCurrentClassLogger();
         static readonly ManualResetEvent Shutdown = new ManualResetEvent(false);
 
-        internal static ServerConfig ServerConfig;
+        internal static ServerConfig Config;
+        internal static Resources Resources;
+        internal static Database Database;
 
         static void Main(string[] args)
         {
@@ -29,9 +31,14 @@ namespace world
                 Shutdown.Set();
             };
 
-            ServerConfig = new ServerConfig(Resources.SourcePath);
+            Config = new ServerConfig();
+            Resources = new Resources();
+            using (Database = new Database(Resources, Config))
+            {
+                Shutdown.WaitOne();
+            }
 
-            Shutdown.WaitOne();
+            Log.Info("Terminating...");
         }
 
         private static void LogUnhandledException(object sender, UnhandledExceptionEventArgs args)
