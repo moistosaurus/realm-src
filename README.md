@@ -13,7 +13,8 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 
 ## Ongoing checklist
 - [x] NLog for logging
-- [ ] Config files
+- [x] Config files
+- [ ] Resource loading
 - [ ] Database
 - [ ] Request handling for server
 

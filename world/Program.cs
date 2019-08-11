@@ -1,4 +1,5 @@
-﻿using common.db;
+﻿using common;
+using common.resources;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,10 @@ namespace world
 {
     class Program
     {
-        internal static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        internal static readonly ManualResetEvent Shutdown = new ManualResetEvent(false);
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        static readonly ManualResetEvent Shutdown = new ManualResetEvent(false);
+
+        internal static ServerConfig ServerConfig;
 
         static void Main(string[] args)
         {
@@ -25,6 +28,8 @@ namespace world
             {
                 Shutdown.Set();
             };
+
+            ServerConfig = new ServerConfig(Resources.SourcePath);
 
             Shutdown.WaitOne();
         }
