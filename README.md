@@ -22,7 +22,7 @@ If you find a problem in the source, feel free to open an issue [here](https://g
 Alternatively, if you'd like to open a pull request, go [here](https://github.com/moistosaurus/realm-src/pulls).
 
 ## Deserved credits
-Most of the source code is written by me, however snippets have/might be taken here and there (from other private/public sources), as well as inspirations on how the source is structured, which sped up the process by a ton.
+Most parts of the source code have been written by me, however snippets/code have/has been taken here and there (from other private/public sources), as well as inspirations on how the source is structured, which sped up the process by a ton.
 
 For that, credits go to:
 - Developers of Revenge of the Fallen
