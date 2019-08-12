@@ -74,10 +74,6 @@ namespace server
         {
             try
             {
-                Log.Info("Dispatching '{0}'@{1}",
-                    rContext.Request.Url.LocalPath,
-                    rContext.Request.ClientIP());
-
                 bool getRequest = rContext.Request.HttpMethod.Equals("GET");
                 if (Config.ServerSettings.DebugRequests)
                 {
@@ -92,6 +88,10 @@ namespace server
                         return;
                     }
                 }
+
+                Log.Info("Dispatching '{0}'@{1}",
+                    rContext.Request.Url.LocalPath,
+                    rContext.Request.ClientIP());
 
                 if (getRequest)
                 {
