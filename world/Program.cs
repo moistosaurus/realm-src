@@ -32,13 +32,17 @@ namespace world
             };
 
             Config = new ServerConfig();
-            Resources = new Resources();
+            Resources = new Resources(Config.ServerSettings.ResourcePath, false);
             using (Database = new Database(Resources, Config))
             {
                 Shutdown.WaitOne();
+                Log.Info("Terminating...");
             }
+        }
 
-            Log.Info("Terminating...");
+        public static void Stop()
+        {
+            Shutdown.Set();
         }
 
         private static void LogUnhandledException(object sender, UnhandledExceptionEventArgs args)

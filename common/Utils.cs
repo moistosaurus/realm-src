@@ -12,9 +12,9 @@ using System.Xml.Linq;
 
 namespace common
 {
-    public static partial class Utils
+    public static class Utils
     {
-        static readonly Logger log = LogManager.GetCurrentClassLogger();
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public static async Task<string> ReadAsync(string p)
         {
@@ -66,7 +66,7 @@ namespace common
             catch (Exception ex)
             {
                 if (l)
-                    log.Error(ex.ToString());
+                    Log.Error(ex.ToString());
                 return false;
             }
         }
@@ -93,7 +93,7 @@ namespace common
             else if (t == typeof(bool))
                 return (T)Convert.ChangeType(string.IsNullOrWhiteSpace(val) || bool.Parse(val), t);
 
-            log.Error(string.Format("Type of {0} is not supported by this method, returning default value: {1}...", t, def));
+            Log.Error(string.Format("Type of {0} is not supported by this method, returning default value: {1}...", t, def));
             return def;
         }
 
@@ -119,7 +119,7 @@ namespace common
             else if (t == typeof(bool))
                 return (T)Convert.ChangeType(string.IsNullOrWhiteSpace(val) || bool.Parse(val), t);
 
-            log.Error(string.Format("Type of {0} is not supported by this method, returning default value: {1}...", t, def));
+            Log.Error(string.Format("Type of {0} is not supported by this method, returning default value: {1}...", t, def));
             return def;
         }
 

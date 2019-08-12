@@ -29,10 +29,10 @@ namespace common.resources
         public Dictionary<ushort, PortalDesc> Portals = new Dictionary<ushort, PortalDesc>();
         public Dictionary<ushort, SkinDesc> Skins = new Dictionary<ushort, SkinDesc>();
 
-        public XmlData()
+        public XmlData(string dir)
         {
             Log.Info("Loading XmlData...");
-            LoadXmls();
+            LoadXmls(dir);
 
             Log.Info("Loaded {0} Tiles...", Tiles.Count);
             Log.Info("Loaded {0} Items...", Items.Count);
@@ -42,9 +42,9 @@ namespace common.resources
             Log.Info("Loaded {0} Skins...", Skins.Count);
         }
 
-        private void LoadXmls()
+        private void LoadXmls(string dir)
         {
-            var xmls = Directory.EnumerateFiles(Resources.SourcePath + "xml/", "*xml", SearchOption.AllDirectories).ToArray();
+            var xmls = Directory.EnumerateFiles(dir, "*xml", SearchOption.AllDirectories).ToArray();
             foreach (string k in xmls)
             {
                 var xml = Utils.Read(k);
