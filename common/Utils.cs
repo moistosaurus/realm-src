@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using common.resources;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -82,7 +83,7 @@ namespace common
             else if (t == typeof(ushort))
                 return (T)Convert.ChangeType(Convert.ToUInt16(val, 16), t);
             else if (t == typeof(int))
-                return (T)Convert.ChangeType(FromString(val), t);
+                return (T)Convert.ChangeType(GetInt(val), t);
             else if (t == typeof(uint))
                 return (T)Convert.ChangeType(Convert.ToUInt32(val, 16), t);
             else if (t == typeof(double))
@@ -108,7 +109,7 @@ namespace common
             else if (t == typeof(ushort))
                 return (T)Convert.ChangeType(Convert.ToUInt16(val, 16), t);
             else if (t == typeof(int))
-                return (T)Convert.ChangeType(FromString(val), t);
+                return (T)Convert.ChangeType(GetInt(val), t);
             else if (t == typeof(uint))
                 return (T)Convert.ChangeType(Convert.ToUInt32(val, 16), t);
             else if (t == typeof(double))
@@ -122,11 +123,6 @@ namespace common
             return def;
         }
 
-        public static int FromString(string x)
-        {
-            return x.Contains("x") ? Convert.ToInt32(x, 16) : int.Parse(x);
-        }
-
         public static bool HasElement(this XElement e, string name)
         {
             return e.Element(name) != null;
@@ -137,14 +133,25 @@ namespace common
             return e.Attribute(name) != null;
         }
 
+        public static int GetInt(string x)
+        {
+            return x.Contains("x") ? Convert.ToInt32(x, 16) : int.Parse(x);
+        }
+
+        public static ConditionEffectIndex GetEffect(string val)
+        {
+            ConditionEffectIndex ret = (ConditionEffectIndex)Enum.Parse(typeof(ConditionEffectIndex), val.Replace(" ", ""));
+            return ret;
+        }
+
         public static T[] CommaToArray<T>(this string x)
         {
             if (typeof(T) == typeof(ushort))
-                return x.Split(',').Select(_ => (T)(object)(ushort)FromString(_.Trim())).ToArray();
+                return x.Split(',').Select(_ => (T)(object)(ushort)GetInt(_.Trim())).ToArray();
             if (typeof(T) == typeof(string))
                 return x.Split(',').Select(_ => (T)(object)_.Trim()).ToArray();
             else //assume int
-                return x.Split(',').Select(_ => (T)(object)FromString(_.Trim())).ToArray();
+                return x.Split(',').Select(_ => (T)(object)GetInt(_.Trim())).ToArray();
         }
     }
 }
