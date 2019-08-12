@@ -16,8 +16,8 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Config files
 - [x] Resources
 - [x] XmlData
-- [ ] Request handling for server
-- [ ] Static/export files
+- [x] Request handling for server
+- [x] Static/export files
 - [ ] Database
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
