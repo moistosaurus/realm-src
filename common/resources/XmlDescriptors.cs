@@ -4,6 +4,63 @@ using System.Xml.Linq;
 
 namespace common.resources
 {
+    public enum TerrainType
+    {
+        None,
+        Mountains,
+        HighSand,
+        HighPlains,
+        HighForest,
+        MidSand,
+        MidPlains,
+        MidForest,
+        LowSand,
+        LowPlains,
+        LowForest,
+        ShoreSand,
+        ShorePlains
+    }
+
+    public enum TileRegion
+    {
+        None = 0,
+        Spawn = 1,
+        RealmPortals = 2,
+        Store1 = 3,
+        Store2 = 4,
+        Store3 = 5,
+        Store4 = 6,
+        Store5 = 7,
+        Store6 = 8,
+        Vault = 9,
+        Loot = 10,
+        Defender = 11,
+        Hallway = 12,
+        Enemy = 13,
+        Hallway1 = 14,
+        Hallway2 = 15,
+        Hallway3 = 16,
+        Store7 = 17,
+        Store8 = 18,
+        Store9 = 19,
+        GiftingChest = 20,
+        Store10 = 21,
+        Store11 = 22,
+        Store12 = 23,
+        Store13 = 24,
+        Store14 = 26,
+        Store15 = 27,
+        Store16 = 28,
+        Store17 = 29,
+        Store18 = 30,
+        Store19 = 31,
+        Store20 = 32,
+        Store21 = 33,
+        Store22 = 34,
+        Store23 = 35,
+        Store24 = 36
+    }
+
     public enum ActivateEffects
     {
         Create,
@@ -107,30 +164,140 @@ namespace common.resources
 
     public class ObjectDesc
     {
+        public readonly ushort ObjectType;
+        public readonly string ObjectId;
+        public readonly string DisplayId;
+        public readonly string DisplayName;
+        public readonly string Class;
+        public readonly bool Static;
+        public readonly bool OccupySquare;
+        public readonly bool FullOccupy;
+        public readonly bool EnemyOccupySquare;
+        public readonly bool BlocksSight;
+        public readonly bool Container;
+        public readonly int[] SlotTypes;
+        public readonly bool CanPutNormalObjects;
+        public readonly bool CanPutSoulboundObjects;
+        public readonly bool Loot;
+        public readonly int Size;
+        public readonly bool Enemy;
+        public readonly int MaxHitPoints;
+        public readonly int Defense;
+        public readonly float XpMult;
+        public readonly int MinSize;
+        public readonly int MaxSize;
+        public readonly int SizeStep;
+        public readonly bool RandomSize;
+        public readonly bool SpawnPoint;
+        public readonly string Group;
+        public readonly bool Quest;
+        public readonly int Level;
+        public readonly bool God;
+        public readonly bool NoArticle;
+        public readonly bool StasisImmune;
+        public readonly bool StunImmune;
+        public readonly bool Encounter;
+        public readonly int PerRealmMax;
+        public readonly bool Hero;
+        public readonly bool Cube;
+        public readonly bool Oryx;
+        public readonly bool Player;
+        public readonly bool KeepDamageRecord;
+
+        public readonly TerrainType Terrain;
+        public readonly float SpawnProb;
+        public readonly SpawnCount Spawn;
+
         public ObjectDesc(ushort type, XElement e)
         {
+            ObjectType = type;
+            ObjectId = e.GetAttribute<string>("id");
+            DisplayId = e.GetValue<string>("DisplayId");
+            DisplayName = string.IsNullOrWhiteSpace(DisplayId) ? ObjectId : DisplayId;
+            Class = e.GetValue<string>("Class");
+            Static = e.HasElement("Static");
+            OccupySquare = e.HasElement("OccupySquare");
+            FullOccupy = e.HasElement("FullOccupy");
+            EnemyOccupySquare = e.HasElement("EnemyOccupySquare");
+            BlocksSight = e.HasElement("BlocksSight");
+            Container = e.HasElement("Container");
+            if (e.HasElement("SlotTypes"))
+                SlotTypes = e.GetValue<string>("SlotTypes").CommaToArray<int>();
+            CanPutNormalObjects = e.HasElement("CanPutNormalObjects");
+            CanPutSoulboundObjects = e.HasElement("CanPutSoulboundObjects");
+            Loot = e.HasElement("Loot");
+            Size = e.GetValue<int>("Size", 100);
+            Enemy = e.HasElement("Enemy");
+            MaxHitPoints = e.GetValue<int>("MaxHitPoints");
+            Defense = e.GetValue<int>("Defense");
+            XpMult = e.GetValue<float>("XpMult", 1.0f);
+            if (e.HasElement("MinSize") && e.HasElement("MaxSize"))
+            {
+                MinSize = e.GetValue<int>("MinSize");
+                MaxSize = e.GetValue<int>("MaxSize");
+                SizeStep = e.GetValue<int>("SizeStep", 1);
+                RandomSize = true;
+            }
+            SpawnPoint = e.HasElement("SpawnPoint");
+            Group = e.GetValue<string>("Group");
+            Quest = e.HasElement("Quest");
+            Level = e.GetValue<int>("Level");
+            God = e.HasElement("God");
+            NoArticle = e.HasElement("NoArticle");
+            StasisImmune = e.HasElement("StasisImmune");
+            StunImmune = e.HasElement("StunImmune");
+            SpawnProb = e.GetValue<float>("SpawnProb");
+            if (e.HasElement("Spawn"))
+                Spawn = new SpawnCount(e.Element("Spawn"));
+            Terrain = (TerrainType)Enum.Parse(typeof(TerrainType), e.GetValue<string>("Terrain", "None"));
+            Encounter = e.HasElement("Encounter");
+            PerRealmMax = e.GetValue<int>("PerRealmMax");
+            Hero = e.HasElement("Hero");
+            Cube = e.HasElement("Cube");
+            Oryx = e.HasElement("Oryx");
+            Player = e.HasElement("Player");
+            KeepDamageRecord = e.HasElement("KeepDamageRecord");
+        }
+    }
 
+    public class SpawnCount
+    {
+        public readonly int Mean;
+        public readonly int StdDev;
+        public readonly int Min;
+        public readonly int Max;
+
+        public SpawnCount(XElement e)
+        {
+            Mean = e.GetValue<int>("Mean");
+            StdDev = e.GetValue<int>("StdDev");
+            Min = e.GetValue<int>("Min");
+            Max = e.GetValue<int>("Max");
         }
     }
 
     public class PortalDesc : ObjectDesc
     {
+        public readonly string DungeonName;
+        public readonly bool IntergamePortal;
+        public readonly bool LockedPortal;
+
         public PortalDesc(ushort type, XElement e) : base(type, e)
         {
-
+            DungeonName = e.GetValue<string>("DungeonName");
+            IntergamePortal = e.HasElement("IntergamePortal");
+            LockedPortal = e.HasElement("LockedPortal");
         }
     }
 
     public class PlayerDesc : ObjectDesc
     {
-        public readonly int[] SlotTypes;
         public readonly ushort[] Equipment;
         public readonly Stat[] Stats;
         public readonly UnlockClass Unlock;
 
         public PlayerDesc(ushort type, XElement e) : base(type, e)
         {
-            SlotTypes = e.GetValue<string>("SlotTypes").CommaToArray<int>();
             Equipment = e.GetValue<string>("Equipment").CommaToArray<ushort>();
             Stats = new Stat[8];
             for (var i = 0; i < Stats.Length; i++)
@@ -210,11 +377,15 @@ namespace common.resources
 
     public class SkinDesc
     {
+        public readonly ushort ObjectType;
+        public readonly string ObjectId;
         public readonly ushort ClassType;
         public readonly int UnlockLevel;
 
-        public SkinDesc(XElement e)
+        public SkinDesc(ushort type, XElement e)
         {
+            ObjectType = type;
+            ObjectId = e.GetAttribute<string>("id");
             ClassType = e.GetValue<ushort>("PlayerClassType");
             UnlockLevel = e.GetValue<int>("UnlockLevel");
         }
