@@ -15,7 +15,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] NLog for logging
 - [x] Config files
 - [x] Resources
-- [ ] XmlData
+- [x] XmlData
 - [ ] Static/export files
 - [ ] Database
 - [ ] Request handling for server
