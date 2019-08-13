@@ -42,7 +42,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Rework build environments to be more user-friendly (maybe just have a single one...)
 - [x] Remove useless data from requests (platforms etc.)
 - [x] Remove Steam, Kong. and other platforms that are not needed here
-- [ ] Remove map loading in the background of main menu (it takes a lot of processing power)
+- [x] Remove map loading in the background of main menu (it takes a lot of processing power (20% CPU AFK???))
 - [ ] Get in game (long process...)
 - [ ] Optimize client (caching, rendering)
 
