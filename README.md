@@ -2,7 +2,7 @@
 This is a C# server emulator for the 7.0 vanilla Realm of the Mad God client. Uses NLog for performant logging, and redis for fast in-memory data access.
 
 The source comes setup for local use, compile using an IDE like Visual Studio, and you should be good to go. To play locally, a vanilla RotMG version 7.0 client is required (connecting to localhost). 
-- You will find a vanilla 7.0 client, connecting to localhost, in the root folder of the source > [../webmain.swf](https://github.com/moistosaurus/realm-src/blob/master/webmain.swf)
+- As a little candy, here's a clean, fast and barebones AS3 7.0 client [click me!](https://github.com/moistosaurus/realm-cli). Flex 4.6 recommended.
 
 The aim is for it to eventually become an exact replica of version 7.0 of Realm of the Mad God while offering a great amount of flexibility, allowing for easy modifications in order to make the source your own!
 Only difference is that the server will be quite barebones, meaning I will be removing bloated features like packages from the client.
@@ -23,20 +23,26 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Database
 - [x] Get to main menu
 - [x] Make 7.0 AS3 client
-- [x] Rename .sol and setting paths
+- [x] Rename .sol and setting paths (so it doesn't try to load prod data)
 - [x] Remove GA
 - [x] Fix visual bugs with graphics
 - [x] Fix font rendering
 - [x] Registering and gen. account control (logging in, /char/list, etc.)
-- [ ] Remove age & email verification completely (this is simply not needed here)
-- [ ] Remove packages
-- [ ] Remove protips
-- [ ] Remove surveys
-- [ ] Remove any payment-y stuff (easier & better to make a seperate site for payments)
-- [ ] Remove remote textures and data (not needed, simply bloats the client)
-- [ ] Rework build environments to be more user-friendly
-- [ ] Remove useless data from requests (platforms etc.)
-- [ ] Remove Steam, Kong. and other platforms that are not needed here
+- [x] Remove debug console (it's kinda a neat feature, but it's better to just use debugger, so it's just bad bloat)
+- [x] Remove age & email verification completely (this is simply not needed here)
+- [x] Remove packages
+- [x] Remove protips
+- [x] Remove surveys
+- [x] Remove useless hotkeys
+- [x] Remove useless parameters options
+- [x] Remove useless client features (e.g. /log/logFteStep & screenshot mode)
+- [x] Remove any payment-y stuff (easier & better to make a seperate site for payments)
+- [x] Remove useless asset files (e.g. TravisTestingCXML)
+- [x] Remove remote textures and data (not needed, simply bloats the client)
+- [x] Rework build environments to be more user-friendly (maybe just have a single one...)
+- [x] Remove useless data from requests (platforms etc.)
+- [x] Remove Steam, Kong. and other platforms that are not needed here
+- [ ] Remove map loading in the background of main menu (it takes a lot of processing power)
 - [ ] Get in game (long process...)
 - [ ] Optimize client (caching, rendering)
 

@@ -289,24 +289,6 @@ namespace common
             set { SetValue<bool>("nameChosen", value); }
         }
 
-        public bool Verified
-        {
-            get { return GetValue<bool>("verified"); }
-            set { SetValue<bool>("verified", value); }
-        }
-
-        public bool AgeVerified
-        {
-            get { return GetValue<bool>("ageVerified"); }
-            set { SetValue<bool>("ageVerified", value); }
-        }
-
-        public bool Converted
-        {
-            get { return GetValue<bool>("converted"); }
-            set { SetValue<bool>("converted", value); }
-        }
-
         public bool FirstDeath
         {
             get { return GetValue<bool>("firstDeath"); }

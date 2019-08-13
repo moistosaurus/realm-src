@@ -81,9 +81,6 @@ namespace common
                 Name = GuestNames[(uint)uuid.GetHashCode() % GuestNames.Length],
                 Admin = false,
                 NameChosen = false,
-                Verified = false,
-                AgeVerified = false,
-                Converted = false,
                 FirstDeath = true,
                 GuildId = 0,
                 GuildRank = 0,
@@ -315,12 +312,6 @@ namespace common
             acc.FlushAsync();
         }
 
-        public void ChangeAgeVerified(DbAccount acc, bool verified)
-        {
-            acc.AgeVerified = true;
-            acc.FlushAsync();
-        }
-
         public RegisterStatus Register(string uuid, string password, bool isGuest, out DbAccount acc)
         {
             var newAccounts = _config.initInfo.NewAccounts;
@@ -337,9 +328,6 @@ namespace common
                 Name = GuestNames[(uint)uuid.GetHashCode() % GuestNames.Length],
                 Admin = false,
                 NameChosen = false,
-                Verified = false,
-                AgeVerified = false,
-                Converted = false,
                 FirstDeath = true,
                 GuildId = 0,
                 GuildRank = 0,

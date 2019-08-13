@@ -271,15 +271,11 @@ namespace server
         public string Name { get; set; }
 
         public bool NameChosen { get; private set; }
-        public bool Converted { get; private set; }
         public bool Admin { get; private set; }
-        public bool VerifiedEmail { get; private set; }
-        public bool AgeVerified { get; private set; }
         public bool FirstDeath { get; private set; }
 
         public int Credits { get; private set; }
         public int NextCharSlotPrice { get; private set; }
-        public int BeginnerPackageTimeLeft { get; private set; }
 
         public Vault Vault { get; private set; }
         public Stats Stats { get; private set; }
@@ -295,15 +291,11 @@ namespace server
                 Name = acc.Name,
 
                 NameChosen = acc.NameChosen,
-                Converted = false,
                 Admin = acc.Admin,
-                VerifiedEmail = acc.Verified,
-                AgeVerified = acc.AgeVerified,
                 FirstDeath = acc.FirstDeath,
 
                 Credits = acc.Credits,
                 NextCharSlotPrice = Program.Config.initInfo.NewAccounts.GetPrice(acc.MaxCharSlot),
-                BeginnerPackageTimeLeft = 0,
 
                 Vault = Vault.FromDb(acc, new DbVault(acc)),
                 Stats = Stats.FromDb(acc, new DbClassStats(acc)),
@@ -321,15 +313,11 @@ namespace server
                     new XElement("Name", Name),
 
                     NameChosen ? new XElement("NameChosen", "") : null,
-                    Converted ? new XElement("Converted", "") : null,
                     Admin ? new XElement("Admin", "") : null,
-                    VerifiedEmail ? new XElement("VerifiedEmail", "") : null,
-                    new XElement("IsAgeVerified", (AgeVerified) ? 1 : 0),
                     FirstDeath ? new XElement("isFirstDeath", "") : null,
 
                     new XElement("Credits", Credits),
                     new XElement("NextCharSlotPrice", NextCharSlotPrice),
-                    new XElement("BeginnerPackageTimeLeft", BeginnerPackageTimeLeft),
 
                     Vault.ToXml(),
                     // gifts here
