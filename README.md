@@ -5,6 +5,8 @@ The source comes setup for local use, compile using an IDE like Visual Studio, a
 - You will find a vanilla 7.0 client, connecting to localhost, in the root folder of the source > [../webmain.swf](https://github.com/moistosaurus/realm-src/blob/master/webmain.swf)
 
 The aim is for it to eventually become an exact replica of version 7.0 of Realm of the Mad God while offering a great amount of flexibility, allowing for easy modifications in order to make the source your own!
+Only difference is that the server will be quite barebones, meaning I will be removing bloated features like packages from the client.
+This should allow for it to be more customizable, but also will shorten the development time, and make the client cleaner in general.
 
 If you'd like to run this server on platforms other than Windows, I strongly recommend porting the source to [NET Core](https://dotnet.microsoft.com/download). It is made to be cross-platform, and porting it is a very straightforward process (should only require very minor changes to the source code).
 
@@ -19,8 +21,24 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Request handling for server
 - [x] Static/export files
 - [x] Database
-- [ ] Get to main menu
-- [ ] Add all requests
+- [x] Get to main menu
+- [x] Make 7.0 AS3 client
+- [x] Rename .sol and setting paths
+- [x] Remove GA
+- [x] Fix visual bugs with graphics
+- [x] Fix font rendering
+- [x] Registering and gen. account control (logging in, /char/list, etc.)
+- [ ] Remove age & email verification completely (this is simply not needed here)
+- [ ] Remove packages
+- [ ] Remove protips
+- [ ] Remove surveys
+- [ ] Remove any payment-y stuff (easier & better to make a seperate site for payments)
+- [ ] Remove remote textures and data (not needed, simply bloats the client)
+- [ ] Rework build environments to be more user-friendly
+- [ ] Remove useless data from requests (platforms etc.)
+- [ ] Remove Steam, Kong. and other platforms that are not needed here
+- [ ] Get in game (long process...)
+- [ ] Optimize client (caching, rendering)
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 

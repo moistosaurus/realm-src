@@ -102,11 +102,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="account\changePassword.cs" />
+    <Compile Include="account\purchaseCharSlot.cs" />
+    <Compile Include="account\purchaseSkin.cs" />
+    <Compile Include="account\register.cs" />
+    <Compile Include="account\setName.cs" />
     <Compile Include="account\verify.cs" />
     <Compile Include="app\globalNews.cs" />
     <Compile Include="app\init.cs" />
+    <Compile Include="char\purchaseClassUnlock.cs" />
+    <Compile Include="char\fame.cs" />
+    <Compile Include="char\delete.cs" />
     <Compile Include="char\list.cs" />
     <Compile Include="ChatManager.cs" />
+    <Compile Include="fame\list.cs" />
+    <Compile Include="guild\setBoard.cs" />
+    <Compile Include="guild\listMembers.cs" />
+    <Compile Include="guild\getBoard.cs" />
     <Compile Include="ISControl.cs" />
     <Compile Include="LegendSweeper.cs" />
     <Compile Include="Program.cs" />

@@ -506,156 +506,156 @@ namespace common
             }
             set { SetValue<string>(type.ToString(), JsonConvert.SerializeObject(value)); }
         }
+    }
 
-        public class DbChar : RedisObject
+    public class DbChar : RedisObject
+    {
+        public DbAccount Account { get; private set; }
+        public int CharId { get; private set; }
+
+        public DbChar(DbAccount acc, int charId)
         {
-            public DbAccount Account { get; private set; }
-            public int CharId { get; private set; }
+            Account = acc;
+            CharId = charId;
+            Init(acc.Database, "char." + acc.AccountId + "." + charId);
+        }
 
-            public DbChar(DbAccount acc, int charId)
-            {
-                Account = acc;
-                CharId = charId;
-                Init(acc.Database, "char." + acc.AccountId + "." + charId);
-            }
+        public ushort ObjectType
+        {
+            get { return GetValue<ushort>("charType"); }
+            set { SetValue<ushort>("charType", value); }
+        }
 
-            public ushort ObjectType
-            {
-                get { return GetValue<ushort>("charType"); }
-                set { SetValue<ushort>("charType", value); }
-            }
+        public int Level
+        {
+            get { return GetValue<int>("level"); }
+            set { SetValue<int>("level", value); }
+        }
 
-            public int Level
-            {
-                get { return GetValue<int>("level"); }
-                set { SetValue<int>("level", value); }
-            }
+        public int Experience
+        {
+            get { return GetValue<int>("exp"); }
+            set { SetValue<int>("exp", value); }
+        }
 
-            public int Experience
-            {
-                get { return GetValue<int>("exp"); }
-                set { SetValue<int>("exp", value); }
-            }
+        public int Fame
+        {
+            get { return GetValue<int>("fame"); }
+            set { SetValue<int>("fame", value); }
+        }
 
-            public int Fame
-            {
-                get { return GetValue<int>("fame"); }
-                set { SetValue<int>("fame", value); }
-            }
+        public int FinalFame
+        {
+            get { return GetValue<int>("finalFame"); }
+            set { SetValue<int>("finalFame", value); }
+        }
 
-            public int FinalFame
-            {
-                get { return GetValue<int>("finalFame"); }
-                set { SetValue<int>("finalFame", value); }
-            }
+        public ushort[] Items
+        {
+            get { return GetValue<ushort[]>("items"); }
+            set { SetValue<ushort[]>("items", value); }
+        }
 
-            public ushort[] Items
-            {
-                get { return GetValue<ushort[]>("items"); }
-                set { SetValue<ushort[]>("items", value); }
-            }
+        public int HP
+        {
+            get { return GetValue<int>("hp"); }
+            set { SetValue<int>("hp", value); }
+        }
 
-            public int HP
-            {
-                get { return GetValue<int>("hp"); }
-                set { SetValue<int>("hp", value); }
-            }
+        public int MP
+        {
+            get { return GetValue<int>("mp"); }
+            set { SetValue<int>("mp", value); }
+        }
 
-            public int MP
-            {
-                get { return GetValue<int>("mp"); }
-                set { SetValue<int>("mp", value); }
-            }
+        public int[] Stats
+        {
+            get { return GetValue<int[]>("stats"); }
+            set { SetValue<int[]>("stats", value); }
+        }
 
-            public int[] Stats
-            {
-                get { return GetValue<int[]>("stats"); }
-                set { SetValue<int[]>("stats", value); }
-            }
+        public int Tex1
+        {
+            get { return GetValue<int>("tex1"); }
+            set { SetValue<int>("tex1", value); }
+        }
 
-            public int Tex1
-            {
-                get { return GetValue<int>("tex1"); }
-                set { SetValue<int>("tex1", value); }
-            }
+        public int Tex2
+        {
+            get { return GetValue<int>("tex2"); }
+            set { SetValue<int>("tex2", value); }
+        }
 
-            public int Tex2
-            {
-                get { return GetValue<int>("tex2"); }
-                set { SetValue<int>("tex2", value); }
-            }
+        public int Skin
+        {
+            get { return GetValue<int>("skin"); }
+            set { SetValue<int>("skin", value); }
+        }
 
-            public int Skin
-            {
-                get { return GetValue<int>("skin"); }
-                set { SetValue<int>("skin", value); }
-            }
+        public int PetId
+        {
+            get { return GetValue<int>("petId"); }
+            set { SetValue<int>("petId", value); }
+        }
 
-            public int PetId
-            {
-                get { return GetValue<int>("petId"); }
-                set { SetValue<int>("petId", value); }
-            }
+        public byte[] FameStats
+        {
+            get { return GetValue<byte[]>("fameStats"); }
+            set { SetValue<byte[]>("fameStats", value); }
+        }
 
-            public byte[] FameStats
-            {
-                get { return GetValue<byte[]>("fameStats"); }
-                set { SetValue<byte[]>("fameStats", value); }
-            }
+        public DateTime CreateTime
+        {
+            get { return GetValue<DateTime>("createTime"); }
+            set { SetValue<DateTime>("createTime", value); }
+        }
 
-            public DateTime CreateTime
-            {
-                get { return GetValue<DateTime>("createTime"); }
-                set { SetValue<DateTime>("createTime", value); }
-            }
+        public DateTime LastSeen
+        {
+            get { return GetValue<DateTime>("lastSeen"); }
+            set { SetValue<DateTime>("lastSeen", value); }
+        }
 
-            public DateTime LastSeen
-            {
-                get { return GetValue<DateTime>("lastSeen"); }
-                set { SetValue<DateTime>("lastSeen", value); }
-            }
+        public bool Dead
+        {
+            get { return GetValue<bool>("dead"); }
+            set { SetValue<bool>("dead", value); }
+        }
 
-            public bool Dead
-            {
-                get { return GetValue<bool>("dead"); }
-                set { SetValue<bool>("dead", value); }
-            }
+        public int HealthStackCount
+        {
+            get { return GetValue<int>("hpPotCount"); }
+            set { SetValue<int>("hpPotCount", value); }
+        }
 
-            public int HealthStackCount
-            {
-                get { return GetValue<int>("hpPotCount"); }
-                set { SetValue<int>("hpPotCount", value); }
-            }
+        public int MagicStackCount
+        {
+            get { return GetValue<int>("mpPotCount"); }
+            set { SetValue<int>("mpPotCount", value); }
+        }
 
-            public int MagicStackCount
-            {
-                get { return GetValue<int>("mpPotCount"); }
-                set { SetValue<int>("mpPotCount", value); }
-            }
+        public bool HasBackpack
+        {
+            get { return GetValue<bool>("hasBackpack"); }
+            set { SetValue<bool>("hasBackpack", value); }
+        }
 
-            public bool HasBackpack
-            {
-                get { return GetValue<bool>("hasBackpack"); }
-                set { SetValue<bool>("hasBackpack", value); }
-            }
+        public int XPBoostTime
+        {
+            get { return GetValue<int>("xpBoost"); }
+            set { SetValue<int>("xpBoost", value); }
+        }
 
-            public int XPBoostTime
-            {
-                get { return GetValue<int>("xpBoost"); }
-                set { SetValue<int>("xpBoost", value); }
-            }
+        public int LDBoostTime
+        {
+            get { return GetValue<int>("ldBoost"); }
+            set { SetValue<int>("ldBoost", value); }
+        }
 
-            public int LDBoostTime
-            {
-                get { return GetValue<int>("ldBoost"); }
-                set { SetValue<int>("ldBoost", value); }
-            }
-
-            public int LTBoostTime
-            {
-                get { return GetValue<int>("ltBoost"); }
-                set { SetValue<int>("ltBoost", value); }
-            }
+        public int LTBoostTime
+        {
+            get { return GetValue<int>("ltBoost"); }
+            set { SetValue<int>("ltBoost", value); }
         }
     }
 

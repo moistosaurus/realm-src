@@ -81,10 +81,27 @@ namespace server
 
         public static readonly Dictionary<string, RequestHandler> Post = new Dictionary<string, RequestHandler>
         {
-            { "/app/init", new app.init() },
-            { "/app/globalNews", new app.globalNews() },
-            { "/account/verify", new account.verify() },
-            { "/char/list", new @char.list() },
+
+            {"/char/list", new @char.list()},
+            {"/char/delete", new @char.delete()},
+            {"/char/fame", new @char.fame()},
+            {"/char/purchaseClassUnlock", new @char.purchaseClassUnlock()},
+
+            {"/account/verify", new account.verify()},
+            {"/account/register", new account.register()},
+            {"/account/changePassword", new account.changePassword()},
+            {"/account/purchaseCharSlot", new account.purchaseCharSlot()},
+            {"/account/purchaseSkin", new account.purchaseSkin()},
+            {"/account/setName", new account.setName()},
+
+            {"/fame/list", new fame.list()},
+
+            {"/app/init", new app.init()},
+            {"/app/globalNews", new app.globalNews()},
+
+            {"/guild/listMembers", new guild.listMembers()},
+            {"/guild/getBoard", new guild.getBoard()},
+            {"/guild/setBoard", new guild.setBoard()},
         };
     }
 }
