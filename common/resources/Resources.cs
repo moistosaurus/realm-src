@@ -8,19 +8,19 @@ using System.Threading.Tasks;
 
 namespace common.resources
 {
-    public class Resources
+    public class Resources : IDisposable
     {
         static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public readonly string ResourcePath;
-        public readonly XmlData XmlData;
+        public readonly XmlData GameData;
         public readonly Dictionary<string, byte[]> WebFiles = new Dictionary<string, byte[]>();
 
         public Resources(string resourcePath, bool loadServerFiles)
         {
             Log.Info("Loading resources...");
             ResourcePath = resourcePath;
-            XmlData = new XmlData(resourcePath + "/xml");
+            GameData = new XmlData(resourcePath + "/xml");
 
             if (loadServerFiles)
             {
@@ -40,6 +40,11 @@ namespace common.resources
 
                 WebFiles[webPath] = File.ReadAllBytes(file);
             }
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

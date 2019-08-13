@@ -24,8 +24,8 @@ namespace common.resources
 
         public Dictionary<ushort, TileDesc> Tiles = new Dictionary<ushort, TileDesc>();
         public Dictionary<ushort, Item> Items = new Dictionary<ushort, Item>();
-        public Dictionary<ushort, ObjectDesc> Objects = new Dictionary<ushort, ObjectDesc>();
-        public Dictionary<ushort, PlayerDesc> Players = new Dictionary<ushort, PlayerDesc>();
+        public Dictionary<ushort, ObjectDesc> ObjectDescs = new Dictionary<ushort, ObjectDesc>();
+        public Dictionary<ushort, PlayerDesc> Classes = new Dictionary<ushort, PlayerDesc>();
         public Dictionary<ushort, PortalDesc> Portals = new Dictionary<ushort, PortalDesc>();
         public Dictionary<ushort, SkinDesc> Skins = new Dictionary<ushort, SkinDesc>();
 
@@ -36,8 +36,8 @@ namespace common.resources
 
             Log.Info("Loaded {0} Tiles...", Tiles.Count);
             Log.Info("Loaded {0} Items...", Items.Count);
-            Log.Info("Loaded {0} Objects...", Objects.Count);
-            Log.Info("Loaded {0} Players...", Players.Count);
+            Log.Info("Loaded {0} Objects...", ObjectDescs.Count);
+            Log.Info("Loaded {0} Players...", Classes.Count);
             Log.Info("Loaded {0} Portals...", Portals.Count);
             Log.Info("Loaded {0} Skins...", Skins.Count);
         }
@@ -83,19 +83,19 @@ namespace common.resources
                         Items[type] = new Item(type, e);
                         break;
                     case "Player":
-                        Players[type] = new PlayerDesc(type, e);
-                        Objects[type] = Players[type];
+                        Classes[type] = new PlayerDesc(type, e);
+                        ObjectDescs[type] = Classes[type];
                         break;
                     case "GuildHallPortal":
                     case "Portal":
                         Portals[type] = new PortalDesc(type, e);
-                        Objects[type] = Portals[type];
+                        ObjectDescs[type] = Portals[type];
                         break;
                     case "Skin":
                         Skins[type] = new SkinDesc(type, e);
                         break;
                     default:
-                        Objects[type] = new ObjectDesc(type, e);
+                        ObjectDescs[type] = new ObjectDesc(type, e);
                         break;
                 }
             }

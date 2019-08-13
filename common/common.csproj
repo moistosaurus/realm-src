@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.6.6\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -86,11 +89,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Database.cs" />
+    <Compile Include="DbModels.cs" />
+    <Compile Include="DbStatus.cs" />
+    <Compile Include="FameStats.cs" />
+    <Compile Include="InterServerChannel.cs" />
+    <Compile Include="ISDataTypes.cs" />
+    <Compile Include="ISManager.cs" />
+    <Compile Include="NReader.cs" />
+    <Compile Include="NWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="resources\Resources.cs" />
     <Compile Include="resources\XmlData.cs" />
     <Compile Include="resources\XmlDescriptors.cs" />
-    <Compile Include="ServerConfig.cs" />
+    <Compile Include="ConfigModels.cs" />
+    <Compile Include="TimedLock.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,10 +114,10 @@
     <None Include="db.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="server.config">
+    <None Include="resources\web\globalNews.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="world.config">
+    <None Include="server.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -115,6 +127,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="resources\web\crossdomain.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="resources\web\sfx\arrowShoot.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

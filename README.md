@@ -18,18 +18,20 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] XmlData
 - [x] Request handling for server
 - [x] Static/export files
-- [ ] Database
+- [x] Database
+- [ ] Get to main menu
+- [ ] Add all requests
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 
 Alternatively, if you'd like to open a pull request, go [here](https://github.com/moistosaurus/realm-src/pulls).
 
 ## Deserved credits
-Most parts of the source code have been written by me, however snippets/code have/has been taken here and there (from other private/public sources), as well as inspirations on how the source is structured, which sped up the process by a ton.
+Many parts of the source code have been written by me, however code has been taken here and there (from other private/public sources), as well as inspirations on how the source is structured, which sped up the process by a ton.
 
 For that, credits go to:
-- Developers of Revenge of the Fallen
 - Developers of Fabiano Swagger of Doom https://github.com/ossimc82/fabiano-swagger-of-doom
 - Developers of Nilly's Realm Core https://github.com/cp-nilly/NR-CORE
+- Developers of Revenge of the Fallen
 
-If you'd like to use the source, I would appreciate if you let the world know that you use this source, it spreads the word around, and helps me poke out potential stability issues that might become occurent in your server.
+If you'd like to use the source, I would appreciate if you let the world know that you use this source, it spreads the word around, and helps poke out potential stability issues that might become occurent in your server.

@@ -1,0 +1,167 @@
+﻿[
+    {
+        "slot": 7,
+        "linkType": 4,
+        "platform": "1,36,48,49",
+        "startTime": 1443571200000,
+        "title": "Support",
+        "image": "",
+        "endTime": 1446249600000,
+        "linkDetail": "<font size='+3'><p align='center'>Having some troubles in game or out? Have some ideas or feedback for the Game? Our door is always open, give Support a ring.</p>\r\n\r\n<p align='center'><a href=\"http://kabam.force.com/PKB/KbHome?gameid=a0Za000000jIBFUEA4\" target=\"_blank\">Realm of the Mad God Support</a></p></font>",
+        "priority": 936
+    },
+    {
+        "slot": 6,
+        "linkType": 4,
+        "platform": "1,36,48,49",
+        "startTime": 1443571200000,
+        "title": "Forums",
+        "image": "",
+        "endTime": 1446249600000,
+        "linkDetail": "<font size='+3'><p align='center'>Want to discuss the Game with fellow Players and keep up to date with any updates and events in the community?</p>\r\n\r\n<p align='center'><a href=\"http://community.kabam.com/forums/forumdisplay.php?1089-Realm-of-the-Mad-God\" target=\"_blank\">Check out the Forums for all of that Realmy goodness, here!</a></p></font>",
+        "priority": 938
+    },
+    {
+        "slot": 5,
+        "linkType": 4,
+        "platform": "1,36,48,49",
+        "startTime": 1443571200000,
+        "title": "RealmEye",
+        "image": "",
+        "endTime": 1446163200000,
+        "linkDetail": "<font size='+3'><p align='center'>Have you checked out RealmEye yet? Read up on the best Pets and Players, and check out the Wiki section to find tips and information about the Game!</p>\r\n\r\n<p align='center'><a href=\"http://www.realmeye.com/\" target=\"_blank\">http://www.realmeye.com/</a></p></font>",
+        "priority": 939
+    },
+    {
+        "slot": 4,
+        "linkType": 4,
+        "platform": "1,36,48,49",
+        "startTime": 1477526400000,
+        "title": "Hello",
+        "image": "",
+        "endTime": 1477569600000,
+        "linkDetail": "test",
+        "priority": 1043
+    },
+    {
+        "slot": 3,
+        "linkType": 4,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1566432000000,
+        "title": "r4ndomSXD Farewell Box",
+        "image": "https://storage.googleapis.com/rotmg_images_public/News/r4ndomSXDfarewellbox.png",
+        "endTime": 1566802800000,
+        "linkDetail": "Preview Html",
+        "priority": 1951
+    },
+    {
+        "slot": 3,
+        "linkType": 4,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1565913600000,
+        "title": "MotMG William's Extra",
+        "image": "https://storage.googleapis.com/rotmg_images_public/News/motmgwilliamsextrasmallnews.png",
+        "endTime": 1566284400000,
+        "linkDetail": "Preview Html",
+        "priority": 1952
+    },
+    {
+        "slot": 3,
+        "linkType": 4,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1565679601000,
+        "title": "Galaxy Far Far Away Box",
+        "image": "https://storage.googleapis.com/rotmg_images_public/News/galaxyfarfarawayboxsmallnews.png",
+        "endTime": 1565913599000,
+        "linkDetail": "Preview Html",
+        "priority": 1953
+    },
+    {
+        "slot": 3,
+        "linkType": 2,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1565568000000,
+        "title": "August Weekly Pack #2",
+        "image": "https://storage.googleapis.com/rotmg_images_public/Packages/augustweekly12packsmallnews.png",
+        "endTime": 1566172799000,
+        "linkDetail": "22991",
+        "priority": 1957
+    },
+    {
+        "slot": 2,
+        "linkType": 4,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1566345600000,
+        "title": "Alien Leftovers Box",
+        "image": "https://storage.googleapis.com/rotmg_images_public/News/alienleftoversboxsmallnews.png",
+        "endTime": 1566518399000,
+        "linkDetail": "",
+        "priority": 1958
+    },
+    {
+        "slot": 2,
+        "linkType": 4,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1565827200000,
+        "title": "Exploratory Bot Box",
+        "image": "https://storage.googleapis.com/rotmg_images_public/News/exploratorybotboxsmallnews.png",
+        "endTime": 1566198000000,
+        "linkDetail": "",
+        "priority": 1959
+    },
+    {
+        "slot": 2,
+        "linkType": 4,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1565593201000,
+        "title": "MotMG Wizard ST",
+        "image": "https://storage.googleapis.com/rotmg_images_public/News/motmgwizardstsmallnews.png",
+        "endTime": 1565766000000,
+        "linkDetail": "",
+        "priority": 1960
+    },
+    {
+        "slot": 3,
+        "linkType": 2,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1566172800000,
+        "title": "August Weekly Pack #3",
+        "image": "https://storage.googleapis.com/rotmg_images_public/Packages/augustweekly3packsmallnews.png",
+        "endTime": 1566777599000,
+        "linkDetail": "22992",
+        "priority": 1962
+    },
+    {
+        "slot": 2,
+        "linkType": 4,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1564642801000,
+        "title": "Solar Energy Pack",
+        "image": "https://storage.googleapis.com/rotmg_images_public/Packages/solarenergypacksmallnews.png",
+        "endTime": 1566284400000,
+        "linkDetail": "",
+        "priority": 1963
+    },
+    {
+        "slot": 1,
+        "linkType": 1,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1565654400000,
+        "title": "MotMG Week 6!",
+        "image": "https://storage.googleapis.com/rotmg_images_public/News/MotMG%202019%20-%20Week%206v2.png",
+        "endTime": 1566306000000,
+        "linkDetail": "https://bit.ly/2KGFC4q",
+        "priority": 1964
+    },
+    {
+        "slot": 1,
+        "linkType": 2,
+        "platform": "rotmg,steam,kongregate",
+        "startTime": 1564617600000,
+        "title": "August Monthly Pack",
+        "image": "https://storage.googleapis.com/rotmg_images_public/Packages/augustmonthlypackbignews.png",
+        "endTime": 1567295999000,
+        "linkDetail": "22989",
+        "priority": 1965
+    }
+]

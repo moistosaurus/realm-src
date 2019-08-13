@@ -77,12 +77,14 @@ namespace server
 
         public static readonly Dictionary<string, RequestHandler> Get = new Dictionary<string, RequestHandler>
         {
-            { "/crossdomain.xml", new crossdomain() },
         };
 
         public static readonly Dictionary<string, RequestHandler> Post = new Dictionary<string, RequestHandler>
         {
             { "/app/init", new app.init() },
+            { "/app/globalNews", new app.globalNews() },
+            { "/account/verify", new account.verify() },
+            { "/char/list", new @char.list() },
         };
     }
 }

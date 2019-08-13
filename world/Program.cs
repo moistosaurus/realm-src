@@ -22,19 +22,19 @@ namespace world
 
         static void Main(string[] args)
         {
+            Config = new ServerConfig();
             AppDomain.CurrentDomain.UnhandledException += LogUnhandledException;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.Name = "Entry";
 
-            Console.CancelKeyPress += delegate
-            {
-                Shutdown.Set();
-            };
-
-            Config = new ServerConfig();
-            Resources = new Resources(Config.ServerSettings.ResourcePath, false);
+            using (Resources = new Resources(Config.serverInfo.resourcePath, false))
             using (Database = new Database(Resources, Config))
             {
+                Console.CancelKeyPress += delegate
+                {
+                    Shutdown.Set();
+                };
+
                 Shutdown.WaitOne();
                 Log.Info("Terminating...");
             }

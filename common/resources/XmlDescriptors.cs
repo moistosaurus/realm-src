@@ -4,6 +4,13 @@ using System.Xml.Linq;
 
 namespace common.resources
 {
+    public enum CurrencyType
+    {
+        Gold = 0,
+        Fame = 1,
+        GuildFame = 2
+    }
+
     public enum TerrainType
     {
         None,
@@ -377,17 +384,19 @@ namespace common.resources
 
     public class SkinDesc
     {
-        public readonly ushort ObjectType;
+        public readonly ushort Type;
         public readonly string ObjectId;
-        public readonly ushort ClassType;
+        public readonly ushort PlayerClassType;
         public readonly int UnlockLevel;
+        public readonly int Cost;
 
         public SkinDesc(ushort type, XElement e)
         {
-            ObjectType = type;
+            Type = type;
             ObjectId = e.GetAttribute<string>("id");
-            ClassType = e.GetValue<ushort>("PlayerClassType");
+            PlayerClassType = e.GetValue<ushort>("PlayerClassType");
             UnlockLevel = e.GetValue<int>("UnlockLevel");
+            Cost = e.GetValue<int>("Cost", 500);
         }
     }
 
@@ -418,6 +427,10 @@ namespace common.resources
         public readonly int Doses;
         public readonly string SuccessorId;
         public readonly bool Backpack;
+        public readonly bool LDBoosted;
+        public readonly bool LTBoosted;
+        public readonly bool XpBoost;
+        public readonly float Timer;
 
         public readonly KeyValuePair<int, int>[] StatsBoost;
         public readonly ActivateEffect[] ActivateEffects;
@@ -451,6 +464,10 @@ namespace common.resources
             Doses = e.GetValue<int>("Doses");
             SuccessorId = e.GetValue<string>("SuccessorId");
             Backpack = e.HasElement("Backpack");
+            LDBoosted = e.HasElement("LDBoosted");
+            LTBoosted = e.HasElement("LTBoosted");
+            XpBoost = e.HasElement("XpBoost");
+            Timer = e.GetValue<float>("Timer");
 
             var stats = new List<KeyValuePair<int, int>>();
             foreach (XElement i in e.Elements("ActivateOnEquip"))

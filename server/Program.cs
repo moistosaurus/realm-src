@@ -23,28 +23,40 @@ namespace server
         internal static ServerConfig Config;
         internal static Resources Resources;
         internal static Database Database;
+        internal static ISManager ISManager;
+        internal static ChatManager ChatManager;
+        internal static ISControl ISControl;
+        internal static LegendSweeper LegendSweeper;
 
         static void Main(string[] args)
         {
+            Config = new ServerConfig();
             AppDomain.CurrentDomain.UnhandledException += LogUnhandledException;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.Name = "Entry";
 
-            Console.CancelKeyPress += delegate
-            {
-                Shutdown.Set();
-            };
-
-            Config = new ServerConfig();
-            Resources = new Resources(Config.ServerSettings.ResourcePath, true);
+            using (Resources = new Resources(Config.serverInfo.resourcePath, true))
             using (Database = new Database(Resources, Config))
             {
                 RequestHandlers.Initialize(Resources);
-                var port = Config.ServerSettings.Port;
-                var bindAddress = Config.ServerSettings.BindAddress;
-                using (var server = new HttpServer($"http://{bindAddress}:{port}/"))
+
+                ISManager = new ISManager(Database, Config);
+                ISManager.Run();
+                ChatManager = new ChatManager(ISManager);
+                ISControl = new ISControl(ISManager);
+                LegendSweeper = new LegendSweeper(Database);
+                LegendSweeper.Run();
+
+                Console.CancelKeyPress += delegate
                 {
-                    if (Config.ServerSettings.DebugRequests)
+                    Shutdown.Set();
+                };
+
+                var port = Config.serverInfo.bindPort;
+                var address = Config.serverInfo.bindAddress;
+                using (var server = new HttpServer($"http://{address}:{port}/"))
+                {
+                    if (Config.serverInfo.debugMode)
                     {
                         server.GET("*").Subscribe(Response);
                         server.POST("*").Subscribe(Response);
@@ -57,11 +69,12 @@ namespace server
                             server.POST(uri).Subscribe(Response);
                     }
 
-                    Log.Info("Listening at address {0}:{1}...", bindAddress, port);
+                    Log.Info("Listening at address {0}:{1}...", address, port);
                     Shutdown.WaitOne();
                 }
 
                 Log.Info("Terminating...");
+                ISManager.Dispose();
             }
         }
 
@@ -75,7 +88,7 @@ namespace server
             try
             {
                 bool getRequest = rContext.Request.HttpMethod.Equals("GET");
-                if (Config.ServerSettings.DebugRequests)
+                if (Config.serverInfo.debugMode)
                 {
                     var dict = getRequest ? RequestHandlers.Get : RequestHandlers.Post;
                     if (!dict.ContainsKey(rContext.Request.Url.LocalPath))
