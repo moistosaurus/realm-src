@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wServer.realm;
 
-namespace world
+namespace wServer
 {
     class Program
     {
@@ -30,6 +31,9 @@ namespace world
             using (Resources = new Resources(Config.serverInfo.resourcePath, false))
             using (Database = new Database(Resources, Config))
             {
+                var manager = new RealmManager(Resources, Database, Config);
+                manager.Run();
+
                 Console.CancelKeyPress += delegate
                 {
                     Shutdown.Set();

@@ -130,11 +130,14 @@ namespace common
         public readonly bool debugMode;
         public readonly string instanceId;
 
+        public readonly string version;
+
         public readonly string name;
         public readonly string address;
         public readonly int port;
         public readonly bool adminOnly;
         public readonly int maxPlayers;
+        public readonly int tps;
 
         public readonly float latitude;
         public readonly float longitude;
@@ -155,6 +158,8 @@ namespace common
             maxPlayers = e.GetValue<int>("maxPlayers", 256);
             latitude = e.GetValue<float>("latitude", 0);
             longitude = e.GetValue<float>("longitude", 0);
+            tps = e.GetValue<int>("tps", 20);
+            version = e.GetValue<string>("version", "0.0");
         }
     }
 }

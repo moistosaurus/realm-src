@@ -7,13 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common", "common\common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "server", "server\server.csproj", "{B1818AC9-60C7-4E27-AEEA-029815908364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "world", "world\world.csproj", "{13B061EF-7E9F-40A7-A4E3-DA6EEF11A568}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8676B034-2A70-4675-A54D-4C07D0A29B6C}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wServer", "wServer\wServer.csproj", "{13B061EF-7E9F-40A7-A4E3-DA6EEF11A568}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
