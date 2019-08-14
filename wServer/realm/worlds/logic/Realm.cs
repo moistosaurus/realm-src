@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using common.resources;
-using log4net;
+using NLog;
 using wServer.networking;
 using wServer.realm.entities;
 using wServer.realm.setpieces;
@@ -11,7 +11,7 @@ namespace wServer.realm.worlds.logic
 {
     public class Realm : World
     {
-        static readonly ILog Log = LogManager.GetLogger(typeof(Realm));
+        static readonly Logger Log = LogManager.GetLogger(typeof(Realm));
 
         private Oryx _overseer;
 
@@ -33,7 +33,7 @@ namespace wServer.realm.worlds.logic
 
         protected override void Init()
         {
-            Log.InfoFormat("Initializing Game World {0}({1}) from map {2}...", Id, Name, _mapId);
+            Log.Info("Initializing Game World {0}({1}) from map {2}...", Id, Name, _mapId);
 
             FromWorldMap(new MemoryStream(Manager.Resources.Worlds["Realm"].wmap[_mapId - 1]));
             SetPieces.ApplySetPieces(this);

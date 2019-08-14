@@ -1,6 +1,5 @@
 ﻿using System;
 using common.resources;
-using log4net;
 using NLog;
 
 namespace wServer.realm.entities

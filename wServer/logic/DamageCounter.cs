@@ -67,7 +67,7 @@ namespace wServer.logic
             if (enemy.Owner is Realm)
                 (enemy.Owner as Realm).EnemyKilled(enemy, (Parent ?? this).LastHitter);
 
-            if (enemy.Spawned || enemy.Owner is Arena || enemy.Owner is ArenaSolo)
+            if (enemy.Spawned)
                 return;
 
             int lvlUps = 0;
@@ -78,7 +78,7 @@ namespace wServer.logic
                     continue;
                 float xp = enemy.GivesNoXp ? 0 : 1;
                 xp *= enemy.ObjectDesc.MaxHP / 10f *
-                    (enemy.ObjectDesc.ExpMultiplier ?? 1);
+                    enemy.ObjectDesc.ExpMultiplier;
                 float upperLimit = player.ExperienceGoal * 0.1f;
                 if (player.Quest == enemy)
                     upperLimit = player.ExperienceGoal * 0.5f;
@@ -88,9 +88,6 @@ namespace wServer.logic
                     playerXp = upperLimit;
                 else
                     playerXp = xp;
-
-                if (player.Owner is DeathArena || player.Owner.GetDisplayName().Contains("Theatre"))
-                    playerXp *= .33f;
 
                 if (player.XPBoostTime != 0 && player.Level < 20)
                     playerXp *= 2;

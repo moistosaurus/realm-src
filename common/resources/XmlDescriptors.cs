@@ -203,7 +203,7 @@ namespace common.resources
         public readonly bool Enemy;
         public readonly int MaxHP;
         public readonly int Defense;
-        public readonly float XpMult;
+        public readonly float ExpMultiplier;
         public readonly int MinSize;
         public readonly int MaxSize;
         public readonly int SizeStep;
@@ -226,6 +226,7 @@ namespace common.resources
         public readonly bool Connects;
         public readonly bool ProtectFromGroundDamage;
         public readonly bool ProtectFromSink;
+        public readonly bool Character;
 
         public readonly TerrainType Terrain;
         public readonly float SpawnProb;
@@ -253,7 +254,7 @@ namespace common.resources
             Enemy = e.HasElement("Enemy");
             MaxHP = e.GetValue<int>("MaxHitPoints");
             Defense = e.GetValue<int>("Defense");
-            XpMult = e.GetValue<float>("XpMult", 1.0f);
+            ExpMultiplier = e.GetValue<float>("XpMult", 1.0f);
             if (e.HasElement("MinSize") && e.HasElement("MaxSize"))
             {
                 MinSize = e.GetValue<int>("MinSize");
@@ -261,6 +262,7 @@ namespace common.resources
                 SizeStep = e.GetValue<int>("SizeStep", 1);
                 RandomSize = true;
             }
+            Character = Class.Equals("Character");
             SpawnPoint = e.HasElement("SpawnPoint");
             Group = e.GetValue<string>("Group");
             Quest = e.HasElement("Quest");
@@ -565,7 +567,7 @@ namespace common.resources
     public class ConditionEffect
     {
         public ConditionEffectIndex Effect;
-        public float DurationMS;
+        public int DurationMS;
 
         public ConditionEffect() { }
         public ConditionEffect(XElement e)

@@ -6,6 +6,7 @@ using NLog;
 using wServer.realm.entities;
 using wServer.realm.setpieces;
 using wServer.realm.terrain;
+using wServer.realm.worlds.logic;
 
 namespace wServer.realm
 {
@@ -800,15 +801,15 @@ namespace wServer.realm
             {
                 pt.X = _rand.Next(0, _world.Map.Width);
                 pt.Y = _rand.Next(0, _world.Map.Height);
-            } while ((_world.Map[pt.X, pt.Y].Terrain < WmapTerrain.Mountains ||
-                      _world.Map[pt.X, pt.Y].Terrain > WmapTerrain.MidForest) ||
+            } while ((_world.Map[pt.X, pt.Y].Terrain < TerrainType.Mountains ||
+                      _world.Map[pt.X, pt.Y].Terrain > TerrainType.MidForest) ||
                       !_world.IsPassable(pt.X, pt.Y, true) ||
                       _world.AnyPlayerNearby(pt.X, pt.Y));
 
             pt.X -= (setpiece.Size - 1) / 2;
             pt.Y -= (setpiece.Size - 1) / 2;
             setpiece.RenderSetPiece(_world, pt);
-            Log.InfoFormat("Oryx spawned {0} at ({1}, {2}).", name, pt.X, pt.Y);
+            Log.Info("Oryx spawned {0} at ({1}, {2}).", name, pt.X, pt.Y);
         }
 
         public void OnEnemyKilled(Enemy enemy, Player killer)

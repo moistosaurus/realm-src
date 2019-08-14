@@ -39,8 +39,8 @@ namespace common
 
             DatabaseIndex = config.dbInfo.index;
             var conString = config.dbInfo.host + ":" + config.dbInfo.port + ",syncTimeout=60000";
-            if (!string.IsNullOrWhiteSpace(config.dbInfo.password))
-                conString += ",password=" + config.dbInfo.password;
+            if (!string.IsNullOrWhiteSpace(config.dbInfo.auth))
+                conString += ",password=" + config.dbInfo.auth;
 
             _redis = ConnectionMultiplexer.Connect(conString);
             _server = _redis.GetServer(_redis.GetEndPoints(true)[0]);

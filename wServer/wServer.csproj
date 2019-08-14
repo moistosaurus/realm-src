@@ -156,6 +156,7 @@
     <Compile Include="logic\transitions\TimedTransition.cs" />
     <Compile Include="networking\Client.cs" />
     <Compile Include="networking\Client.KeepAlive.cs" />
+    <Compile Include="networking\handlers\EscapeHandler.cs" />
     <Compile Include="networking\IPacketHandler.cs" />
     <Compile Include="networking\packets\incoming\AoeAck.cs" />
     <Compile Include="networking\packets\incoming\AcceptTrade.cs" />
@@ -244,12 +245,16 @@
     <Compile Include="realm\ActivateBoost.cs" />
     <Compile Include="realm\BaseStatManager.cs" />
     <Compile Include="realm\BoostStatManager.cs" />
+    <Compile Include="realm\ChatManager.cs" />
     <Compile Include="realm\Collision.cs" />
+    <Compile Include="realm\commands\Command.cs" />
     <Compile Include="realm\ConnectionQueue.cs" />
     <Compile Include="realm\ConnectManager.cs" />
     <Compile Include="realm\DbEvents.cs" />
+    <Compile Include="realm\DbServerManager.cs" />
     <Compile Include="realm\entities\Character.cs" />
     <Compile Include="realm\entities\ConnectedObject.cs" />
+    <Compile Include="realm\entities\Container.cs" />
     <Compile Include="realm\entities\Decoy.cs" />
     <Compile Include="realm\entities\Enemy.cs" />
     <Compile Include="realm\entities\GiftChest.cs" />
@@ -273,7 +278,12 @@
     <Compile Include="realm\entities\Sign.cs" />
     <Compile Include="realm\entities\StaticObject.cs" />
     <Compile Include="realm\entities\Trap.cs" />
+    <Compile Include="realm\entities\vendors\ClosedVaultChest.cs" />
+    <Compile Include="realm\entities\vendors\GuildMerchant.cs" />
     <Compile Include="realm\entities\vendors\Merchant.cs" />
+    <Compile Include="realm\entities\vendors\MerchantLists.cs" />
+    <Compile Include="realm\entities\vendors\SellableObject.cs" />
+    <Compile Include="realm\entities\vendors\WorldMerchant.cs" />
     <Compile Include="realm\entities\Wall.cs" />
     <Compile Include="realm\Entity.cs" />
     <Compile Include="realm\FLLogicTicker.cs" />
@@ -285,6 +295,7 @@
     <Compile Include="realm\PortalMonitor.cs" />
     <Compile Include="realm\RealmManager.cs" />
     <Compile Include="realm\setpieces\ISetPiece.cs" />
+    <Compile Include="realm\setpieces\SetPieces.cs" />
     <Compile Include="realm\Sight.cs" />
     <Compile Include="realm\Stats.cs" />
     <Compile Include="realm\StatsManager.cs" />
@@ -295,7 +306,9 @@
     <Compile Include="realm\terrain\Wmap.cs" />
     <Compile Include="realm\worlds\DungeonTemplates.cs" />
     <Compile Include="realm\worlds\DynamicWorld.cs" />
+    <Compile Include="realm\worlds\logic\Castle.cs" />
     <Compile Include="realm\worlds\logic\GuildHall.cs" />
+    <Compile Include="realm\worlds\logic\Nexus.cs" />
     <Compile Include="realm\worlds\logic\Realm.cs" />
     <Compile Include="realm\worlds\logic\Test.cs" />
     <Compile Include="realm\worlds\logic\Vault.cs" />
@@ -311,6 +324,10 @@
       <Project>{05d3ca7d-7e4e-4401-bc92-4a988a433c93}</Project>
       <Name>common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DungeonGen\DungeonGen.csproj">
+      <Project>{e3061024-61ed-46aa-8a0d-cd9747e7bfae}</Project>
+      <Name>DungeonGen</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -321,7 +338,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="logic\db\" />
-    <Folder Include="networking\handlers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using common.resources;
+using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using wServer.realm.entities;
 using wServer.realm.terrain;
-using log4net;
 using wServer.realm.worlds;
 using wServer.realm.worlds.logic;
 
@@ -12,7 +13,7 @@ namespace wServer.realm
 {
     public class PortalMonitor
     {
-        static readonly ILog Log = LogManager.GetLogger(typeof(PortalMonitor));
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         private readonly Dictionary<int, Portal> _portals;
         private readonly World _world;

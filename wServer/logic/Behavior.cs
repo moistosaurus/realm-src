@@ -1,13 +1,13 @@
 ﻿using System;
 using common;
-using log4net;
+using NLog;
 using wServer.realm;
 
 namespace wServer.logic
 {
     public abstract class Behavior : IStateChildren
     {
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(Behavior));
+        protected static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public void Tick(Entity host, RealmTime time)
         {

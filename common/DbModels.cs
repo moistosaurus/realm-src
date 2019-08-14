@@ -426,6 +426,11 @@ namespace common
             get { return GetValue<Int32>("lastSeen"); }
             set { SetValue<Int32>("lastSeen", value); }
         }
+
+        public void RefreshLastSeen()
+        {
+            LastSeen = (Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        }
     }
 
     public struct DbClassStatsEntry

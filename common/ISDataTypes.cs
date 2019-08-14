@@ -17,6 +17,7 @@ namespace common
         Tell,
         Guild,
         Announce,
+        GuildAnnounce,
         Info
     }
 

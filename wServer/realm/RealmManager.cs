@@ -8,8 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wServer.logic;
 using wServer.networking;
+using wServer.realm.commands;
 using wServer.realm.worlds;
+using wServer.realm.worlds.logic;
 
 namespace wServer.realm
 {
@@ -77,7 +80,7 @@ namespace wServer.realm
             Resources = resources;
             Database = db;
             Config = config;
-            TPS = config.serverInfo.tps;
+            TPS = config.serverSettings.tps;
             InstanceId = config.serverInfo.instanceId;
 
             InterServer = new ISManager(Database, config);
@@ -178,9 +181,6 @@ namespace wServer.realm
             DynamicWorld.TryGetWorld(proto, null, out world);
             if (world != null)
             {
-                if (world is Marketplace && !Config.serverSettings.enableMarket)
-                    return;
-
                 AddWorld(id, world);
                 return;
             }

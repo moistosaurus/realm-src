@@ -26,7 +26,7 @@ namespace wServer.realm.entities
 
         public DamageCounter DamageCounter { get { return counter; } }
 
-        public WmapTerrain Terrain { get; set; }
+        public TerrainType Terrain { get; set; }
 
         Position? pos;
         public Position SpawnPoint { get { return pos ?? new Position() { X = X, Y = Y }; } }
@@ -34,6 +34,12 @@ namespace wServer.realm.entities
         public override void Init(World owner)
         {
             base.Init(owner);
+            if (ObjectDesc.StunImmune)
+                ApplyConditionEffect(new ConditionEffect()
+                {
+                    Effect = ConditionEffectIndex.StunImmune,
+                    DurationMS = -1
+                });
             if (ObjectDesc.StasisImmune)
                 ApplyConditionEffect(new ConditionEffect()
                 {

@@ -7,12 +7,15 @@ using System.Linq;
 using System.Threading;
 using common;
 using common.resources;
+using DungeonGenerator;
+using DungeonGenerator.Templates;
 using NLog;
 using wServer.logic.loot;
 using wServer.networking;
 using wServer.networking.packets;
 using wServer.networking.packets.outgoing;
 using wServer.realm.entities;
+using wServer.realm.entities.vendors;
 using wServer.realm.terrain;
 using wServer.realm.worlds.logic;
 
@@ -241,13 +244,11 @@ namespace wServer.realm.worlds
                 DisposeEntities(Enemies);
                 DisposeEntities(Projectiles);
                 DisposeEntities(StaticObjects);
-                DisposeEntities(Pets);
 
                 Players = null;
                 Enemies = null;
                 Projectiles = null;
                 StaticObjects = null;
-                Pets = null;
 
                 return true;
             }
@@ -262,7 +263,7 @@ namespace wServer.realm.worlds
 
         protected void FromDungeonGen(int seed, DungeonTemplate template)
         {
-            Log.InfoFormat("Loading template for world {0}({1})...", Id, Name);
+            Log.Info("Loading template for world {0}({1})...", Id, Name);
 
             var gen = new Generator(seed, template);
             gen.Generate();
@@ -285,7 +286,7 @@ namespace wServer.realm.worlds
 
         protected void FromWorldMap(System.IO.Stream dat)
         {
-            Log.InfoFormat("Loading map for world {0}({1})...", Id, Name);
+            Log.Info("Loading map for world {0}({1})...", Id, Name);
 
             if (Map == null)
             {
@@ -352,13 +353,6 @@ namespace wServer.realm.worlds
                 else
                     EnemiesCollision.Insert(entity);
             }
-            else if (entity is Pet)
-            {
-                entity.Id = GetNextEntityId();
-                entity.Init(this);
-                Pets.TryAdd(entity.Id, entity as Pet);
-                PlayersCollision.Insert(entity);
-            }
             return entity.Id;
         }
 
@@ -373,9 +367,6 @@ namespace wServer.realm.worlds
                 // if in trade, cancel it...
                 if (dummy.tradeTarget != null)
                     dummy.CancelTrade();
-
-                if (dummy.Pet != null)
-                    LeaveWorld(dummy.Pet);
             }
             else if (entity is Enemy)
             {
@@ -409,12 +400,6 @@ namespace wServer.realm.worlds
                     PlayersCollision.Remove(entity);
                 else
                     EnemiesCollision.Remove(entity);
-            }
-            else if (entity is Pet)
-            {
-                Pet dummy;
-                Pets.TryRemove(entity.Id, out dummy);
-                PlayersCollision.Remove(entity);
             }
 
             entity.Dispose();
@@ -576,7 +561,7 @@ namespace wServer.realm.worlds
 
                 foreach (var plr in w.Players.Values)
                     plr.Client.Reconnect(
-                        plr.HasConditionEffect(ConditionEffects.Paused) && plr.SpectateTarget == null ?
+                        plr.HasConditionEffect(ConditionEffects.Paused) ?
                         rcpPaused : rcpNotPaused);
             }));
 
@@ -685,9 +670,6 @@ namespace wServer.realm.worlds
                     foreach (var i in StaticObjects)
                         i.Value.Tick(time);
                 }
-
-                foreach (var i in Pets)
-                    i.Value.Tick(time);
             }
         }
 

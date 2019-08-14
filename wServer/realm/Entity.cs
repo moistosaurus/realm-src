@@ -5,17 +5,17 @@ using common.resources;
 using wServer.logic.transitions;
 using wServer.realm.entities;
 using wServer.logic;
-using log4net;
 using wServer.realm.entities.vendors;
 using wServer.realm.worlds;
+using NLog;
 
 namespace wServer.realm
 {
     public class Entity : IProjectileOwner, ICollidable<Entity>
     {
-        private const int EffectCount = 51;
+        private const int EffectCount = 29;
 
-        protected static readonly ILog Log = LogManager.GetLogger(typeof(Entity));
+        protected static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public RealmManager Manager { get; }
         public World Owner { get; private set; }
@@ -23,7 +23,6 @@ namespace wServer.realm
         public ushort ObjectType { get; protected set; }
         public Player AttackTarget { get; set; }
         public int LootValue { get; set; } = 1;
-        public event EventHandler FocusLost;
         public Player Controller;
         public CollisionNode<Entity> CollisionNode { get; set; }
         public CollisionMap<Entity> Parent { get; set; }
@@ -72,7 +71,6 @@ namespace wServer.realm
             {
                 _conditionEffects = value;
                 _conditionEffects1?.SetValue((int)value);
-                _conditionEffects2?.SetValue((int)((ulong)value >> 31));
             }
         }
 
@@ -80,20 +78,12 @@ namespace wServer.realm
         public float RealY => _y.GetValue();
         public float X
         {
-            get
-            {
-                var player = this as Player;
-                return player?.SpectateTarget?.RealX ?? _x.GetValue();
-            }
+            get { return _x.GetValue(); }
             private set { _x.SetValue(value); }
         }
         public float Y
         {
-            get
-            {
-                var player = this as Player;
-                return player?.SpectateTarget?.RealY ?? _y.GetValue();
-            }
+            get { return _y.GetValue(); }
             private set { _y.SetValue(value); }
         }
 
@@ -125,7 +115,6 @@ namespace wServer.realm
             _x = new SV<float>(this, StatsType.None, 0);
             _y = new SV<float>(this, StatsType.None, 0);
             _conditionEffects1 = new SV<int>(this, StatsType.Effects, 0);
-            _conditionEffects2 = new SV<int>(this, StatsType.Effects2, 0);
 
             ObjectType = objType;
             Manager = manager;
@@ -149,7 +138,7 @@ namespace wServer.realm
                 return;
             }
 
-            if (_desc.Character || _desc.IsPet)
+            if (_desc.Character)
             {
                 _effects = new int[EffectCount];
                 return;
@@ -170,7 +159,6 @@ namespace wServer.realm
             stats[StatsType.Size] = Size;
             stats[StatsType.AltTextureIndex] = AltTextureIndex;
             stats[StatsType.Effects] = _conditionEffects1.GetValue();
-            stats[StatsType.Effects2] = _conditionEffects2.GetValue();
         }
 
         public void FromDefinition(ObjectDef def)
@@ -321,8 +309,7 @@ namespace wServer.realm
 
         private void ResolveNewLocation(float x, float y, FPoint pos)
         {
-            if (HasConditionEffect(ConditionEffects.Paralyzed) ||
-                HasConditionEffect(ConditionEffects.Petrify))
+            if (HasConditionEffect(ConditionEffects.Paralyzed))
             {
                 pos.X = X;
                 pos.Y = Y;
@@ -562,7 +549,7 @@ namespace wServer.realm
 
         public void MoveEntity(float x, float y)
         {
-            if (Owner != null && !(this is Projectile) && !(this is Pet) && (!(this is StaticObject) || (this as StaticObject).Hittestable))
+            if (Owner != null && !(this is Projectile) && (!(this is StaticObject) || (this as StaticObject).Hittestable))
                 ((this is Enemy || this is StaticObject && !(this is Decoy)) ? Owner.EnemiesCollision : Owner.PlayersCollision)
                     .Move(this, x, y);
             X = x; Y = y;
@@ -629,20 +616,8 @@ namespace wServer.realm
                     return new WorldMerchant(manager, id);
                 case "GuildMerchant":
                     return new GuildMerchant(manager, id);
-                case "ArenaGuard":
-                case "MysteryBoxGround":
-                case "ReskinVendor":
-                case "PetUpgrader":
-                case "FortuneTeller":
-                case "YardUpgrader":
-                case "FortuneGround":
-                case "MarketNPC":
-                case "QuestRewards":
-                    return new StaticObject(manager, id, null, true, false, false);
-                case "Pet":
-                    return new Pet(manager, id);
                 default:
-                    Log.WarnFormat("Not supported type: {0}", type);
+                    Log.Warn("Not supported type: {0}", type);
                     return new Entity(manager, id);
             }
         }
@@ -747,35 +722,11 @@ namespace wServer.realm
         private bool ApplyCondition(ConditionEffectIndex effect)
         {
             if (effect == ConditionEffectIndex.Stunned &&
-                HasConditionEffect(ConditionEffects.StunImmume))
+                HasConditionEffect(ConditionEffects.StunImmune))
                 return false;
 
             if (effect == ConditionEffectIndex.Stasis &&
                 HasConditionEffect(ConditionEffects.StasisImmune))
-                return false;
-
-            if (effect == ConditionEffectIndex.Paralyzed &&
-                HasConditionEffect(ConditionEffects.ParalyzeImmune))
-                return false;
-
-            if (effect == ConditionEffectIndex.ArmorBroken &&
-                HasConditionEffect(ConditionEffects.ArmorBreakImmune))
-                return false;
-
-            if (effect == ConditionEffectIndex.Curse &&
-                HasConditionEffect(ConditionEffects.CurseImmune))
-                return false;
-
-            if (effect == ConditionEffectIndex.Petrify &&
-                HasConditionEffect(ConditionEffects.PetrifyImmune))
-                return false;
-
-            if (effect == ConditionEffectIndex.Dazed &&
-                HasConditionEffect(ConditionEffects.DazedImmune))
-                return false;
-
-            if (effect == ConditionEffectIndex.Slowed &&
-                HasConditionEffect(ConditionEffects.SlowedImmune))
                 return false;
 
             return true;
@@ -797,17 +748,6 @@ namespace wServer.realm
             StatChanged?.Invoke(this, new StatChangedEventArgs(t, val, updateSelfOnly));
         }
 
-        public virtual void Dispose()
-        {
-            Owner = null;
-            FocusLost?.Invoke(this, EventArgs.Empty);
-        }
-
-        public virtual bool CanBeSeenBy(Player player)
-        {
-            return !HasConditionEffect(ConditionEffects.Hidden);
-        }
-
         public void SetDefaultSize(int size)
         {
             _originalSize = size;
@@ -817,6 +757,11 @@ namespace wServer.realm
         public void RestoreDefaultSize()
         {
             Size = _originalSize;
+        }
+
+        public virtual void Dispose()
+        {
+            Owner = null;
         }
     }
 }

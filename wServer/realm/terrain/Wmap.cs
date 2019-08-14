@@ -4,6 +4,11 @@ using System.IO;
 using Ionic.Zlib;
 using common;
 using common.resources;
+using NLog;
+using wServer.realm.entities;
+using wServer.realm.entities.vendors;
+using wServer.realm.worlds;
+using DungeonGenerator.Dungeon;
 
 namespace wServer.realm.terrain
 {
@@ -89,7 +94,7 @@ namespace wServer.realm.terrain
                     switch (kv[0])
                     {
                         case "hp":
-                            var hp = Utils.FromString(kv[1]);
+                            var hp = Utils.GetInt(kv[1]);
                             stats.Add(new KeyValuePair<StatsType, object>(StatsType.HP, hp));
                             stats.Add(new KeyValuePair<StatsType, object>(StatsType.MaximumHP, hp));
                             break;
@@ -97,35 +102,35 @@ namespace wServer.realm.terrain
                             stats.Add(new KeyValuePair<StatsType, object>(StatsType.Name, kv[1]));
                             break;
                         case "size":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.Size, Math.Min(500, Utils.FromString(kv[1]))));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.Size, Math.Min(500, Utils.GetInt(kv[1]))));
                             break;
                         case "eff":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.Effects, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.Effects, Utils.GetInt(kv[1])));
                             break;
                         case "conn":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.ObjectConnection, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.ObjectConnection, Utils.GetInt(kv[1])));
                             break;
                         case "mtype":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantMerchandiseType, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantMerchandiseType, Utils.GetInt(kv[1])));
                             break;
                         case "mcost":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.SellablePrice, Math.Max(0, Utils.FromString(kv[1]))));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.SellablePrice, Math.Max(0, Utils.GetInt(kv[1]))));
                             break;
                         case "mcur":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.SellablePriceCurrency, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.SellablePriceCurrency, Utils.GetInt(kv[1])));
                             break;
                         case "mamnt":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantRemainingCount, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantRemainingCount, Utils.GetInt(kv[1])));
                             break;
                         case "mtime":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantRemainingMinute, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantRemainingMinute, Utils.GetInt(kv[1])));
                             break;
                         case "mdisc":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantDiscount, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.MerchantDiscount, Utils.GetInt(kv[1])));
                             break;
                         case "mrank":
                         case "stars":
-                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.SellableRankRequirement, Utils.FromString(kv[1])));
+                            stats.Add(new KeyValuePair<StatsType, object>(StatsType.SellableRankRequirement, Utils.GetInt(kv[1])));
                             break;
                     }
                 }
@@ -155,14 +160,14 @@ namespace wServer.realm.terrain
         public ObjectDesc ObjDesc;
         public string ObjCfg;
 
-        public WmapTerrain Terrain;
+        public TerrainType Terrain;
         public TileRegion Region;
         public byte Elevation;
     }
 
     public class Wmap
     {
-        private static readonly ILog Log = LogManager.GetLogger(typeof(Wmap));
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         private readonly XmlData _dat;
 
@@ -228,7 +233,7 @@ namespace wServer.realm.terrain
                     else if (!string.IsNullOrEmpty(obj))
                         Log.Warn($"Object: {obj} not found.");
                     desc.ObjCfg = rdr.ReadString();
-                    desc.Terrain = (WmapTerrain)rdr.ReadByte();
+                    desc.Terrain = (TerrainType)rdr.ReadByte();
                     desc.Region = (TileRegion)rdr.ReadByte();
                     if (ver == 1)
                         desc.Elevation = rdr.ReadByte();
@@ -292,7 +297,7 @@ namespace wServer.realm.terrain
                     var wTile = new WmapDesc();
                     wTile.TileId = _dat.IdToTileType[dTile.TileType.Name];
                     wTile.TileDesc = _dat.Tiles[wTile.TileId];
-                    wTile.Terrain = WmapTerrain.None;
+                    wTile.Terrain = TerrainType.None;
                     wTile.Region = (dTile.Region == null) ?
                         TileRegion.None :
                         (TileRegion)Enum.Parse(typeof(TileRegion), dTile.Region);
@@ -356,43 +361,40 @@ namespace wServer.realm.terrain
                         switch (kv[0])
                         {
                             case "hp":
-                                (entity as Enemy).HP = Utils.FromString(kv[1]);
+                                (entity as Enemy).HP = Utils.GetInt(kv[1]);
                                 (entity as Enemy).MaximumHP = (entity as Enemy).HP;
                                 break;
                             case "name":
                                 entity.Name = kv[1]; break;
                             case "size":
-                                entity.SetDefaultSize(Math.Min(500, Utils.FromString(kv[1])));
+                                entity.SetDefaultSize(Math.Min(500, Utils.GetInt(kv[1])));
                                 break;
                             case "eff":
                                 entity.ConditionEffects = (ConditionEffects)ulong.Parse(kv[1]);
                                 break;
                             case "conn":
-                                (entity as ConnectedObject).Connection = ConnectionInfo.Infos[(uint)Utils.FromString(kv[1])];
+                                (entity as ConnectedObject).Connection = ConnectionInfo.Infos[(uint)Utils.GetInt(kv[1])];
                                 break;
                             case "mtype":
-                                (entity as Merchant).Item = (ushort)Utils.FromString(kv[1]);
+                                (entity as Merchant).Item = (ushort)Utils.GetInt(kv[1]);
                                 break;
                             case "mcost":
-                                (entity as SellableObject).Price = Math.Max(0, Utils.FromString(kv[1]));
+                                (entity as SellableObject).Price = Math.Max(0, Utils.GetInt(kv[1]));
                                 break;
                             case "mcur":
-                                (entity as SellableObject).Currency = (CurrencyType)Utils.FromString(kv[1]);
+                                (entity as SellableObject).Currency = (CurrencyType)Utils.GetInt(kv[1]);
                                 break;
                             case "mamnt":
-                                (entity as Merchant).Count = Utils.FromString(kv[1]);
+                                (entity as Merchant).Count = Utils.GetInt(kv[1]);
                                 break;
                             case "mtime":
-                                (entity as Merchant).TimeLeft = Utils.FromString(kv[1]);
+                                (entity as Merchant).TimeLeft = Utils.GetInt(kv[1]);
                                 break;
                             case "mdisc": // not implemented
                                 break;
                             case "mrank":
                             case "stars": // provided for backwards compatibility with older maps
-                                (entity as SellableObject).RankReq = Utils.FromString(kv[1]);
-                                break;
-                            case "mtax":
-                                (entity as SellableObject).Tax = Utils.FromString(kv[1]);
+                                (entity as SellableObject).RankReq = Utils.GetInt(kv[1]);
                                 break;
                             case "xOffset":
                                 var xo = float.Parse(kv[1]);

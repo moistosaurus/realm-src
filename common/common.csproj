@@ -95,6 +95,7 @@
     <Compile Include="DbModels.cs" />
     <Compile Include="DbStatus.cs" />
     <Compile Include="FameStats.cs" />
+    <Compile Include="Interfaces.cs" />
     <Compile Include="InterServerChannel.cs" />
     <Compile Include="ISDataTypes.cs" />
     <Compile Include="ISManager.cs" />

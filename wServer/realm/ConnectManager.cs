@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using log4net;
 using NLog;
 using wServer.networking;
 using wServer.networking.packets.outgoing;
@@ -62,7 +61,7 @@ namespace wServer.realm
             }
 
             // don't use queue for ranked players
-            if (conInfo.Account.Rank > 0)
+            if (conInfo.Account.Admin)
             {
                 if (GetPlayerCount() < _maxPlayerCountWithPriority)
                 {
@@ -148,27 +147,6 @@ namespace wServer.realm
             var client = conInfo.Client;
             var acc = conInfo.Account;
 
-            // configure override
-            if (acc.Admin && acc.AccountIdOverride != 0)
-            {
-                var accOverride = client.Manager.Database.GetAccount(acc.AccountIdOverride);
-                if (accOverride == null)
-                {
-                    client.SendPacket(new Text()
-                    {
-                        BubbleTime = 0,
-                        NumStars = -1,
-                        Name = "*Error*",
-                        Txt = "Account does not exist."
-                    });
-                }
-                else
-                {
-                    accOverride.AccountIdOverrider = acc.AccountId;
-                    acc = accOverride;
-                }
-            }
-
             var gameId = conInfo.GameId;
             if (conInfo.Reconnecting)
             {
@@ -204,7 +182,7 @@ namespace wServer.realm
             {
                 // disconnect current connected client (if any)
                 var otherClients = client.Manager.Clients.Keys
-                    .Where(c => c == client || c.Account != null && (c.Account.AccountId == acc.AccountId || c.Account.DiscordId != null && c.Account.DiscordId == acc.DiscordId));
+                    .Where(c => c == client || c.Account != null && (c.Account.AccountId == acc.AccountId));
                 foreach (var otherClient in otherClients)
                     otherClient.Disconnect();
 
@@ -241,10 +219,9 @@ namespace wServer.realm
             }
 
             if (world is Test &&
-                !(world as Test).JsonLoaded &&
-                acc.Rank < client.Manager.Resources.Settings.MapMinRank)
+                !(world as Test).JsonLoaded && acc.Admin)
             {
-                client.SendFailure("Only players with a rank of 50 and above can make test maps.",
+                client.SendFailure("Only players with admin permissions can make test maps.",
                     Failure.MessageWithDisconnect);
                 return;
             }
@@ -277,7 +254,7 @@ namespace wServer.realm
             if (world is Test && !(world as Test).JsonLoaded)
             {
                 // save map
-                var mapFolder = $"{_manager.Config.serverSettings.logFolder}/maps";
+                var mapFolder = $"./mapLogs";
                 if (!Directory.Exists(mapFolder))
                     Directory.CreateDirectory(mapFolder);
                 File.WriteAllText($"{mapFolder}/{acc.Name}_{DateTime.Now.Ticks}.jm", conInfo.MapInfo);
@@ -302,17 +279,13 @@ namespace wServer.realm
                 client.Manager.Chat.GuildAnnounce(acc, acc.Name + " has joined the game");
             }
 
-            if (!acc.Hidden && acc.AccountIdOverrider == 0)
-            {
-                acc.RefreshLastSeen();
-                acc.FlushAsync();
-            }
+            acc.RefreshLastSeen();
+            acc.FlushAsync();
 
             // send out map info
             var mapSize = Math.Max(world.Map.Width, world.Map.Height);
             client.SendPacket(new MapInfo()
             {
-                Music = world.Music,
                 Width = mapSize,
                 Height = mapSize,
                 Name = world.Name,
@@ -322,8 +295,6 @@ namespace wServer.realm
                 Difficulty = world.Difficulty,
                 AllowPlayerTeleport = world.AllowTeleport,
                 ShowDisplays = world.ShowDisplays,
-                ClientXML = Empty<string>.Array,//client.Manager.Resources.GameData.AdditionXml,
-                ExtraXML = world.ExtraXML
             });
 
             // send out account lock/ignore list
@@ -332,8 +303,7 @@ namespace wServer.realm
                 AccountListId = 0, // locked list
                 AccountIds = client.Account.LockList
                     .Select(i => i.ToString())
-                    .ToArray(),
-                LockAction = 1
+                    .ToArray()
             });
             client.SendPacket(new AccountList()
             {

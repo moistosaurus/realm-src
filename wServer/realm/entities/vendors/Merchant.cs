@@ -151,7 +151,6 @@ namespace wServer.realm.entities.vendors
             var db = Manager.Database;
             var trans = db.Conn.CreateTransaction();
             var t1 = db.UpdateCurrency(player.Client.Account, -Price, Currency, trans);
-            db.AddToTreasury(Tax, trans);
             var invTrans = TransactionItem(player, trans);
             var t2 = trans.ExecuteAsync();
             await Task.WhenAll(t1, t2);
@@ -193,7 +192,6 @@ namespace wServer.realm.entities.vendors
             var acc = player.Client.Account;
             player.Credits = acc.Credits;
             player.CurrentFame = acc.Fame;
-            player.Tokens = acc.Tokens;
 
             if (invTrans != null)
                 Inventory.Execute(invTrans);

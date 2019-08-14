@@ -7,13 +7,13 @@ using wServer.realm.entities;
 using wServer.logic.loot;
 using System.Threading;
 using System.Reflection;
-using log4net;
+using NLog;
 
 namespace wServer.logic
 {
     public partial class BehaviorDb
     {
-        static readonly ILog Log = LogManager.GetLogger(typeof(BehaviorDb));
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public RealmManager Manager { get; private set; }
 
