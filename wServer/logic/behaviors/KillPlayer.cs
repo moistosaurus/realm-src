@@ -10,14 +10,12 @@ namespace wServer.logic.behaviors
     {
         private Cooldown _coolDown;
         private readonly string _killMessage;
-        private readonly bool _rekt;
         private readonly bool _killAll;
 
-        public KillPlayer(string killMessage, Cooldown coolDown = new Cooldown(), bool rekt = true, bool killAll = false)
+        public KillPlayer(string killMessage, Cooldown coolDown = new Cooldown(), bool killAll = false)
         {
             _coolDown = coolDown.Normalize();
             _killMessage = killMessage;
-            _rekt = rekt;
             _killAll = killAll;
         }
 
@@ -82,7 +80,7 @@ namespace wServer.logic.behaviors
             }, host, null, PacketPriority.Low);
 
             // kill player
-            player.Death(host.ObjectDesc.DisplayId, rekt: _rekt);
+            player.Death(host.ObjectDesc.DisplayId);
         }
     }
 }

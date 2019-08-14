@@ -165,6 +165,7 @@
     <Compile Include="networking\handlers\ChooseNameHandler.cs" />
     <Compile Include="networking\handlers\CreateGuildHandler.cs" />
     <Compile Include="networking\handlers\CreateHandler.cs" />
+    <Compile Include="networking\handlers\EnemyHitHandler.cs" />
     <Compile Include="networking\handlers\EscapeHandler.cs" />
     <Compile Include="networking\handlers\GotoAckHandler.cs" />
     <Compile Include="networking\handlers\GroundDamageHandler.cs" />
@@ -282,6 +283,7 @@
     <Compile Include="realm\ChatManager.cs" />
     <Compile Include="realm\Collision.cs" />
     <Compile Include="realm\commands\Command.cs" />
+    <Compile Include="realm\commands\RankedCommands.cs" />
     <Compile Include="realm\ConnectionQueue.cs" />
     <Compile Include="realm\ConnectManager.cs" />
     <Compile Include="realm\DbEvents.cs" />

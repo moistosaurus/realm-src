@@ -75,20 +75,6 @@ namespace wServer.realm.entities.vendors
             base.ExportStats(stats);
         }
 
-        protected override void ImportStats(StatsType stats, object val)
-        {
-            switch (stats)
-            {
-                case StatsType.SellablePrice:
-                    Price = (int)val; break;
-                case StatsType.SellablePriceCurrency:
-                    Currency = (CurrencyType)val; break;
-                case StatsType.SellableRankRequirement:
-                    RankReq = (int)val; break;
-            }
-            base.ImportStats(stats, val);
-        }
-
         protected BuyResult ValidateCustomer(Player player)
         {
             if (Owner is Test)

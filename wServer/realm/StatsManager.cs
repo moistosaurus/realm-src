@@ -7,7 +7,7 @@ namespace wServer.realm
     {
         //static readonly ILog Log = LogManager.GetLogger(typeof(StatsManager));
 
-        internal const int NumStatTypes = 11;
+        internal const int NumStatTypes = 8;
         private const float MinAttackMult = 0.5f;
         private const float MaxAttackMult = 2f;
         private const float MinAttackFreq = 0.0015f;

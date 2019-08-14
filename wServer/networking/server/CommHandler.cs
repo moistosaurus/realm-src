@@ -242,7 +242,7 @@ namespace wServer.networking.server
 
             var delay = 0;
             if (s.BytesAvailable <= 0)
-                delay = _client.Manager.Logic.MsPT;
+                delay = 5;
 
             StartSend(e, delay);
         }
@@ -253,7 +253,7 @@ namespace wServer.networking.server
             //    return;
 
             _pendings[(int)priority].Enqueue(pkt);
-            Console.WriteLine(pkt.GetType().ToString());
+            //Console.WriteLine(pkt.GetType().ToString());
         }
 
         public void SendPackets(IEnumerable<Packet> pkts, PacketPriority priority)
@@ -308,15 +308,6 @@ namespace wServer.networking.server
             {
                 Log.Error(e.ToString());
             }
-        }
-
-        public bool IsLagging()
-        {
-            for (var i = 0; i < 3; i++)
-                if (_pendings[i].OfType<NewTick>().Any())
-                    return true;
-
-            return false;
         }
     }
 }

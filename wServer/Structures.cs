@@ -191,14 +191,14 @@ namespace wServer
             ObjectSlot ret = new ObjectSlot();
             ret.ObjectId = rdr.ReadInt32();
             ret.SlotId = rdr.ReadByte();
-            ret.ObjectType = rdr.ReadInt32();
+            ret.ObjectType = rdr.ReadInt16();
             return ret;
         }
         public void Write(NWriter wtr)
         {
             wtr.Write(ObjectId);
             wtr.Write(SlotId);
-            wtr.Write(ObjectType);
+            wtr.Write((short)ObjectType);
         }
 
         public override string ToString()
@@ -320,7 +320,7 @@ namespace wServer
 
                 if (i.Value is string)
                 {
-                    Console.WriteLine(i.Key);
+                    //Console.WriteLine(i.Key);
                     wtr.WriteUTF(i.Value as string);
                     continue;
                 }

@@ -207,7 +207,6 @@ namespace common.resources
         public readonly int MinSize;
         public readonly int MaxSize;
         public readonly int SizeStep;
-        public readonly bool RandomSize;
         public readonly bool SpawnPoint;
         public readonly string Group;
         public readonly bool Quest;
@@ -261,7 +260,11 @@ namespace common.resources
                 MinSize = e.GetValue<int>("MinSize");
                 MaxSize = e.GetValue<int>("MaxSize");
                 SizeStep = e.GetValue<int>("SizeStep", 1);
-                RandomSize = true;
+            }
+            else
+            {
+                MinSize = MaxSize = Size;
+                SizeStep = 0;
             }
             Character = Class.Equals("Character");
             SpawnPoint = e.HasElement("SpawnPoint");
@@ -358,15 +361,15 @@ namespace common.resources
             if (x != null)
             {
                 StartingValue = int.Parse(x.Value);
-                MaxValue = e.GetAttribute<int>("max");
+                MaxValue = x.GetAttribute<int>("max");
             }
 
             var y = e.Elements("LevelIncrease");
-            foreach (var k in y)
-                if (k.Value == Type)
+            foreach (var s in y)
+                if (s.Value == Type)
                 {
-                    MinIncrease = k.GetAttribute<int>("min");
-                    MaxIncrease = k.GetAttribute<int>("max");
+                    MinIncrease = s.GetAttribute<int>("min");
+                    MaxIncrease = s.GetAttribute<int>("max");
                     break;
                 }
         }

@@ -145,37 +145,12 @@ namespace wServer.realm
             }
         }
 
-        protected virtual void ImportStats(StatsType stats, object val)
-        {
-            if (stats == StatsType.Name) Name = (string)val;
-            else if (stats == StatsType.Size) Size = (int)val;
-            else if (stats == StatsType.AltTextureIndex) AltTextureIndex = (int)val;
-            else if (stats == StatsType.Effects) ConditionEffects = (ConditionEffects)(ulong)val;
-        }
-
         protected virtual void ExportStats(IDictionary<StatsType, object> stats)
         {
             stats[StatsType.Name] = Name;
             stats[StatsType.Size] = Size;
             stats[StatsType.AltTextureIndex] = AltTextureIndex;
             stats[StatsType.Effects] = _conditionEffects1.GetValue();
-        }
-
-        public void FromDefinition(ObjectDef def)
-        {
-            ObjectType = def.ObjectType;
-            ImportStats(def.Stats);
-        }
-
-        public void ImportStats(ObjectStats stat)
-        {
-            Id = stat.Id;
-            (this is Enemy ? Owner.EnemiesCollision : Owner.PlayersCollision)
-                .Move(this, stat.Position.X, stat.Position.Y);
-            X = stat.Position.X;
-            Y = stat.Position.Y;
-            foreach (var i in stat.Stats)
-                ImportStats(i.Key, i.Value);
         }
 
         public ObjectStats ExportStats()

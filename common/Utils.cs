@@ -1,4 +1,5 @@
 ﻿using common.resources;
+using Newtonsoft.Json;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -145,6 +146,26 @@ namespace common
         {
             ConditionEffectIndex ret = (ConditionEffectIndex)Enum.Parse(typeof(ConditionEffectIndex), val.Replace(" ", ""));
             return ret;
+        }
+
+        public static T FromJson<T>(string json) where T : class
+        {
+            if (String.IsNullOrWhiteSpace(json)) return null;
+            var jsonSerializer = new JsonSerializer();
+            using (var strRdr = new StringReader(json))
+            using (var jsRdr = new JsonTextReader(strRdr))
+                return jsonSerializer.Deserialize<T>(jsRdr);
+        }
+
+        public static bool IsInt(this string str)
+        {
+            int dummy;
+            return Int32.TryParse(str, out dummy);
+        }
+
+        public static int ToInt32(this string str)
+        {
+            return GetInt(str);
         }
 
         public static T[] CommaToArray<T>(this string x)

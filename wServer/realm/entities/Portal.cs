@@ -43,12 +43,6 @@ namespace wServer.realm.entities
             return objType;
         }
 
-        protected override void ImportStats(StatsType stats, object val)
-        {
-            if (stats == StatsType.PortalUsable) Usable = (int)val != 0;
-            base.ImportStats(stats, val);
-        }
-
         protected override void ExportStats(IDictionary<StatsType, object> stats)
         {
             stats[StatsType.PortalUsable] = Usable ? 1 : 0;

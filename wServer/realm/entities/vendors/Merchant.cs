@@ -52,20 +52,6 @@ namespace wServer.realm.entities.vendors
             base.ExportStats(stats);
         }
 
-        protected override void ImportStats(StatsType stats, object val)
-        {
-            switch (stats)
-            {
-                case StatsType.MerchantMerchandiseType:
-                    Item = (ushort)val; break;
-                case StatsType.MerchantRemainingCount:
-                    Count = (int)val; break;
-                case StatsType.MerchantRemainingMinute:
-                    TimeLeft = (int)val; break;
-            }
-            base.ImportStats(stats, val);
-        }
-
         /*public override void Tick(RealmTime time)
         {
             base.Tick(time);

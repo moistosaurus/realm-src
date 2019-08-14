@@ -46,12 +46,6 @@ namespace wServer.realm.entities
             base.ExportStats(stats);
         }
 
-        protected override void ImportStats(StatsType stats, object val)
-        {
-            if (stats == StatsType.HP) HP = (int)val;
-            base.ImportStats(stats, val);
-        }
-
         public override bool HitByProjectile(Projectile projectile, RealmTime time)
         {
             if (Vulnerable && projectile.ProjectileOwner is Player)

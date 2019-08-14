@@ -53,13 +53,6 @@ namespace wServer.realm.entities
                 ApplyConditionEffect(ConditionEffectIndex.StunImmune);
         }
 
-        protected override void ImportStats(StatsType stats, object val)
-        {
-            if (stats == StatsType.HP) HP = (int)val;
-            else if (stats == StatsType.MaximumHP) MaximumHP = (int)val;
-            base.ImportStats(stats, val);
-        }
-
         protected override void ExportStats(IDictionary<StatsType, object> stats)
         {
             stats[StatsType.HP] = HP;

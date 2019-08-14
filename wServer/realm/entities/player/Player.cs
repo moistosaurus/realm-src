@@ -449,7 +449,7 @@ namespace wServer.realm.entities
 
             if (HP <= 0)
             {
-                Death("Unknown", rekt: true);
+                Death("Unknown");
                 return;
             }
         }
@@ -744,8 +744,8 @@ namespace wServer.realm.entities
             var playerDesc = Manager.Resources.GameData.Classes[ObjectType];
             var maxed = playerDesc.Stats.Where((t, i) => Stats.Base[i] >= t.MaxValue).Count();
             var deathMessage = string.Format(
-                "{{\"key\":\"{{server.deathStats}}\",\"tokens\":{{\"player\":\"{0}\",\"level\":\"{1}\",\"fame\":\"{2}\",\"maxed\":\"{3}\",\"enemy\":\"{4}\"}}}}",
-                Name, Level, _client.Character.FinalFame, maxed, killer);
+                "{0} died at level {1}, killed by {2}",
+                Name, Level, killer);
 
             foreach (var i in Owner.Players.Values)
             {
@@ -753,15 +753,10 @@ namespace wServer.realm.entities
             }
         }
 
-        public void Death(string killer, Entity entity = null, WmapTile tile = null, bool rekt = false)
+        public void Death(string killer, Entity entity = null, WmapTile tile = null)
         {
             if (_client.State == ProtocolState.Disconnected || _dead)
                 return;
-
-            if (tile != null && tile.Spawned)
-            {
-                rekt = true;
-            }
 
             _dead = true;
 

@@ -61,7 +61,6 @@ namespace wServer.networking
 
         public Socket Skt { get; private set; }
         public string IP { get; private set; }
-        public bool IsLagging { get; private set; }
 
         internal readonly object DcLock = new object();
 
@@ -140,12 +139,6 @@ namespace wServer.networking
                 return false;
 
             return true;
-        }
-
-        public bool CheckForLag()
-        {
-            IsLagging = _handler.IsLagging();
-            return IsLagging;
         }
 
         internal void ProcessPacket(Packet pkt)

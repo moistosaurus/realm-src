@@ -61,7 +61,7 @@ namespace wServer.realm.entities
 
         public readonly ConcurrentQueue<Entity> ClientKilledEntity = new ConcurrentQueue<Entity>();
 
-        public const int Radius = 20;
+        public const int Radius = 15;
         public const int RadiusSqr = Radius * Radius;
         private const int StaticBoundingBox = Radius * 2;
         private const int AppoxAreaOfSight = (int)(Math.PI * Radius * Radius + 1);

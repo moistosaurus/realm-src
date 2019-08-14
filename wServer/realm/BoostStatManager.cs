@@ -61,30 +61,6 @@ namespace wServer.realm
                 // set boost
                 var b = _activateBoost[i].GetBoost();
                 _boost[i] += b;
-
-                if (i > 7)
-                    continue;
-
-                // set condition icon
-                var haveCondition = _player.HasConditionEffect((ConditionEffects)((ulong)1 << (i + 39)));
-                if (b > 0)
-                {
-                    if (!haveCondition)
-                        _player.ApplyConditionEffect(new ConditionEffect()
-                        {
-                            Effect = (ConditionEffectIndex)(i + 39),
-                            DurationMS = -1
-                        });
-                }
-                else
-                {
-                    if (haveCondition)
-                        _player.ApplyConditionEffect(new ConditionEffect()
-                        {
-                            Effect = (ConditionEffectIndex)(i + 39),
-                            DurationMS = 0
-                        });
-                }
             }
         }
 

@@ -43,17 +43,20 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Remove useless data from requests (platforms etc.)
 - [x] Remove Steam, Kong. and other platforms that are not needed here
 - [x] Remove map loading in the background of main menu (it takes a lot of processing power (20% CPU AFK???))
-- [ ] Fix /char/list requesting before /account/verify??? (hello?)
-- [ ] Connect wServer to server (inter server)
-- [ ] Get in game (includes a lot of stuff, mainly C + P from other sources, will rewrite things later)...
-- [ ] Optimize client (caching, rendering)
+- [x] Fix /char/list requesting before /account/verify??? (hello?)
+- [x] Connect wServer to server (inter server)
+- [x] Get in game (includes a lot of stuff, mainly C + P from other sources, will rewrite things later)...
+- [x] Optimize client (caching, rendering)
 - [ ] Make it possible to control char slot currency through server (XML tag)
-- [ ] Make XML configs nicer to work with
+- [x] Make XML configs nicer to work with
 - [ ] Remove potion purchasing completely
-- [ ] Remove zombification
+- [ ] Remove zombification (including everything todo with it)
 - [ ] Bring back ammys
-- [ ] Remove hello/recon keys
-- [ ] Remove clean text (if you can't take the heat, leave the kitchen)
+- [x] Remove clean text (if you can't take the heat, leave the kitchen)
+- [x] Fix item tooltips
+- [x] Fix weird merchant purchasing in the 7.0 client (buttons for both gold and fame)
+- [x] Fix chat & speech bubbles (???)
+- [ ] Make dialogs/result packets nicer to work with (e.g. merchant dialogs)
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 
