@@ -17,7 +17,7 @@ namespace server.app
 
         public override void InitHandler(Resources resources)
         {
-            XElement root = new XElement(Program.Config.initInfo.Xml);
+            XElement root = new XElement(Program.Config.appSettings.Xml);
             root.Add(new XElement("SkinsList", XElement.Parse(File.ReadAllText(resources.ResourcePath + "/xml/Skins.xml"))));
             _data = Encoding.UTF8.GetBytes(root.ToString());
         }

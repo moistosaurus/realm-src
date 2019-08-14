@@ -15,16 +15,21 @@ namespace common.resources
         public readonly string ResourcePath;
         public readonly XmlData GameData;
         public readonly Dictionary<string, byte[]> WebFiles = new Dictionary<string, byte[]>();
+        public readonly WorldData Worlds;
 
-        public Resources(string resourcePath, bool loadServerFiles)
+        public Resources(string resourcePath, bool wServer = false)
         {
             Log.Info("Loading resources...");
             ResourcePath = resourcePath;
             GameData = new XmlData(resourcePath + "/xml");
 
-            if (loadServerFiles)
+            if (!wServer)
             {
                 webFiles(resourcePath + "/web");
+            }
+            else
+            {
+                Worlds = new WorldData(resourcePath + "/worlds", GameData);
             }
         }
 

@@ -30,12 +30,15 @@ namespace server
 
         static void Main(string[] args)
         {
-            Config = new ServerConfig();
             AppDomain.CurrentDomain.UnhandledException += LogUnhandledException;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.Name = "Entry";
 
-            using (Resources = new Resources(Config.serverInfo.resourcePath, true))
+            Config = args.Length > 0 ?
+                ServerConfig.ReadFile(args[0]) :
+                ServerConfig.ReadFile("server.json");
+
+            using (Resources = new Resources(Config.serverSettings.resourceFolder, false))
             using (Database = new Database(Resources, Config))
             {
                 RequestHandlers.Initialize(Resources);
@@ -52,22 +55,14 @@ namespace server
                     Shutdown.Set();
                 };
 
-                var port = Config.serverInfo.bindPort;
+                var port = Config.serverInfo.port;
                 var address = Config.serverInfo.bindAddress;
                 using (var server = new HttpServer($"http://{address}:{port}/"))
                 {
-                    if (Config.serverInfo.debugMode)
-                    {
-                        server.GET("*").Subscribe(Response);
-                        server.POST("*").Subscribe(Response);
-                    }
-                    else
-                    {
-                        foreach (var uri in RequestHandlers.Get.Keys)
-                            server.GET(uri).Subscribe(Response);
-                        foreach (var uri in RequestHandlers.Post.Keys)
-                            server.POST(uri).Subscribe(Response);
-                    }
+                    foreach (var uri in RequestHandlers.Get.Keys)
+                        server.GET(uri).Subscribe(Response);
+                    foreach (var uri in RequestHandlers.Post.Keys)
+                        server.POST(uri).Subscribe(Response);
 
                     Log.Info("Listening at address {0}:{1}...", address, port);
                     Shutdown.WaitOne();
@@ -78,8 +73,11 @@ namespace server
             }
         }
 
-        public static void Stop()
+        public static void Stop(Task task = null)
         {
+            if (task != null)
+                Log.Fatal(task.Exception);
+
             Shutdown.Set();
         }
 
@@ -87,26 +85,11 @@ namespace server
         {
             try
             {
-                bool getRequest = rContext.Request.HttpMethod.Equals("GET");
-                if (Config.serverInfo.debugMode)
-                {
-                    var dict = getRequest ? RequestHandlers.Get : RequestHandlers.Post;
-                    if (!dict.ContainsKey(rContext.Request.Url.LocalPath))
-                    {
-                        Log.Warn("Unknown {0} request '{1}'@{2}",
-                            getRequest ? "GET" : "POST",
-                            rContext.Request.Url.LocalPath,
-                            rContext.Request.ClientIP());
-                        rContext.Respond("<Error>Internal server error</Error>", 500);
-                        return;
-                    }
-                }
-
                 Log.Info("Dispatching '{0}'@{1}",
                     rContext.Request.Url.LocalPath,
                     rContext.Request.ClientIP());
 
-                if (getRequest)
+                if (rContext.Request.HttpMethod.Equals("GET"))
                 {
                     var query = HttpUtility.ParseQueryString(rContext.Request.Url.Query);
                     RequestHandlers.Get[rContext.Request.Url.LocalPath].HandleRequest(rContext, query);

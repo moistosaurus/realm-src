@@ -47,6 +47,12 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [ ] Get in game (includes a lot of stuff, mainly C + P from other sources, will rewrite things later)...
 - [ ] Optimize client (caching, rendering)
 - [ ] Make it possible to control char slot currency through server (XML tag)
+- [ ] Make XML configs nicer to work with
+- [ ] Remove potion purchasing completely
+- [ ] Remove zombification
+- [ ] Bring back ammys
+- [ ] Remove hello/recon keys
+- [ ] Remove clean text (if you can't take the heat, leave the kitchen)
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 

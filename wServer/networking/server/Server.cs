@@ -9,7 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using log4net;
 using NLog;
 using wServer.networking.packets;
 using wServer.realm;
@@ -170,7 +169,7 @@ namespace wServer.networking.server
             _listenSocket.Bind(localEndPoint);
             _listenSocket.Listen(Backlog);
 
-            Log.InfoFormat("Listening on port {0}...", _port);
+            Log.Info("Listening on port {0}...", _port);
 
             StartAccept();
         }

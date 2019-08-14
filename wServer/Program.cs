@@ -23,12 +23,15 @@ namespace wServer
 
         static void Main(string[] args)
         {
-            Config = new ServerConfig();
             AppDomain.CurrentDomain.UnhandledException += LogUnhandledException;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             Thread.CurrentThread.Name = "Entry";
 
-            using (Resources = new Resources(Config.serverInfo.resourcePath, false))
+            Config = args.Length > 0 ?
+                ServerConfig.ReadFile(args[0]) :
+                ServerConfig.ReadFile("wServer.json");
+
+            using (Resources = new Resources(Config.serverSettings.resourceFolder, true))
             using (Database = new Database(Resources, Config))
             {
                 var manager = new RealmManager(Resources, Database, Config);
@@ -44,8 +47,11 @@ namespace wServer
             }
         }
 
-        public static void Stop()
+        public static void Stop(Task task = null)
         {
+            if (task != null)
+                Log.Fatal(task.Exception);
+
             Shutdown.Set();
         }
 

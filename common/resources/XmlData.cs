@@ -22,6 +22,8 @@ namespace common.resources
         public Dictionary<ushort, string> TileTypeToId = new Dictionary<ushort, string>();
         public Dictionary<string, ushort> IdToTileType = new Dictionary<string, ushort>();
 
+        public Dictionary<int, ItemType> SlotTypeToItemType = new Dictionary<int, ItemType>();
+
         public Dictionary<ushort, TileDesc> Tiles = new Dictionary<ushort, TileDesc>();
         public Dictionary<ushort, Item> Items = new Dictionary<ushort, Item>();
         public Dictionary<ushort, ObjectDesc> ObjectDescs = new Dictionary<ushort, ObjectDesc>();
@@ -83,8 +85,12 @@ namespace common.resources
                         Items[type] = new Item(type, e);
                         break;
                     case "Player":
-                        Classes[type] = new PlayerDesc(type, e);
+                        var pDesc = Classes[type] = new PlayerDesc(type, e);
                         ObjectDescs[type] = Classes[type];
+                        SlotTypeToItemType[pDesc.SlotTypes[0]] = ItemType.Weapon;
+                        SlotTypeToItemType[pDesc.SlotTypes[1]] = ItemType.Ability;
+                        SlotTypeToItemType[pDesc.SlotTypes[2]] = ItemType.Armor;
+                        SlotTypeToItemType[pDesc.SlotTypes[3]] = ItemType.Ring;
                         break;
                     case "GuildHallPortal":
                     case "Portal":

@@ -1,28 +1,139 @@
-﻿using NLog;
+﻿using Newtonsoft.Json;
+using NLog;
 using System;
+using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml.Linq;
 
 namespace common
 {
     public class ServerConfig
     {
-        static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        public DbInfo dbInfo { get; set; } = new DbInfo();
+        public ServerInfo serverInfo { get; set; } = new ServerInfo();
+        public ServerSettings serverSettings { get; set; } = new ServerSettings();
 
-        public readonly DbInfo dbInfo;
-        public readonly ServerInfo serverInfo;
-        public readonly InitInfo initInfo;
+        [JsonIgnore]
+        public AppSettings appSettings { get; set; }
 
-        public ServerConfig()
+        public static ServerConfig ReadFile(string fileName)
         {
-            Log.Info("Loading config files...");
-            dbInfo = new DbInfo(XElement.Parse(Utils.Read("db.config")));
-            serverInfo = new ServerInfo(XElement.Parse(Utils.Read("server.config")));
-            initInfo = new InitInfo(XElement.Parse(Utils.Read("init.config")));
+            using (var r = new StreamReader(fileName))
+            {
+                return ReadJson(r.ReadToEnd());
+            }
+        }
+
+        public static ServerConfig ReadJson(string json)
+        {
+            var sConfig = JsonConvert.DeserializeObject<ServerConfig>(json);
+            sConfig.appSettings = new AppSettings(XElement.Parse(Utils.Read("init.config")));
+            return sConfig;
         }
     }
 
-    public class InitInfo
+    public class DbInfo
+    {
+        public string host { get; set; } = "127.0.0.1";
+        public int port { get; set; } = 6379;
+        public string auth { get; set; } = "";
+        public int index { get; set; } = 0;
+    }
+
+    public class ServerInfo
+    {
+        public ServerType type { get; set; } = ServerType.World;
+        public string name { get; set; } = "Localhost";
+        public string address { get; set; } = "127.0.0.1";
+        public string bindAddress { get; set; } = "127.0.0.1";
+        public int port { get; set; } = 2051;
+        public Coordinates coordinates { get; set; } = new Coordinates();
+        public int players { get; set; } = 0;
+        public int maxPlayers { get; set; } = 100;
+        public int queueLength { get; set; } = 0;
+        public bool adminOnly { get; set; } = false;
+        public int minRank { get; set; } = 0;
+        public string instanceId { get; set; } = "";
+        public PlayerList playerList { get; set; } = new PlayerList();
+    }
+
+    public class ServerSettings
+    {
+        public string resourceFolder { get; set; } = "./resources";
+        public string version { get; set; } = "1.0.0";
+        public int tps { get; set; } = 20;
+        public string key { get; set; } = "B1A5ED";
+        public int maxConnections { get; set; } = 256;
+        public int maxPlayers { get; set; } = 100;
+        public int maxPlayersWithPriority { get; set; } = 120;
+        public string sendGridApiKey { get; set; } = "";
+    }
+
+    public enum ServerType
+    {
+        Account,
+        World
+    }
+
+    public class Coordinates
+    {
+        public float latitude { get; set; } = 0;
+        public float longitude { get; set; } = 0;
+    }
+    public class PlayerInfo
+    {
+        public int AccountId;
+        public int GuildId;
+        public string Name;
+        public string WorldName;
+        public int WorldInstance;
+    }
+
+    public class PlayerList : IEnumerable<PlayerInfo>
+    {
+        private readonly ConcurrentDictionary<PlayerInfo, int> PlayerInfo;
+
+        public PlayerList(IEnumerable<PlayerInfo> playerList = null)
+        {
+            PlayerInfo = new ConcurrentDictionary<PlayerInfo, int>();
+
+            if (playerList == null)
+                return;
+
+            foreach (var plr in playerList)
+            {
+                Add(plr);
+            }
+        }
+
+        public void Add(PlayerInfo playerInfo)
+        {
+            PlayerInfo.TryAdd(playerInfo, 0);
+        }
+
+        public void Remove(PlayerInfo playerInfo)
+        {
+            if (playerInfo == null)
+                return;
+
+            int ignored;
+            PlayerInfo.TryRemove(playerInfo, out ignored);
+        }
+
+        IEnumerator<PlayerInfo> IEnumerable<PlayerInfo>.GetEnumerator()
+        {
+            return PlayerInfo.Keys.GetEnumerator();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return PlayerInfo.Keys.GetEnumerator();
+        }
+    }
+
+    public class AppSettings
     {
         public readonly XElement Xml;
 
@@ -34,7 +145,7 @@ namespace common
         public readonly NewAccounts NewAccounts;
         public readonly NewCharacters NewCharacters;
 
-        public InitInfo(XElement e)
+        public AppSettings(XElement e)
         {
             Xml = e;
             UseExternalPayments = e.GetValue<int>("UseExternalPayments");
@@ -103,63 +214,6 @@ namespace common
         {
             Maxed = e.HasElement("Maxed");
             Level = e.GetValue<int>("Level", 1);
-        }
-    }
-
-    public class DbInfo
-    {
-        public readonly string host;
-        public readonly int port;
-        public readonly int index;
-        public readonly string password;
-
-        public DbInfo(XElement e)
-        {
-            host = e.GetValue<string>("host", "localhost");
-            port = e.GetValue<int>("port", 6379);
-            index = e.GetValue<int>("index", 0);
-            password = e.GetValue<string>("password", null);
-        }
-    }
-
-    public class ServerInfo
-    {
-        public readonly string bindAddress;
-        public readonly int bindPort;
-        public readonly string resourcePath;
-        public readonly bool debugMode;
-        public readonly string instanceId;
-
-        public readonly string version;
-
-        public readonly string name;
-        public readonly string address;
-        public readonly int port;
-        public readonly bool adminOnly;
-        public readonly int maxPlayers;
-        public readonly int tps;
-
-        public readonly float latitude;
-        public readonly float longitude;
-
-        public int players { get; set; } = 0;
-
-        public ServerInfo(XElement e)
-        {
-            instanceId = Guid.NewGuid().ToString();
-            bindAddress = e.GetValue<string>("bindAddress", "127.0.0.1");
-            bindPort = e.GetValue<int>("bindPort", 2050);
-            resourcePath = e.GetValue<string>("resourcePath", "resources");
-            address = e.GetValue<string>("address", "127.0.0.1");
-            port = e.GetValue<int>("port", 2050);
-            debugMode = e.GetValue<int>("debugMode", 1) == 1;
-            name = e.GetValue<string>("name", "Localhost");
-            adminOnly = e.GetValue<int>("adminOnly", 1) == 1;
-            maxPlayers = e.GetValue<int>("maxPlayers", 256);
-            latitude = e.GetValue<float>("latitude", 0);
-            longitude = e.GetValue<float>("longitude", 0);
-            tps = e.GetValue<int>("tps", 20);
-            version = e.GetValue<string>("version", "0.0");
         }
     }
 }

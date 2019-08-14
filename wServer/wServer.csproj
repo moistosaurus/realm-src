@@ -36,6 +36,12 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.5.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.13.3.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.13.3\lib\net40\DotNetZip.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.6.6\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -58,11 +64,172 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="logic\Behavior.cs" />
+    <Compile Include="logic\BehaviorDb.cs" />
+    <Compile Include="logic\behaviors\AnnounceOnDeath.cs" />
+    <Compile Include="logic\behaviors\BackAndForth.cs" />
+    <Compile Include="logic\behaviors\BringEnemy.cs" />
+    <Compile Include="logic\behaviors\Buzz.cs" />
+    <Compile Include="logic\behaviors\ChangeMusic.cs" />
+    <Compile Include="logic\behaviors\ChangeMusicOnDeath.cs" />
+    <Compile Include="logic\behaviors\ChangeSize.cs" />
+    <Compile Include="logic\behaviors\Charge.cs" />
+    <Compile Include="logic\behaviors\ConditionalEffect.cs" />
+    <Compile Include="logic\behaviors\ConditionEffectRegion.cs" />
+    <Compile Include="logic\behaviors\Decay.cs" />
+    <Compile Include="logic\behaviors\DestroyOnDeath.cs" />
+    <Compile Include="logic\behaviors\DropPortalOnDeath.cs" />
+    <Compile Include="logic\behaviors\Duration.cs" />
+    <Compile Include="logic\behaviors\Flash.cs" />
+    <Compile Include="logic\behaviors\Follow.cs" />
+    <Compile Include="logic\behaviors\Grenade.cs" />
+    <Compile Include="logic\behaviors\GroundTransform.cs" />
+    <Compile Include="logic\behaviors\HealEntity.cs" />
+    <Compile Include="logic\behaviors\HealGroup.cs" />
+    <Compile Include="logic\behaviors\HealPlayer.cs" />
+    <Compile Include="logic\behaviors\HealPlayerMP.cs" />
+    <Compile Include="logic\behaviors\HealSelf.cs" />
+    <Compile Include="logic\behaviors\KillPlayer.cs" />
+    <Compile Include="logic\behaviors\MoveLine.cs" />
+    <Compile Include="logic\behaviors\MoveTo.cs" />
+    <Compile Include="logic\behaviors\MultiplyLootValue.cs" />
+    <Compile Include="logic\behaviors\MutePlayer.cs" />
+    <Compile Include="logic\behaviors\Orbit.cs" />
+    <Compile Include="logic\behaviors\Order.cs" />
+    <Compile Include="logic\behaviors\OrderOnce.cs" />
+    <Compile Include="logic\behaviors\OrderOnDeath.cs" />
+    <Compile Include="logic\behaviors\Prioritize.cs" />
+    <Compile Include="logic\behaviors\Protect.cs" />
+    <Compile Include="logic\behaviors\RelativeSpawn.cs" />
+    <Compile Include="logic\behaviors\RemoveConditionEffect.cs" />
+    <Compile Include="logic\behaviors\RemoveTileObject.cs" />
+    <Compile Include="logic\behaviors\Reproduce.cs" />
+    <Compile Include="logic\behaviors\ReproduceChildren.cs" />
+    <Compile Include="logic\behaviors\ReproduceGroup.cs" />
+    <Compile Include="logic\behaviors\ReturnToSpawn.cs" />
+    <Compile Include="logic\behaviors\Sequence.cs" />
+    <Compile Include="logic\behaviors\SetAltTexture.cs" />
+    <Compile Include="logic\behaviors\Shoot.cs" />
+    <Compile Include="logic\behaviors\Spawn.cs" />
+    <Compile Include="logic\behaviors\SpawnGroup.cs" />
+    <Compile Include="logic\behaviors\StayAbove.cs" />
+    <Compile Include="logic\behaviors\StayBack.cs" />
+    <Compile Include="logic\behaviors\StayCloseToSpawn.cs" />
+    <Compile Include="logic\behaviors\Suicide.cs" />
+    <Compile Include="logic\behaviors\Swirl.cs" />
+    <Compile Include="logic\behaviors\Taunt.cs" />
+    <Compile Include="logic\behaviors\TeleporttoTarget.cs" />
+    <Compile Include="logic\behaviors\Timed.cs" />
+    <Compile Include="logic\behaviors\TossObject.cs" />
+    <Compile Include="logic\behaviors\TransferDamageOnDeath.cs" />
+    <Compile Include="logic\behaviors\Transform.cs" />
+    <Compile Include="logic\behaviors\TransformOnDeath.cs" />
+    <Compile Include="logic\behaviors\Wander.cs" />
+    <Compile Include="logic\behaviors\WhileEntityNotWithin.cs" />
+    <Compile Include="logic\behaviors\WhileEntityWithin.cs" />
+    <Compile Include="logic\behaviors\WhileWatched.cs" />
+    <Compile Include="logic\Cooldown.cs" />
+    <Compile Include="logic\CycleBehavior.cs" />
+    <Compile Include="logic\DamageCounter.cs" />
+    <Compile Include="logic\FameCounter.cs" />
+    <Compile Include="logic\loot\Loots.cs" />
+    <Compile Include="logic\loot\MobDrops.cs" />
+    <Compile Include="logic\State.cs" />
+    <Compile Include="logic\Transition.cs" />
+    <Compile Include="logic\transitions\AnyEntityWithinTransition.cs" />
+    <Compile Include="logic\transitions\EntitiesNotExistTransition.cs" />
+    <Compile Include="logic\transitions\EntityExistsTransition.cs" />
+    <Compile Include="logic\transitions\EntityHpLessTransition.cs" />
+    <Compile Include="logic\transitions\EntityNotExistsTransition.cs" />
+    <Compile Include="logic\transitions\EntityWithinTransition.cs" />
+    <Compile Include="logic\transitions\GroundTransition.cs" />
+    <Compile Include="logic\transitions\GroupNotExistTransition.cs" />
+    <Compile Include="logic\transitions\HpBoundaryTransition.cs" />
+    <Compile Include="logic\transitions\HpLessTransition.cs" />
+    <Compile Include="logic\transitions\NoEntityWithinTransition.cs" />
+    <Compile Include="logic\transitions\NoPlayerWithinTransition.cs" />
+    <Compile Include="logic\transitions\NotMovingTransition.cs" />
+    <Compile Include="logic\transitions\OnParentDeathTransition.cs" />
+    <Compile Include="logic\transitions\PlayerTextTransition.cs" />
+    <Compile Include="logic\transitions\PlayerWithinTransition.cs" />
+    <Compile Include="logic\transitions\TimedRandomTransition.cs" />
+    <Compile Include="logic\transitions\TimedTransition.cs" />
     <Compile Include="networking\Client.cs" />
     <Compile Include="networking\Client.KeepAlive.cs" />
     <Compile Include="networking\IPacketHandler.cs" />
+    <Compile Include="networking\packets\incoming\AoeAck.cs" />
+    <Compile Include="networking\packets\incoming\AcceptTrade.cs" />
+    <Compile Include="networking\packets\incoming\Buy.cs" />
+    <Compile Include="networking\packets\incoming\CancelTrade.cs" />
+    <Compile Include="networking\packets\incoming\ChangeGuildRank.cs" />
+    <Compile Include="networking\packets\incoming\ChangeTrade.cs" />
+    <Compile Include="networking\packets\incoming\CheckCredits.cs" />
+    <Compile Include="networking\packets\incoming\ChooseName.cs" />
+    <Compile Include="networking\packets\incoming\Create.cs" />
+    <Compile Include="networking\packets\incoming\CreateGuild.cs" />
+    <Compile Include="networking\packets\incoming\EditAccountList.cs" />
+    <Compile Include="networking\packets\incoming\EnemyHit.cs" />
+    <Compile Include="networking\packets\incoming\Escape.cs" />
+    <Compile Include="networking\packets\incoming\GotoAck.cs" />
+    <Compile Include="networking\packets\incoming\GroundDamage.cs" />
+    <Compile Include="networking\packets\incoming\GuildInvite.cs" />
+    <Compile Include="networking\packets\incoming\GuildRemove.cs" />
+    <Compile Include="networking\packets\incoming\Hello.cs" />
     <Compile Include="networking\packets\incoming\IncomingMessage.cs" />
+    <Compile Include="networking\packets\incoming\InvDrop.cs" />
+    <Compile Include="networking\packets\incoming\InvSwap.cs" />
+    <Compile Include="networking\packets\incoming\JoinGuild.cs" />
+    <Compile Include="networking\packets\incoming\Load.cs" />
+    <Compile Include="networking\packets\incoming\Move.cs" />
+    <Compile Include="networking\packets\incoming\OtherHit.cs" />
+    <Compile Include="networking\packets\incoming\PlayerHit.cs" />
+    <Compile Include="networking\packets\incoming\PlayerShoot.cs" />
+    <Compile Include="networking\packets\incoming\PlayerText.cs" />
+    <Compile Include="networking\packets\incoming\Pong.cs" />
+    <Compile Include="networking\packets\incoming\RequestTrade.cs" />
+    <Compile Include="networking\packets\incoming\Reskin.cs" />
+    <Compile Include="networking\packets\incoming\SetCondition.cs" />
+    <Compile Include="networking\packets\incoming\ShootAck.cs" />
+    <Compile Include="networking\packets\incoming\SquareHit.cs" />
+    <Compile Include="networking\packets\incoming\Teleport.cs" />
+    <Compile Include="networking\packets\incoming\UpdateAck.cs" />
+    <Compile Include="networking\packets\incoming\UseItem.cs" />
+    <Compile Include="networking\packets\incoming\UsePortal.cs" />
+    <Compile Include="networking\packets\outgoing\AccountList.cs" />
+    <Compile Include="networking\packets\outgoing\AllyShoot.cs" />
+    <Compile Include="networking\packets\outgoing\Aoe.cs" />
+    <Compile Include="networking\packets\outgoing\BuyResult.cs" />
+    <Compile Include="networking\packets\outgoing\ClientStat.cs" />
+    <Compile Include="networking\packets\outgoing\CreateSuccess.cs" />
+    <Compile Include="networking\packets\outgoing\Damage.cs" />
+    <Compile Include="networking\packets\outgoing\Death.cs" />
+    <Compile Include="networking\packets\outgoing\EnemyShoot.cs" />
+    <Compile Include="networking\packets\outgoing\Failure.cs" />
+    <Compile Include="networking\packets\outgoing\File.cs" />
+    <Compile Include="networking\packets\outgoing\GlobalNotification.cs" />
+    <Compile Include="networking\packets\outgoing\Goto.cs" />
+    <Compile Include="networking\packets\outgoing\GuildResult.cs" />
+    <Compile Include="networking\packets\outgoing\InvitedToGuild.cs" />
+    <Compile Include="networking\packets\outgoing\InvResult.cs" />
+    <Compile Include="networking\packets\outgoing\MapInfo.cs" />
+    <Compile Include="networking\packets\outgoing\NameResult.cs" />
+    <Compile Include="networking\packets\outgoing\NewTick.cs" />
+    <Compile Include="networking\packets\outgoing\Notification.cs" />
     <Compile Include="networking\packets\outgoing\OutgoingMessage.cs" />
+    <Compile Include="networking\packets\outgoing\Pic.cs" />
+    <Compile Include="networking\packets\outgoing\Ping.cs" />
+    <Compile Include="networking\packets\outgoing\PlaySound.cs" />
+    <Compile Include="networking\packets\outgoing\QuestObjId.cs" />
+    <Compile Include="networking\packets\outgoing\Reconnect.cs" />
+    <Compile Include="networking\packets\outgoing\ServerPlayerShoot.cs" />
+    <Compile Include="networking\packets\outgoing\ShowEffect.cs" />
+    <Compile Include="networking\packets\outgoing\Text.cs" />
+    <Compile Include="networking\packets\outgoing\TradeAccepted.cs" />
+    <Compile Include="networking\packets\outgoing\TradeChanged.cs" />
+    <Compile Include="networking\packets\outgoing\TradeDone.cs" />
+    <Compile Include="networking\packets\outgoing\TradeRequested.cs" />
+    <Compile Include="networking\packets\outgoing\TradeStart.cs" />
+    <Compile Include="networking\packets\outgoing\Update.cs" />
     <Compile Include="networking\packets\Packet.cs" />
     <Compile Include="networking\packets\PacketIds.cs" />
     <Compile Include="networking\RC4.cs" />
@@ -74,9 +241,70 @@
     <Compile Include="networking\server\SocketAsyncEventArgsPool.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="realm\ActivateBoost.cs" />
+    <Compile Include="realm\BaseStatManager.cs" />
+    <Compile Include="realm\BoostStatManager.cs" />
+    <Compile Include="realm\Collision.cs" />
+    <Compile Include="realm\ConnectionQueue.cs" />
+    <Compile Include="realm\ConnectManager.cs" />
     <Compile Include="realm\DbEvents.cs" />
+    <Compile Include="realm\entities\Character.cs" />
+    <Compile Include="realm\entities\ConnectedObject.cs" />
+    <Compile Include="realm\entities\Decoy.cs" />
+    <Compile Include="realm\entities\Enemy.cs" />
+    <Compile Include="realm\entities\GiftChest.cs" />
+    <Compile Include="realm\entities\GuildHallPortal.cs" />
+    <Compile Include="realm\entities\OneWayContainer.cs" />
+    <Compile Include="realm\entities\Placeholder.cs" />
+    <Compile Include="realm\entities\player\Player.AntiCheat.cs" />
+    <Compile Include="realm\entities\player\Player.Chat.cs" />
+    <Compile Include="realm\entities\player\Player.cs" />
+    <Compile Include="realm\entities\player\Player.Effects.cs" />
+    <Compile Include="realm\entities\player\Player.Ground.cs" />
+    <Compile Include="realm\entities\player\Player.KeepAlive.cs" />
+    <Compile Include="realm\entities\player\Player.Leveling.cs" />
+    <Compile Include="realm\entities\player\Player.Networking.cs" />
+    <Compile Include="realm\entities\player\Player.Projectiles.cs" />
+    <Compile Include="realm\entities\player\Player.Trade.cs" />
+    <Compile Include="realm\entities\player\Player.Update.cs" />
+    <Compile Include="realm\entities\player\Player.UseItem.cs" />
+    <Compile Include="realm\entities\Portal.cs" />
+    <Compile Include="realm\entities\Projectile.cs" />
+    <Compile Include="realm\entities\Sign.cs" />
+    <Compile Include="realm\entities\StaticObject.cs" />
+    <Compile Include="realm\entities\Trap.cs" />
+    <Compile Include="realm\entities\vendors\Merchant.cs" />
+    <Compile Include="realm\entities\Wall.cs" />
+    <Compile Include="realm\Entity.cs" />
+    <Compile Include="realm\FLLogicTicker.cs" />
+    <Compile Include="realm\Inventory.cs" />
     <Compile Include="realm\ISControl.cs" />
+    <Compile Include="realm\ItemStacker.cs" />
+    <Compile Include="realm\NetworkTicker.cs" />
+    <Compile Include="realm\Oryx.cs" />
+    <Compile Include="realm\PortalMonitor.cs" />
     <Compile Include="realm\RealmManager.cs" />
+    <Compile Include="realm\setpieces\ISetPiece.cs" />
+    <Compile Include="realm\Sight.cs" />
+    <Compile Include="realm\Stats.cs" />
+    <Compile Include="realm\StatsManager.cs" />
+    <Compile Include="realm\terrain\Json2Wmap.cs" />
+    <Compile Include="realm\terrain\JsonMapExporter.cs" />
+    <Compile Include="realm\terrain\TerrainTile.cs" />
+    <Compile Include="realm\terrain\Tile.cs" />
+    <Compile Include="realm\terrain\Wmap.cs" />
+    <Compile Include="realm\worlds\DungeonTemplates.cs" />
+    <Compile Include="realm\worlds\DynamicWorld.cs" />
+    <Compile Include="realm\worlds\logic\GuildHall.cs" />
+    <Compile Include="realm\worlds\logic\Realm.cs" />
+    <Compile Include="realm\worlds\logic\Test.cs" />
+    <Compile Include="realm\worlds\logic\Vault.cs" />
+    <Compile Include="realm\worlds\World.cs" />
+    <Compile Include="realm\WorldTimer.cs" />
+    <Compile Include="Structures.cs" />
+    <Compile Include="Utils.cs" />
+    <Compile Include="Vector2.cs" />
+    <Compile Include="wRandom.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\common\common.csproj">
@@ -87,11 +315,13 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="wServer.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="logic\db\" />
     <Folder Include="networking\handlers\" />
-    <Folder Include="realm\entities\" />
-    <Folder Include="realm\worlds\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

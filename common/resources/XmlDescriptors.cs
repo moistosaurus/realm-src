@@ -4,6 +4,18 @@ using System.Xml.Linq;
 
 namespace common.resources
 {
+    public enum ItemType
+    {
+        Weapon,
+        Ability,
+        Armor,
+        Ring,
+        Potion,
+        StatPot,
+        Other,
+        None
+    }
+
     public enum CurrencyType
     {
         Gold = 0,
@@ -25,7 +37,8 @@ namespace common.resources
         LowPlains,
         LowForest,
         ShoreSand,
-        ShorePlains
+        ShorePlains,
+        BeachTowels
     }
 
     public enum TileRegion
@@ -188,7 +201,7 @@ namespace common.resources
         public readonly bool Loot;
         public readonly int Size;
         public readonly bool Enemy;
-        public readonly int MaxHitPoints;
+        public readonly int MaxHP;
         public readonly int Defense;
         public readonly float XpMult;
         public readonly int MinSize;
@@ -210,6 +223,9 @@ namespace common.resources
         public readonly bool Oryx;
         public readonly bool Player;
         public readonly bool KeepDamageRecord;
+        public readonly bool Connects;
+        public readonly bool ProtectFromGroundDamage;
+        public readonly bool ProtectFromSink;
 
         public readonly TerrainType Terrain;
         public readonly float SpawnProb;
@@ -235,7 +251,7 @@ namespace common.resources
             Loot = e.HasElement("Loot");
             Size = e.GetValue<int>("Size", 100);
             Enemy = e.HasElement("Enemy");
-            MaxHitPoints = e.GetValue<int>("MaxHitPoints");
+            MaxHP = e.GetValue<int>("MaxHitPoints");
             Defense = e.GetValue<int>("Defense");
             XpMult = e.GetValue<float>("XpMult", 1.0f);
             if (e.HasElement("MinSize") && e.HasElement("MaxSize"))
@@ -264,6 +280,9 @@ namespace common.resources
             Oryx = e.HasElement("Oryx");
             Player = e.HasElement("Player");
             KeepDamageRecord = e.HasElement("KeepDamageRecord");
+            Connects = e.HasElement("Connects");
+            ProtectFromGroundDamage = e.HasElement("ProtectFromGroundDamage");
+            ProtectFromSink = e.HasElement("ProtectFromSink");
         }
     }
 
@@ -389,6 +408,7 @@ namespace common.resources
         public readonly ushort PlayerClassType;
         public readonly int UnlockLevel;
         public readonly int Cost;
+        public readonly int Size;
 
         public SkinDesc(ushort type, XElement e)
         {
@@ -397,12 +417,13 @@ namespace common.resources
             PlayerClassType = e.GetValue<ushort>("PlayerClassType");
             UnlockLevel = e.GetValue<int>("UnlockLevel");
             Cost = e.GetValue<int>("Cost", 500);
+            Size = e.GetValue<int>("Size", 100);
         }
     }
 
     public class Item
     {
-        public readonly ushort Type;
+        public readonly ushort ObjectType;
         public readonly string Id;
         public readonly string Class;
         public readonly string DisplayId;
@@ -438,7 +459,7 @@ namespace common.resources
 
         public Item(ushort type, XElement e)
         {
-            Type = type;
+            ObjectType = type;
             Id = e.GetAttribute<string>("id");
             Class = e.GetValue<string>("Class");
             DisplayId = e.GetValue<string>("DisplayId");
@@ -490,10 +511,11 @@ namespace common.resources
 
     public class ProjectileDesc
     {
+        public readonly string ObjectId;
         public readonly float Speed;
         public readonly int MinDamage;
         public readonly int MaxDamage;
-        public readonly float LifetimeMs;
+        public readonly float LifetimeMS;
         public readonly bool MultiHit;
         public readonly bool PassesCover;
         public readonly bool Parametric;
@@ -509,7 +531,8 @@ namespace common.resources
 
         public ProjectileDesc(XElement e)
         {
-            LifetimeMs = e.GetValue<float>("LifetimeMS");
+            ObjectId = e.GetValue<string>("ObjectId");
+            LifetimeMS = e.GetValue<float>("LifetimeMS");
             Speed = e.GetValue<float>("Speed", 100);
 
             var dmg = e.Element("Damage");
@@ -541,13 +564,14 @@ namespace common.resources
 
     public class ConditionEffect
     {
-        public readonly ConditionEffectIndex Effect;
-        public readonly float Duration;
+        public ConditionEffectIndex Effect;
+        public float DurationMS;
 
+        public ConditionEffect() { }
         public ConditionEffect(XElement e)
         {
             Effect = Utils.GetEffect(e.Value);
-            Duration = e.GetAttribute<float>("duration");
+            DurationMS = (int)(e.GetAttribute<float>("duration") * 1000.0f);
         }
     }
 
@@ -559,11 +583,12 @@ namespace common.resources
 
         public readonly int TotalDamage;
         public readonly float Radius;
-        public readonly float CondDuration;
-        public readonly float Duration;
+        public readonly float EffectDuration;
+        public readonly float DurationSec;
+        public readonly float DurationMS;
         public readonly int Amount;
         public readonly float Range;
-        public readonly float MaxDistance;
+        public readonly float MaximumDistance;
         public readonly string ObjectId;
         public readonly string Id;
         public readonly int MaxTargets;
@@ -592,13 +617,14 @@ namespace common.resources
 
             TotalDamage = e.GetAttribute<int>("totalDamage");
             Radius = e.GetAttribute<float>("radius");
-            CondDuration = e.GetAttribute<float>("condDuration");
-            Duration = e.GetAttribute<float>("duration");
+            EffectDuration = e.GetAttribute<float>("condDuration");
+            DurationSec = e.GetAttribute<float>("duration");
+            DurationMS = (int)(DurationMS * 1000.0f);
             Amount = e.GetAttribute<int>("amount");
             Range = e.GetAttribute<float>("range");
             ObjectId = e.GetAttribute<string>("objectId");
             Id = e.GetAttribute<string>("id");
-            MaxDistance = e.GetAttribute<float>("maxDistance");
+            MaximumDistance = e.GetAttribute<float>("maxDistance");
             MaxTargets = e.GetAttribute<int>("maxTargets");
             Stat = e.GetAttribute<int>("stat");
             Cooldown = e.GetAttribute<float>("cooldown");

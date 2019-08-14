@@ -73,7 +73,6 @@ namespace wServer.networking.packets
         CHANGEGUILDRANK = 40,
         PLAYSOUND = 44,
         GLOBAL_NOTIFICATION = 9,
-        RESKIN = 79,
-        FAMEPRICEMULTIPLIER = 80,
+        RESKIN = 79
     }
 }
