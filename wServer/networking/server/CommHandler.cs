@@ -253,6 +253,7 @@ namespace wServer.networking.server
             //    return;
 
             _pendings[(int)priority].Enqueue(pkt);
+            Console.WriteLine(pkt.GetType().ToString());
         }
 
         public void SendPackets(IEnumerable<Packet> pkts, PacketPriority priority)

@@ -434,7 +434,7 @@ namespace common.resources
     public class Item
     {
         public readonly ushort ObjectType;
-        public readonly string Id;
+        public readonly string ObjectId;
         public readonly string Class;
         public readonly string DisplayId;
         public readonly string DisplayName;
@@ -470,10 +470,10 @@ namespace common.resources
         public Item(ushort type, XElement e)
         {
             ObjectType = type;
-            Id = e.GetAttribute<string>("id");
+            ObjectId = e.GetAttribute<string>("id");
             Class = e.GetValue<string>("Class");
             DisplayId = e.GetValue<string>("DisplayId");
-            DisplayName = string.IsNullOrWhiteSpace(DisplayId) ? Id : DisplayId;
+            DisplayName = string.IsNullOrWhiteSpace(DisplayId) ? ObjectId : DisplayId;
             Tex1 = e.GetValue<int>("Tex1");
             Tex2 = e.GetValue<int>("Tex2");
             SlotType = e.GetValue<int>("SlotType");

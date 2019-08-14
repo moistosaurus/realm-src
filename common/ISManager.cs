@@ -112,7 +112,8 @@ namespace common
                     case NetworkCode.Join:
                         if (AddServer(e.InstanceId, e.Content.Info))
                         {
-                            Log.Info("{0} ({1}) joined the network.", e.Content.Info.name, e.InstanceId);
+                            Log.Info("{0} ({1}, {2}) joined the network.",
+                                e.Content.Info.name, e.Content.Info.type, e.InstanceId);
 
                             // make new server aware of this server
                             Publish(Channel.Network, new NetworkMsg()
@@ -131,13 +132,15 @@ namespace common
 
                     case NetworkCode.Ping:
                         if (!_servers.ContainsKey(e.InstanceId))
-                            Log.Info("{0} ({1}) re-joined the network.", e.Content.Info.name, e.InstanceId);
+                            Log.Info("{0} ({1}, {2}) re-joined the network.",
+                                e.Content.Info.name, e.Content.Info.type, e.InstanceId);
                         UpdateServer(e.InstanceId, e.Content.Info);
                         ServerPing?.Invoke(this, e);
                         break;
 
                     case NetworkCode.Quit:
-                        Log.Info("{0} ({1}) left the network.", e.Content.Info.name, e.InstanceId);
+                        Log.Info("{0} ({1}, {2}) left the network.",
+                            e.Content.Info.name, e.Content.Info.type, e.InstanceId);
                         RemoveServer(e.InstanceId);
                         ServerQuit?.Invoke(this, e);
                         break;

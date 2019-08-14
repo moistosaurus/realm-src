@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using wServer.networking;
+using wServer.networking.server;
 using wServer.realm;
 
 namespace wServer
@@ -34,8 +36,19 @@ namespace wServer
             using (Resources = new Resources(Config.serverSettings.resourceFolder, true))
             using (Database = new Database(Resources, Config))
             {
+                Config.serverInfo.instanceId = Guid.NewGuid().ToString();
+
                 var manager = new RealmManager(Resources, Database, Config);
                 manager.Run();
+
+                var policy = new PolicyServer();
+                policy.Start();
+
+                var server = new Server(manager,
+                    Config.serverInfo.port,
+                    Config.serverSettings.maxConnections,
+                    StringUtils.StringToByteArray(Config.serverSettings.key));
+                server.Start();
 
                 Console.CancelKeyPress += delegate
                 {
@@ -44,6 +57,10 @@ namespace wServer
 
                 Shutdown.WaitOne();
                 Log.Info("Terminating...");
+                manager.Stop();
+                server.Stop();
+                policy.Stop();
+                Log.Info("Server terminated.");
             }
         }
 

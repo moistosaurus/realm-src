@@ -268,15 +268,25 @@ namespace common
             dateTime = dateTime.AddSeconds(time).ToLocalTime();
             return dateTime;
         }
+    }
 
+    public static class StringUtils
+    {
         public static bool ContainsIgnoreCase(this string self, string val)
         {
             return self.IndexOf(val, StringComparison.InvariantCultureIgnoreCase) != -1;
         }
-
         public static bool EqualsIgnoreCase(this string self, string val)
         {
             return self.Equals(val, StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        public static byte[] StringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
         }
     }
 }

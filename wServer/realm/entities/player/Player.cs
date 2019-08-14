@@ -189,7 +189,7 @@ namespace wServer.realm.entities
         protected override void ExportStats(IDictionary<StatsType, object> stats)
         {
             base.ExportStats(stats);
-            stats[StatsType.AccountId] = AccountId.ToString();
+            stats[StatsType.AccountId] = AccountId;
             stats[StatsType.Experience] = Experience - GetLevelExp(Level);
             stats[StatsType.ExperienceGoal] = ExperienceGoal;
             stats[StatsType.Level] = Level;

@@ -43,6 +43,7 @@ namespace server
             {
                 RequestHandlers.Initialize(Resources);
 
+                Config.serverInfo.instanceId = Guid.NewGuid().ToString();
                 ISManager = new ISManager(Database, Config);
                 ISManager.Run();
                 ChatManager = new ChatManager(ISManager);

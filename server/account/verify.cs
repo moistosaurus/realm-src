@@ -16,7 +16,6 @@ namespace server.account
     {
         public override void HandleRequest(RequestContext context, NameValueCollection query)
         {
-            Console.WriteLine("verify/" + query["guid"] + ":" + query["password"]);
             DbAccount acc;
             var status = Database.Verify(query["guid"], query["password"], out acc);
             if (status == LoginStatus.OK)
