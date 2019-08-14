@@ -219,7 +219,7 @@ namespace wServer.realm
             }
 
             if (world is Test &&
-                !(world as Test).JsonLoaded && acc.Admin)
+                !(world as Test).JsonLoaded && !acc.Admin)
             {
                 client.SendFailure("Only players with admin permissions can make test maps.",
                     Failure.MessageWithDisconnect);

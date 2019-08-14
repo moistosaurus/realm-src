@@ -50,13 +50,19 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [ ] Make it possible to control char slot currency through server (XML tag)
 - [x] Make XML configs nicer to work with
 - [ ] Remove potion purchasing completely
-- [ ] Remove zombification (including everything todo with it)
+- [x] Remove zombification (including everything todo with it)
 - [ ] Bring back ammys
 - [x] Remove clean text (if you can't take the heat, leave the kitchen)
 - [x] Fix item tooltips
 - [x] Fix weird merchant purchasing in the 7.0 client (buttons for both gold and fame)
 - [x] Fix chat & speech bubbles (???)
 - [ ] Make dialogs/result packets nicer to work with (e.g. merchant dialogs)
+- [ ] Add all AEs
+- [x] Fix legends (/fame/list)
+- [ ] Update new char slot cost properly
+- [ ] Add graveyard (7.0 doesn't have anything to look at graveyard, lulwut)
+- [ ] Fix up connecting bugs and add queue packets
+- [ ] Fix map editor testing & visual bugs
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 

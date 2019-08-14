@@ -36,8 +36,8 @@ namespace wServer.realm.worlds
         public const int Nexus = -2;
         public const int NexusExplanation = -3;
         public const int Vault = -4;
-        public const int Test = -5;
-        public const int GuildHall = -6;
+        public const int Test = -6;
+        public const int GuildHall = -7;
 
         private RealmManager _manager;
         public RealmManager Manager

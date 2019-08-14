@@ -774,10 +774,9 @@ namespace wServer.realm.entities
 
             _client.SendPacket(new Death()
             {
-                AccountId = AccountId.ToString(),
+                AccountId = AccountId,
                 CharId = _client.Character.CharId,
-                KilledBy = killer,
-                ZombieId = -1
+                KilledBy = killer
             });
 
             Owner.Timers.Add(new WorldTimer(1000, (w, t) =>
