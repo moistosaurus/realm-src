@@ -80,7 +80,7 @@ namespace wServer.logic.loot
         public void Handle(Enemy enemy, RealmTime time)
         {
             // enemies that shouldn't drop loot
-            if (enemy.Spawned || enemy.Owner is Arena || enemy.Owner is ArenaSolo)
+            if (enemy.Spawned)
             {
                 return;
             }
@@ -194,11 +194,6 @@ namespace wServer.logic.loot
             if (owners.Count() == 1 && owners[0].LDBoostTime > 0)
             {
                 boosted = true;
-            }
-
-            if (enemy.ObjectDesc.TrollWhiteBag)
-            {
-                bagType = 8;
             }
 
             foreach (var i in loots)

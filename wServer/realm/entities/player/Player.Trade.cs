@@ -42,7 +42,7 @@ namespace wServer.realm.entities
             }
 
             var target = Owner.GetUniqueNamedPlayer(name);
-            if (target == null || !target.CanBeSeenBy(this))
+            if (target == null)
             {
                 SendError(name + " not found!");
                 return;

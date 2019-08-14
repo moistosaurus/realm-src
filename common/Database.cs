@@ -73,7 +73,7 @@ namespace common
 
         public DbAccount CreateGuestAccount(string uuid)
         {
-            var newAccounts = _config.appSettings.NewAccounts;
+            var newAccounts = _resources.Settings.NewAccounts;
 
             var acnt = new DbAccount(_db, 0)
             {
@@ -133,13 +133,13 @@ namespace common
 
             // make sure account has all classes if they are supposed to
             var stats = new DbClassStats(acc);
-            if (_config.appSettings.NewAccounts.ClassesUnlocked)
+            if (_resources.Settings.NewAccounts.ClassesUnlocked)
                 foreach (var @class in _resources.GameData.Classes.Keys)
                     stats.Unlock(@class);
             stats.FlushAsync();
 
             // make sure account has all skins if they are supposed to
-            if (_config.appSettings.NewAccounts.SkinsUnlocked)
+            if (_resources.Settings.NewAccounts.SkinsUnlocked)
             {
                 acc.Skins = (from skin in _resources.GameData.Skins.Values
                              select skin.Type).ToArray();
@@ -314,7 +314,7 @@ namespace common
 
         public RegisterStatus Register(string uuid, string password, bool isGuest, out DbAccount acc)
         {
-            var newAccounts = _config.appSettings.NewAccounts;
+            var newAccounts = _resources.Settings.NewAccounts;
 
             acc = null;
             if (!_db.HashSet("logins", uuid.ToUpperInvariant(), "{}", When.NotExists))
@@ -886,7 +886,7 @@ namespace common
 
             var newId = (int)_db.HashIncrement(acc.Key, "nextCharId");
 
-            var newCharacters = _config.appSettings.NewCharacters;
+            var newCharacters = _resources.Settings.NewCharacters;
             character = new DbChar(acc, newId)
             {
                 ObjectType = type,

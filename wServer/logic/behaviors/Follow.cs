@@ -50,9 +50,9 @@ namespace wServer.logic.behaviors
             if (host.HasConditionEffect(ConditionEffects.Paralyzed))
                 return;
 
-            var pet = host as Pet;
-            if (pet != null)
-                host.AttackTarget = pet.PlayerOwner;
+            //var pet = host as Pet;
+            //if (pet != null)
+            //    host.AttackTarget = pet.PlayerOwner;
 
             var player = host.AttackTarget ?? host.GetNearestEntity(acquireRange, null);
 

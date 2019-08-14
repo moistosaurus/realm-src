@@ -14,9 +14,6 @@ namespace wServer.realm.entities
         {
             try
             {
-                // don't suffocate hidden players
-                if (HasConditionEffect(ConditionEffects.Hidden)) return;
-
                 if (time.TotalElapsedMs - l <= 100 || Owner?.Name != "OceanTrench") return;
 
                 if (!(Owner?.StaticObjects.Where(i => i.Value.ObjectType == 0x0731).Count(i => (X - i.Value.X) * (X - i.Value.X) + (Y - i.Value.Y) * (Y - i.Value.Y) < 1) > 0))

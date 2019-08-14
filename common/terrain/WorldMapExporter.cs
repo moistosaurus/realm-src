@@ -7,7 +7,7 @@ using Ionic.Zlib;
 
 namespace terrain
 {
-    class WorldMapExporter
+    public class WorldMapExporter
     {
         public static void Export(TerrainTile[,] tiles, string path)
         {

@@ -7,6 +7,7 @@ using Ionic.Zlib;
 using System.IO;
 using common;
 using common.resources;
+using wServer.realm.terrain;
 
 namespace terrain
 {

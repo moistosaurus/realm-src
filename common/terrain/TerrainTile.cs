@@ -6,7 +6,7 @@ using System.Text;
 
 namespace terrain
 {
-    struct TerrainTile : IEquatable<TerrainTile>
+    public struct TerrainTile : IEquatable<TerrainTile>
     {
         public int PolygonId;
         public byte Elevation;

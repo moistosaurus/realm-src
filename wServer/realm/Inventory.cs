@@ -181,7 +181,7 @@ namespace wServer.realm
         public int Length => _items.Length;
 
         public Inventory(IContainer parent)
-            : this(parent, new Item[Program.Resources.Settings.InventorySize])
+            : this(parent, new Item[20])
         {
         }
 

@@ -36,19 +36,19 @@ namespace wServer.networking
             // send ping
             _pingTime = time.TotalElapsedMs;
             _serial = (int)_pingTime;
-            SendPacket(new QueuePing()
-            {
-                Serial = _serial,
-                Position = position,
-                Count = count
-            });
+            //SendPacket(new QueuePing()
+            //{
+            //    Serial = _serial,
+            //    Position = position,
+            //    Count = count
+            //});
             return true;
         }
 
-        public void Pong(RealmTime time, QueuePong pongPkt)
-        {
-            if (pongPkt.Serial == _serial)
-                _pongTime = time.TotalElapsedMs;
-        }
+        //public void Pong(RealmTime time, QueuePong pongPkt)
+        //{
+        //    if (pongPkt.Serial == _serial)
+        //        _pongTime = time.TotalElapsedMs;
+        //}
     }
 }

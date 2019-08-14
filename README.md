@@ -43,6 +43,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Remove useless data from requests (platforms etc.)
 - [x] Remove Steam, Kong. and other platforms that are not needed here
 - [x] Remove map loading in the background of main menu (it takes a lot of processing power (20% CPU AFK???))
+- [ ] Fix /char/list requesting before /account/verify??? (hello?)
 - [ ] Connect wServer to server (inter server)
 - [ ] Get in game (includes a lot of stuff, mainly C + P from other sources, will rewrite things later)...
 - [ ] Optimize client (caching, rendering)

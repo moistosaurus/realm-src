@@ -26,20 +26,6 @@ namespace wServer.realm.worlds.logic
             {
                 _client = client;
                 AccountId = _client.Account.AccountId;
-                ExtraXML = ExtraXML.Concat(new[]
-                {
-                    @"	<Objects>
-		                    <Object type=""0x0504"" id=""Vault Chest"">
-			                    <Class>Container</Class>
-			                    <Container/>
-			                    <CanPutNormalObjects/>
-			                    <CanPutSoulboundObjects/>
-			                    <ShowName/>
-			                    <Texture><File>lofiObj2</File><Index>0x0e</Index></Texture>
-			                    <SlotTypes>0, 0, 0, 0, 0, 0, 0, 0</SlotTypes>
-		                    </Object>
-	                    </Objects>"
-                }).ToArray();
                 vaults = new LinkedList<Container>();
             }
         }
@@ -146,23 +132,6 @@ namespace wServer.realm.worlds.logic
 
         public override void Tick(RealmTime time)
         {
-            if (vaults != null && vaults.Count > 0)
-            {
-                foreach (var vault in vaults)
-                {
-                    if (vault?.Inventory == null) continue;
-
-                    string items = vault.Inventory.Where(i => i != null).Count() + "/8";
-
-                    if (!items.Equals(vault.Name))
-                    {
-                        vault.Name = items;
-                    }
-                }
-            }
-
-
-
             base.Tick(time);
         }
 

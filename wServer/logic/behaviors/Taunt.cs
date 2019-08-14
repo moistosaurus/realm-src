@@ -124,8 +124,7 @@ namespace wServer.logic.behaviors
                 NumStars = -1,
                 BubbleTime = 3,
                 Recipient = "",
-                Txt = taunt,
-                CleanText = ""
+                Txt = taunt
             };
             if (broadcast)
                 host.Owner.BroadcastPacket(packet, null, PacketPriority.Low);

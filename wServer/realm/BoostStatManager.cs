@@ -36,7 +36,6 @@ namespace wServer.realm
                 _boost[i] = 0;
 
             ApplyEquipBonus(e);
-            ApplySetBonus(e);
             ApplyActivateBonus(e);
 
             for (var i = 0; i < _boost.Length; i++)
@@ -52,70 +51,6 @@ namespace wServer.realm
 
                 foreach (var b in _player.Inventory[i].StatsBoost)
                     IncrementBoost((StatsType)b.Key, b.Value);
-            }
-        }
-
-        private void ApplySetBonus(InventoryChangedEventArgs e)
-        {
-            var gameData = _player.Manager.Resources.GameData;
-            foreach (var equipSet in gameData.EquipmentSets.Values)
-            {
-                var setEquipped = equipSet.Setpieces
-                    .Where(piece => piece.Type.Equals("Equipment"))
-                    .All(piece => (_player.Inventory[piece.Slot] == null && piece.ItemType == 0xFFFF) ||
-                                  (_player.Inventory[piece.Slot] != null &&
-                                        _player.Inventory[piece.Slot].ObjectType == piece.ItemType));
-
-                if (setEquipped)
-                {
-                    // apply bonus
-                    foreach (var ae in equipSet.ActivateOnEquipAll)
-                    {
-                        switch (ae.Effect)
-                        {
-                            case ActivateEffects.ChangeSkin:
-                                _player.Skin = ae.SkinType;
-                                _player.Size = ae.Size;
-                                break;
-                            case ActivateEffects.IncrementStat:
-                                IncrementBoost((StatsType)ae.Stats, ae.Amount);
-                                break;
-                            case ActivateEffects.FixedStat:
-                                FixedStat((StatsType)ae.Stats, ae.Amount);
-                                break;
-                            case ActivateEffects.ConditionEffectSelf:
-                                _player.ApplyConditionEffect(ae.ConditionEffect.Value);
-                                break;
-                        }
-                    }
-                    return;
-                }
-
-                if (e == null)
-                    continue;
-
-                var setRemoved = equipSet.Setpieces
-                    .Where(piece => piece.Type.Equals("Equipment"))
-                    .All(piece => (e.OldItems[piece.Slot] == null && piece.ItemType == 0xFFFF) ||
-                                  (e.OldItems[piece.Slot] != null && e.OldItems[piece.Slot].ObjectType == piece.ItemType));
-
-                if (setRemoved)
-                {
-                    foreach (var ae in equipSet.ActivateOnEquipAll)
-                    {
-                        // remove changes
-                        switch (ae.Effect)
-                        {
-                            case ActivateEffects.ChangeSkin:
-                                _player.RestoreDefaultSkin();
-                                _player.RestoreDefaultSize();
-                                break;
-                            case ActivateEffects.ConditionEffectSelf:
-                                _player.ApplyConditionEffect(ae.ConditionEffect.Value, 0);
-                                break;
-                        }
-                    }
-                }
             }
         }
 

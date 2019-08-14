@@ -13,6 +13,7 @@ using wServer.networking.packets.outgoing;
 using wServer.networking.server;
 using wServer.realm;
 using wServer.realm.entities;
+using wServer.realm.worlds.logic;
 
 namespace wServer.networking
 {
@@ -189,14 +190,18 @@ namespace wServer.networking
         {
             SendPacket(new Failure()
             {
-                ErrorId = Failure.MessageWithDisconnect,
+                ErrorId = errorId,
                 ErrorDescription = text
             });
 
-            var t = Task.Delay(1000);
-            await t;
 
-            Disconnect();
+            if (errorId == Failure.MessageWithDisconnect)
+            {
+                var t = Task.Delay(1000);
+                await t;
+
+                Disconnect();
+            }
         }
 
         public void Disconnect(string reason = "")
@@ -239,8 +244,7 @@ namespace wServer.networking
             }
 
             Player.SaveToCharacter();
-            if (!acc.Hidden && acc.AccountIdOverrider == 0)
-                acc.RefreshLastSeen();
+            acc.RefreshLastSeen();
             acc.FlushAsync();
             Manager.Database.SaveCharacter(acc, Character, Player.FameCounter.ClassStats, true)
                 .ContinueWith(t => Manager.Database.ReleaseLock(acc));

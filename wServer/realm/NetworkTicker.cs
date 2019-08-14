@@ -3,6 +3,7 @@ using System;
 using System.Collections.Concurrent;
 using wServer.networking;
 using wServer.networking.packets;
+using wServer.networking.packets.outgoing;
 
 namespace wServer.realm
 {
@@ -44,12 +45,11 @@ namespace wServer.realm
                 }
                 catch (Exception e)
                 {
-                    Log.ErrorFormat("Error processing packet ({0}, {1}, {2})\n{3}",
+                    Log.Error("Error processing packet ({0}, {1}, {2})\n{3}",
                         (pending.Item1.Account != null) ? pending.Item1.Account.Name : "",
                         pending.Item1.IP, pending.Item2, e);
 
-                    pending.Item1.SendFailureDialog("Network Read Error",
-                        "An error occurred while processing data from your client.");
+                    pending.Item1.SendFailure("An error occurred while processing data from your client.", Failure.MessageWithDisconnect);
                 }
             }
             Log.Info("Network loop stopped.");

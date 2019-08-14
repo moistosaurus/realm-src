@@ -7,15 +7,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Anna.Request;
+using common;
 using common.resources;
 
 namespace server.app
 {
     class globalNews : RequestHandler
     {
+        private static byte[] _data;
+
+        public override void InitHandler(Resources resources)
+        {
+            string data = Utils.Read(resources.ResourcePath + "/data/globalNews.json");
+            _data = Encoding.UTF8.GetBytes(data);
+        }
+
         public override void HandleRequest(RequestContext context, NameValueCollection query)
         {
-            Write(context, Program.Resources.WebFiles["/globalNews.json"]);
+            Write(context, _data);
         }
     }
 }

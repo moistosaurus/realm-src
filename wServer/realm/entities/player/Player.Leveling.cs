@@ -188,7 +188,7 @@ namespace wServer.realm.entities
 
                 if ((Level >= x.Item2 && Level <= x.Item3))
                 {
-                    var score = (20 - Math.Abs((i.ObjectDesc.Level ?? 0) - Level)) * x.Item1 -   //priority * level diff
+                    var score = (20 - Math.Abs(i.ObjectDesc.Level - Level)) * x.Item1 -   //priority * level diff
                             this.Dist(i) / 100;    //minus 1 for every 100 tile distance
                     if (bestScore == null || score > bestScore)
                     {

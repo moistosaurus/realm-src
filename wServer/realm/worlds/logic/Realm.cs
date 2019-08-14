@@ -11,7 +11,7 @@ namespace wServer.realm.worlds.logic
 {
     public class Realm : World
     {
-        static readonly Logger Log = LogManager.GetLogger(typeof(Realm));
+        static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         private Oryx _overseer;
 

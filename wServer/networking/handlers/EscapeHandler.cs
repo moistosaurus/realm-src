@@ -33,8 +33,7 @@ namespace wServer.networking.handlers
                 Host = "",
                 Port = 2050,
                 GameId = World.Nexus,
-                Name = "Nexus",
-                IsFromArena = false //map.Name.Equals("Arena")
+                Name = "Nexus"
             });
         }
     }

@@ -45,13 +45,13 @@ namespace common.resources
     {
         None = 0,
         Spawn = 1,
-        RealmPortals = 2,
-        Store1 = 3,
-        Store2 = 4,
-        Store3 = 5,
-        Store4 = 6,
-        Store5 = 7,
-        Store6 = 8,
+        Realm_Portals = 2,
+        Store_1 = 3,
+        Store_2 = 4,
+        Store_3 = 5,
+        Store_4 = 6,
+        Store_5 = 7,
+        Store_6 = 8,
         Vault = 9,
         Loot = 10,
         Defender = 11,
@@ -60,25 +60,25 @@ namespace common.resources
         Hallway1 = 14,
         Hallway2 = 15,
         Hallway3 = 16,
-        Store7 = 17,
-        Store8 = 18,
-        Store9 = 19,
-        GiftingChest = 20,
-        Store10 = 21,
-        Store11 = 22,
-        Store12 = 23,
-        Store13 = 24,
-        Store14 = 26,
-        Store15 = 27,
-        Store16 = 28,
-        Store17 = 29,
-        Store18 = 30,
-        Store19 = 31,
-        Store20 = 32,
-        Store21 = 33,
-        Store22 = 34,
-        Store23 = 35,
-        Store24 = 36
+        Store_7 = 17,
+        Store_8 = 18,
+        Store_9 = 19,
+        Gifting_Chest = 20,
+        Store_10 = 21,
+        Store_11 = 22,
+        Store_12 = 23,
+        Store_13 = 24,
+        Store_14 = 26,
+        Store_15 = 27,
+        Store_16 = 28,
+        Store_17 = 29,
+        Store_18 = 30,
+        Store_19 = 31,
+        Store_20 = 32,
+        Store_21 = 33,
+        Store_22 = 34,
+        Store_23 = 35,
+        Store_24 = 36
     }
 
     public enum ActivateEffects
@@ -227,6 +227,7 @@ namespace common.resources
         public readonly bool ProtectFromGroundDamage;
         public readonly bool ProtectFromSink;
         public readonly bool Character;
+        public readonly ProjectileDesc[] Projectiles;
 
         public readonly TerrainType Terrain;
         public readonly float SpawnProb;
@@ -285,6 +286,11 @@ namespace common.resources
             Connects = e.HasElement("Connects");
             ProtectFromGroundDamage = e.HasElement("ProtectFromGroundDamage");
             ProtectFromSink = e.HasElement("ProtectFromSink");
+
+            var projs = new List<ProjectileDesc>();
+            foreach (var i in e.Elements("Projectile"))
+                projs.Add(new ProjectileDesc(i));
+            Projectiles = projs.ToArray();
         }
     }
 
@@ -308,13 +314,15 @@ namespace common.resources
     {
         public readonly string DungeonName;
         public readonly bool IntergamePortal;
-        public readonly bool LockedPortal;
+        public readonly bool Locked;
+        public readonly int Timeout;
 
         public PortalDesc(ushort type, XElement e) : base(type, e)
         {
             DungeonName = e.GetValue<string>("DungeonName");
             IntergamePortal = e.HasElement("IntergamePortal");
-            LockedPortal = e.HasElement("LockedPortal");
+            Locked = e.HasElement("LockedPortal");
+            Timeout = e.GetValue<int>("Timeout", 30);
         }
     }
 
@@ -513,6 +521,7 @@ namespace common.resources
 
     public class ProjectileDesc
     {
+        public readonly int BulletType;
         public readonly string ObjectId;
         public readonly float Speed;
         public readonly int MinDamage;
@@ -533,6 +542,7 @@ namespace common.resources
 
         public ProjectileDesc(XElement e)
         {
+            BulletType = e.GetAttribute<int>("id");
             ObjectId = e.GetValue<string>("ObjectId");
             LifetimeMS = e.GetValue<float>("LifetimeMS");
             Speed = e.GetValue<float>("Speed", 100);
@@ -587,7 +597,7 @@ namespace common.resources
         public readonly float Radius;
         public readonly float EffectDuration;
         public readonly float DurationSec;
-        public readonly float DurationMS;
+        public readonly int DurationMS;
         public readonly int Amount;
         public readonly float Range;
         public readonly float MaximumDistance;

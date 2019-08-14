@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using Anna.Request;
 using common;
@@ -12,11 +13,14 @@ namespace server.@char
             var ret = new List<ServerItem>();
             foreach (var server in Program.ISManager.GetServerList())
             {
+                if (server.type != ServerType.World)
+                    continue;
+
                 ret.Add(new ServerItem()
                 {
                     Name = server.name,
-                    Lat = server.latitude,
-                    Long = server.longitude,
+                    Lat = server.coordinates.latitude,
+                    Long = server.coordinates.longitude,
                     Port = server.port,
                     DNS = server.address,
                     Usage = server.players / (float)server.maxPlayers,
@@ -28,6 +32,7 @@ namespace server.@char
 
         public override void HandleRequest(RequestContext context, NameValueCollection query)
         {
+            Console.WriteLine("list/" + query["guid"] + ":" + query["password"]);
             DbAccount acc;
             var status = Database.Verify(query["guid"], query["password"], out acc);
             if (status == LoginStatus.OK || status == LoginStatus.AccountNotExists)

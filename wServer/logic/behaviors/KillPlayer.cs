@@ -37,8 +37,7 @@ namespace wServer.logic.behaviors
             {
                 // death strike
                 if (_killAll)
-                    foreach (var plr in host.Owner.Players.Values
-                        .Where(p => !p.HasConditionEffect(ConditionEffects.Hidden)))
+                    foreach (var plr in host.Owner.Players.Values)
                     {
                         Kill(host, plr);
                     }
@@ -55,8 +54,7 @@ namespace wServer.logic.behaviors
                         NumStars = -1,
                         BubbleTime = 3,
                         Recipient = "",
-                        Txt = _killMessage,
-                        CleanText = ""
+                        Txt = _killMessage
                     };
                     foreach (var i in host.Owner.PlayersCollision.HitTest(host.X, host.Y, 15).Where(e => e is Player))
                     {

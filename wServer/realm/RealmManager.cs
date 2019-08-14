@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using wServer.logic;
 using wServer.networking;
 using wServer.realm.commands;
+using wServer.realm.entities.vendors;
 using wServer.realm.worlds;
 using wServer.realm.worlds.logic;
 
@@ -83,11 +84,43 @@ namespace wServer.realm
             TPS = config.serverSettings.tps;
             InstanceId = config.serverInfo.instanceId;
 
+            // all these deal with db pub/sub... probably should put more thought into their structure...
             InterServer = new ISManager(Database, config);
             ISControl = new ISControl(this);
-            //Chat = new ChatManager(this);
-            //DbServerController = new DbServerManager(this);
+            Chat = new ChatManager(this);
+            DbServerController = new DbServerManager(this); // probably could integrate this with ChatManager and rename...
             DbEvents = new DbEvents(this);
+
+            // basic server necessities
+            ConMan = new ConnectManager(this,
+                config.serverSettings.maxPlayers,
+                config.serverSettings.maxPlayersWithPriority);
+            Behaviors = new BehaviorDb(this);
+            Commands = new CommandManager(this);
+
+            // some necessities that shouldn't be (will work this out later)
+            MerchantLists.Init(this);
+
+            InitializeNexusHub();
+            AddWorld("Realm");
+
+            // add portal monitor to nexus and initialize worlds
+            if (Worlds.ContainsKey(World.Nexus))
+                Monitor = new PortalMonitor(this, Worlds[World.Nexus]);
+            foreach (var world in Worlds.Values)
+                OnWorldAdded(world);
+
+            _initialized = true;
+
+            Log.Info("Realm Manager initialized.");
+        }
+
+        private void InitializeNexusHub()
+        {
+            // load world data
+            foreach (var wData in Resources.Worlds.Data.Values)
+                if (wData.id < 0)
+                    AddWorld(wData);
         }
 
         public void Run()

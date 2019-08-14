@@ -89,11 +89,11 @@ namespace wServer.realm
             }
 
             // send server full
-            conInfo.Client.SendPacket(new ServerFull()
-            {
-                Position = position,
-                Count = _queue.Count
-            });
+            //conInfo.Client.SendPacket(new ServerFull()
+            //{
+            //    Position = position,
+            //    Count = _queue.Count
+            //});
         }
 
         public void AddReconnect(int accountId, Reconnect rcp)

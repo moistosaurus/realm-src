@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using common.resources;
+using NLog;
 using wServer.realm.terrain;
-using log4net;
 using wServer.realm.worlds;
 
 namespace wServer.realm.setpieces
 {
     partial class SetPieces
     {
-        static ILog log = LogManager.GetLogger(typeof(SetPieces));
+        static Logger log = LogManager.GetCurrentClassLogger();
 
         struct Rect
         {
@@ -47,8 +47,6 @@ namespace wServer.realm.setpieces
             SetPiece(new Oasis(), 0, 5, TerrainType.LowSand, TerrainType.MidSand),
             SetPiece(new Pyre(), 0, 5, TerrainType.MidSand, TerrainType.HighSand),
             SetPiece(new LavaFissure(), 3, 5, TerrainType.Mountains),
-            SetPiece(new LuckyDjinn(), 1, 1, TerrainType.Mountains),
-            SetPiece(new LuckyEnt(), 1, 1, TerrainType.Mountains),
             SetPiece(new Crystal(), 1, 1, TerrainType.Mountains),
             SetPiece(new KageKami(), 2, 3, TerrainType.HighForest, TerrainType.HighPlains)
         };
@@ -96,7 +94,7 @@ namespace wServer.realm.setpieces
 
         public static void ApplySetPieces(World world)
         {
-            log.InfoFormat("Applying set pieces to world {0}({1}).", world.Id, world.Name);
+            log.Info("Applying set pieces to world {0}({1}).", world.Id, world.Name);
 
             var map = world.Map;
             int w = map.Width, h = map.Height;

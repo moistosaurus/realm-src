@@ -345,15 +345,14 @@ namespace wServer.realm.entities
                     (DbLink as DbCharInv).Items
                         .Select(_ => (_ == 0xffff || !gameData.Items.ContainsKey(_)) ? null : gameData.Items[_])
                         .ToArray(),
-                    settings.InventorySize)
-                );
+                    20));
             if (!saveInventory)
                 DbLink = null;
 
             Inventory.InventoryChanged += (sender, e) => Stats.ReCalculateValues(e);
             SlotTypes = Utils.ResizeArray(
                 gameData.Classes[ObjectType].SlotTypes,
-                settings.InventorySize);
+                20);
             Stats = new StatsManager(this);
 
             Manager.Database.IsMuted(client.IP)
@@ -748,48 +747,10 @@ namespace wServer.realm.entities
                 "{{\"key\":\"{{server.deathStats}}\",\"tokens\":{{\"player\":\"{0}\",\"level\":\"{1}\",\"fame\":\"{2}\",\"maxed\":\"{3}\",\"enemy\":\"{4}\"}}}}",
                 Name, Level, _client.Character.FinalFame, maxed, killer);
 
-            // notable deaths
-            if ((maxed >= 6 || Fame >= 1000) && !Client.Account.Admin)
+            foreach (var i in Owner.Players.Values)
             {
-                foreach (var w in Manager.Worlds.Values)
-                    foreach (var p in w.Players.Values)
-                        p.SendHelp(deathMessage);
-                return;
+                i.SendInfo(deathMessage);
             }
-
-            var pGuild = Client.Account.GuildId;
-
-            // guild case, only for level 20
-            if (pGuild > 0 && Level == 20)
-            {
-                foreach (var w in Manager.Worlds.Values)
-                {
-                    foreach (var p in w.Players.Values)
-                    {
-                        if (p.Client.Account.GuildId == pGuild)
-                        {
-                            p.SendGuildDeath(deathMessage);
-                        }
-                    }
-                }
-
-                foreach (var i in Owner.Players.Values)
-                {
-                    if (i.Client.Account.GuildId != pGuild)
-                    {
-                        i.SendInfo(deathMessage);
-                    }
-                }
-            }
-            // guild less case
-            else
-            {
-                foreach (var i in Owner.Players.Values)
-                {
-                    i.SendInfo(deathMessage);
-                }
-            }
-
         }
 
         public void Death(string killer, Entity entity = null, WmapTile tile = null, bool rekt = false)
@@ -903,6 +864,17 @@ namespace wServer.realm.entities
         {
             base.Dispose();
             _clientEntities.Dispose();
+        }
+
+        public void SetDefaultSkin(int skin)
+        {
+            _originalSkin = skin;
+            Skin = skin;
+        }
+
+        public void RestoreDefaultSkin()
+        {
+            Skin = _originalSkin;
         }
 
         public void DropNextRandom()

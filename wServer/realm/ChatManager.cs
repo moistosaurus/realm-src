@@ -10,8 +10,6 @@ namespace wServer.realm
 {
     public class ChatManager : IDisposable
     {
-        private static readonly string[] exclusiveEmotes = { ":whitebag:", ":bluebag:", ":cyanbag:", ":rip:", ":pbag:" };
-
         static Logger log = LogManager.GetCurrentClassLogger();
 
         RealmManager manager;

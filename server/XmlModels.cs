@@ -295,7 +295,7 @@ namespace server
                 FirstDeath = acc.FirstDeath,
 
                 Credits = acc.Credits,
-                NextCharSlotPrice = Program.Config.appSettings.NewAccounts.GetPrice(acc.MaxCharSlot),
+                NextCharSlotPrice = Program.Resources.Settings.NewAccounts.GetPrice(acc.MaxCharSlot),
 
                 Vault = Vault.FromDb(acc, new DbVault(acc)),
                 Stats = Stats.FromDb(acc, new DbClassStats(acc)),

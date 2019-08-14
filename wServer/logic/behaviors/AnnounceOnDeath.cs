@@ -25,7 +25,7 @@ namespace wServer.logic.behaviors
 
                 var owner = e.Host.Owner;
                 var players = owner.Players.Values
-                    .Where(p => p.Client != null && p.Admin == 0)
+                    .Where(p => p.Client != null)
                     .ToArray();
 
                 var sb = new StringBuilder();
@@ -37,7 +37,7 @@ namespace wServer.logic.behaviors
                 }
 
                 var playerList = sb.ToString();
-                var playerCount = owner.Players.Values.Count(p => p.Client != null && p.Admin == 0).ToString();
+                var playerCount = owner.Players.Values.Count(p => p.Client != null).ToString();
 
                 var announcement = _message.Replace(PLAYER_COUNT, playerCount).Replace(PLAYER_LIST, playerList);
 

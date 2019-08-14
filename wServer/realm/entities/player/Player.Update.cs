@@ -196,9 +196,6 @@ namespace wServer.realm.entities
                 if (i.Owner == null)
                     yield return i.Id;
 
-                if (i != this && !i.CanBeSeenBy(this))
-                    yield return i.Id;
-
                 var so = i as StaticObject;
                 if (so != null && so.Static)
                 {
@@ -208,7 +205,7 @@ namespace wServer.realm.entities
                 }
 
                 if (i is Player ||
-                    i == questEntity || i == SpectateTarget || /*(i is StaticObject && (i as StaticObject).Static) ||*/
+                    i == questEntity || /*(i is StaticObject && (i as StaticObject).Static) ||*/
                     visibleTiles.Contains(new IntPoint((int)i.X, (int)i.Y)))
                     continue;
 
@@ -223,11 +220,11 @@ namespace wServer.realm.entities
                 _clientEntities.Remove(entity);
 
             foreach (var i in Owner.Players)
-                if ((i.Value == this || (i.Value.Client.Account != null && i.Value.Client.Player.CanBeSeenBy(this))) && _clientEntities.Add(i.Value))
+                if ((i.Value == this || (i.Value.Client.Account != null)) && _clientEntities.Add(i.Value))
                     yield return i.Value;
 
             foreach (var i in Owner.PlayersCollision.HitTest(X, Y, Radius))
-                if ((i is Decoy || i is Pet) && _clientEntities.Add(i))
+                if ((i is Decoy) && _clientEntities.Add(i))
                     yield return i;
 
             var p = new IntPoint(0, 0);
@@ -248,9 +245,6 @@ namespace wServer.realm.entities
 
             if (questEntity?.Owner != null && _clientEntities.Add(questEntity))
                 yield return questEntity;
-
-            if (SpectateTarget?.Owner != null && _clientEntities.Add(SpectateTarget))
-                yield return SpectateTarget;
         }
 
         private IEnumerable<IntPoint> GetRemovedStatics(HashSet<IntPoint> visibleTiles)

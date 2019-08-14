@@ -14,12 +14,9 @@ namespace wServer.realm.entities
         {
             _usable = new SV<bool>(this, StatsType.PortalUsable, true);
             Locked = manager.Resources.GameData.Portals[ObjectType].Locked;
-            Opener = "";
         }
 
         private readonly SV<bool> _usable;
-        public bool PlayerOpened { get; set; }
-        public string Opener { get; set; }
 
         public bool Usable
         {
@@ -77,14 +74,6 @@ namespace wServer.realm.entities
                     world = player.Manager.AddWorld(world ?? new World(p));
                 }
                 break;
-            }
-
-            if (PlayerOpened)
-            {
-                world.PlayerDungeon = true;
-                world.Opener = Opener;
-                world.Invites = new HashSet<string>();
-                world.Invited = new HashSet<string>();
             }
 
             WorldInstance = world;

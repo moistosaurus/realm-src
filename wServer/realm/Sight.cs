@@ -130,9 +130,6 @@ namespace wServer.realm
         public HashSet<IntPoint> GetSightCircle(int blocked = 0)
         {
             //var time = Stopwatch.StartNew();
-            var specPlayer = _player.SpectateTarget as Player;
-            if (specPlayer != null)
-                return specPlayer.Sight._sCircle;
 
             if (UpdateCount <= 0)
                 return _sCircle;
