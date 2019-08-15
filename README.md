@@ -61,6 +61,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Fix containers
 - [x] Don't play sound FX and music in the background if they are disabled (helps performance)
 - [x] Fix up good vault/nexus maps
+- [x] Add DungeonGen
 - [x] Remove LootDrop, LootTier & XpBooster boosters
 - [x] Add handlers for locking/ignoring
 - [x] Refine /app/globalNews
@@ -69,7 +70,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Remove packet priority (everything should be sent logically, no priorities needed)
 - [x] Make particles render in a static way (only try to update texture on update, not every frame, performance boost)
 - [ ] Make it possible to control char slot currency through server (XML tag)
-- [ ] Make dialogs/result packets nicer to work with (e.g. merchant dialogs)
+- [x] Make dialogs/result packets nicer to work with (e.g. merchant dialogs) - added FlexibleDialog.as
 - [ ] Fix up connecting bugs and remove NR con queue
 - [ ] Fix map editor testing & visual bugs
 - [ ] Fix cloak (& possibly others) tooltip not working when they are equipped
@@ -77,8 +78,12 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [ ] Fix reskin in game UI bugging out
 - [ ] Fix dye merchants not showing the look of the dye 
 - [ ] Fix weird particle rendering in AS3 client
-- [ ] Remove gifts completely (really want this source to be barebones!)
+- [x] Remove gifts completely (really want this source to be barebones!)
 - [ ] Fix small network latency even on localhost (Tasks are bad.)
+- [ ] Add permapets (yay)
+- [ ] Add tab switching like on prod (really important!!!)
+- [x] Fix merchant taking gold if inv is full
+- [x] Fix vault chest purchashing
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 

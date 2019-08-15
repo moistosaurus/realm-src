@@ -1095,65 +1095,6 @@ namespace common
             return abi.Banned;
         }
 
-        public bool AddGift(DbAccount acc, ushort item, ITransaction tran = null)
-        {
-            return AddGifts(acc, new ushort[] { item }, tran);
-        }
-
-        public bool AddGifts(DbAccount acc, IEnumerable<ushort> items, ITransaction transaction = null)
-        {
-            acc.Reload("gifts"); // not ideal but will work for now
-
-            var gList = acc.Gifts.ToList();
-            gList.AddRange(items);
-            var giftBytes = GetGiftBytes(gList.ToArray());
-
-            return SetGifts(acc, giftBytes, transaction);
-        }
-
-        public bool RemoveGift(DbAccount acc, ushort item, ITransaction transaction = null)
-        {
-            acc.Reload("gifts");
-
-            var gList = acc.Gifts.ToList();
-            gList.Remove(item);
-            var giftBytes = GetGiftBytes(gList.ToArray());
-
-            return SetGifts(acc, giftBytes, transaction);
-        }
-
-        public bool SwapGift(DbAccount acc, ushort oldItem, ushort newItem, ITransaction transaction = null)
-        {
-            acc.Reload("gifts");
-
-            var gList = acc.Gifts.ToList();
-            gList.Remove(oldItem);
-            gList.Add(newItem);
-            var giftBytes = GetGiftBytes(gList.ToArray());
-
-            return SetGifts(acc, giftBytes, transaction);
-        }
-
-        private byte[] GetGiftBytes(Array gifts)
-        {
-            if (gifts.Length <= 0)
-                return null;
-
-            var buff = new byte[gifts.Length * 2];
-            Buffer.BlockCopy(gifts, 0, buff, 0, buff.Length);
-            return buff;
-        }
-
-        private bool SetGifts(DbAccount acc, byte[] giftBytes, ITransaction transaction = null)
-        {
-            var currentGiftBytes = GetGiftBytes(acc.Gifts.ToArray());
-
-            var t = transaction ?? _db.CreateTransaction();
-            t.AddCondition(Condition.HashEqual(acc.Key, "gifts", currentGiftBytes));
-            t.HashSetAsync(acc.Key, "gifts", giftBytes);
-            return transaction == null && t.Execute();
-        }
-
         public int LastLegendsUpdateTime()
         {
             var time = _db.StringGet("legends:updateTime");

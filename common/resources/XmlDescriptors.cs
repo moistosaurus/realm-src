@@ -63,7 +63,6 @@ namespace common.resources
         Store_7 = 17,
         Store_8 = 18,
         Store_9 = 19,
-        Gifting_Chest = 20,
         Store_10 = 21,
         Store_11 = 22,
         Store_12 = 23,

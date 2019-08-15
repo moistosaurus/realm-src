@@ -60,19 +60,6 @@ namespace wServer.networking.handlers
             }
 
             var item = con.Inventory[slot.SlotId];
-
-            // if item is from gift chest, remove from user's gift chest list
-            if (con is GiftChest)
-            {
-                var trans = player.Manager.Database.Conn.CreateTransaction();
-                player.Manager.Database.RemoveGift(player.Client.Account, item.ObjectType, trans);
-                if (!trans.Execute())
-                {
-                    player.Client.SendPacket(new InvResult() { Result = 1 });
-                    return;
-                }
-            }
-
             con.Inventory[slot.SlotId] = null;
 
             // create new container for item to be placed in

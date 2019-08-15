@@ -319,12 +319,6 @@ namespace common
             set { SetValue<int>("vaultCount", value); }
         }
 
-        public ushort[] Gifts
-        {
-            get { return GetValue<ushort[]>("gifts") ?? new ushort[0]; }
-            set { SetValue<ushort[]>("gifts", value); }
-        }
-
         public int MaxCharSlot
         {
             get { return GetValue<int>("maxCharSlot"); }

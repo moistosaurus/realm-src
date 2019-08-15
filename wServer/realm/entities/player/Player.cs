@@ -390,10 +390,7 @@ namespace wServer.realm.entities
 
             if (owner.IsNotCombatMapArea)
             {
-                Client.SendPacket(new GlobalNotification
-                {
-                    Text = Client.Account.Gifts.Length > 0 ? "giftChestOccupied" : "giftChestEmpty"
-                });
+                // do something
             }
 
             base.Init(owner);

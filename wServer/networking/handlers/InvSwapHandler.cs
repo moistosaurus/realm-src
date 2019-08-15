@@ -61,13 +61,6 @@ namespace wServer.networking.handlers
                         var item = stack.Put(stackTrans[slotA]);
                         if (item == null) // success
                         {
-                            // if a stackable item ends up in a gift chest it becomes infinite if not removed
-                            if (a is GiftChest && stackTrans[slotA] != null)
-                            {
-                                var trans = player.Manager.Database.Conn.CreateTransaction();
-                                player.Manager.Database.RemoveGift(player.Client.Account, stackTrans[slotA].ObjectType, trans);
-                                trans.Execute();
-                            }
                             stackTrans[slotA] = null;
                             Inventory.Execute(stackTrans);
                             player.Client.SendPacket(new InvResult() { Result = 0 });
@@ -110,25 +103,14 @@ namespace wServer.networking.handlers
             // swap items
             if (Inventory.Execute(conATrans, conBTrans))
             {
-                // remove gift if from gift chest
-                var db = player.Manager.Database;
-                var trans = db.Conn.CreateTransaction();
-                if (a is GiftChest && itemA != null)
-                    db.RemoveGift(player.Client.Account, itemA.ObjectType, trans);
-                if (b is GiftChest && itemB != null)
-                    db.RemoveGift(player.Client.Account, itemB.ObjectType, trans);
-                if (trans.Execute())
-                {
-                    while (queue.Count > 0)
-                        queue.Dequeue()();
+                while (queue.Count > 0)
+                    queue.Dequeue()();
 
-                    player.Client.SendPacket(new InvResult() { Result = 0 });
-                    return;
-                }
+                player.Client.SendPacket(new InvResult() { Result = 0 });
 
                 // if execute failed, undo inventory changes
-                if (!Inventory.Revert(conATrans, conBTrans))
-                    Log.Warn($"Failed to revert changes. {player.Name} has an extra {itemA?.ObjectId} or {itemB?.ObjectId}");
+                //if (!Inventory.Revert(conATrans, conBTrans))
+                //    Log.Warn($"Failed to revert changes. {player.Name} has an extra {itemA?.ObjectId} or {itemB?.ObjectId}");
             }
 
             a.ForceUpdate(slotA);

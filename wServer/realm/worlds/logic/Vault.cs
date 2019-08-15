@@ -47,7 +47,6 @@ namespace wServer.realm.worlds.logic
         void InitVault()
         {
             var vaultChestPosition = new List<IntPoint>();
-            var giftChestPosition = new List<IntPoint>();
             var spawn = new IntPoint(0, 0);
 
             var w = Map.Width;
@@ -65,17 +64,10 @@ namespace wServer.realm.worlds.logic
                         case TileRegion.Vault:
                             vaultChestPosition.Add(new IntPoint(x, y));
                             break;
-                        case TileRegion.Gifting_Chest:
-                            giftChestPosition.Add(new IntPoint(x, y));
-                            break;
                     }
                 }
 
             vaultChestPosition.Sort((x, y) => Comparer<int>.Default.Compare(
-                (x.X - spawn.X) * (x.X - spawn.X) + (x.Y - spawn.Y) * (x.Y - spawn.Y),
-                (y.X - spawn.X) * (y.X - spawn.X) + (y.Y - spawn.Y) * (y.Y - spawn.Y)));
-
-            giftChestPosition.Sort((x, y) => Comparer<int>.Default.Compare(
                 (x.X - spawn.X) * (x.X - spawn.X) + (x.Y - spawn.Y) * (x.Y - spawn.Y),
                 (y.X - spawn.X) * (y.X - spawn.X) + (y.Y - spawn.Y) * (y.Y - spawn.Y)));
 
@@ -97,37 +89,6 @@ namespace wServer.realm.worlds.logic
                 x.Move(i.X + 0.5f, i.Y + 0.5f);
                 EnterWorld(x);
             }
-
-            var gifts = _client.Account.Gifts.ToList();
-            while (gifts.Count > 0 && giftChestPosition.Count > 0)
-            {
-                var c = Math.Min(8, gifts.Count);
-                var items = gifts.GetRange(0, c);
-                gifts.RemoveRange(0, c);
-                if (c < 8)
-                    items.AddRange(Enumerable.Repeat(ushort.MaxValue, 8 - c));
-
-                var con = new GiftChest(_client.Manager, 0x0744, null, false);
-                con.BagOwners = new int[] { _client.Account.AccountId };
-                con.Inventory.SetItems(items);
-                con.Move(giftChestPosition[0].X + 0.5f, giftChestPosition[0].Y + 0.5f);
-                EnterWorld(con);
-                giftChestPosition.RemoveAt(0);
-            }
-            foreach (var i in giftChestPosition)
-            {
-                var x = new StaticObject(_client.Manager, 0x0743, null, true, false, false);
-                x.Move(i.X + 0.5f, i.Y + 0.5f);
-                EnterWorld(x);
-            }
-
-            // devon roach
-            if (_client.Account.Name.Equals("Devon"))
-            {
-                var e = new Enemy(Manager, 0x12C);
-                e.Move(38, 68);
-                EnterWorld(e);
-            }
         }
 
         public override void Tick(RealmTime time)
@@ -145,7 +106,6 @@ namespace wServer.realm.worlds.logic
             con.Move(original.X, original.Y);
             LeaveWorld(original);
             EnterWorld(con);
-            con.InvokeStatChange(StatsType.NameChosen, true);
             vaults.AddFirst(con);
         }
 
@@ -169,12 +129,6 @@ namespace wServer.realm.worlds.logic
             var x = new StaticObject(_client.Manager, 0x0743, null, true, false, false);
             x.Move(entity.X, entity.Y);
             EnterWorld(x);
-
-            if (_client.Account.Gifts.Length <= 0)
-                _client.SendPacket(new GlobalNotification
-                {
-                    Text = "giftChestEmpty"
-                });
         }
     }
 }

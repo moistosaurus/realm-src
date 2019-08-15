@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using common.resources;
 using StackExchange.Redis;
 using wServer.networking.packets.outgoing;
 
@@ -121,7 +122,8 @@ namespace wServer.realm.entities.vendors
             }
             BeingPurchased = true;
 
-            var result = ValidateCustomer(player);
+            var item = Manager.Resources.GameData.Items[Item];
+            var result = ValidateCustomer(player, item);
             if (result != BuyResult.Ok)
             {
                 SendFailed(player, result);
@@ -129,15 +131,15 @@ namespace wServer.realm.entities.vendors
                 return;
             }
 
-            PurchaseItem(player);
+            PurchaseItem(player, item);
         }
 
-        private async void PurchaseItem(Player player)
+        private async void PurchaseItem(Player player, Item item)
         {
             var db = Manager.Database;
             var trans = db.Conn.CreateTransaction();
             var t1 = db.UpdateCurrency(player.Client.Account, -Price, Currency, trans);
-            var invTrans = TransactionItem(player, trans);
+            var invTrans = TransactionItem(player, item);
             var t2 = trans.ExecuteAsync();
             await Task.WhenAll(t1, t2);
 
@@ -151,14 +153,12 @@ namespace wServer.realm.entities.vendors
             BeingPurchased = false;
         }
 
-        protected InventoryTransaction TransactionItem(Player player, ITransaction tran)
+        protected InventoryTransaction TransactionItem(Player player, Item item)
         {
             var invTrans = player.Inventory.CreateTransaction();
-            var item = Manager.Resources.GameData.Items[Item];
             var slot = invTrans.GetAvailableInventorySlot(item);
             if (slot == -1)
             {
-                player.Manager.Database.AddGift(player.Client.Account, Item, tran);
                 return null;
             }
 
@@ -181,21 +181,15 @@ namespace wServer.realm.entities.vendors
 
             if (invTrans != null)
                 Inventory.Execute(invTrans);
-            SendNotifications(player, invTrans == null);
+            SendNotifications(player);
         }
 
-        protected virtual void SendNotifications(Player player, bool gift)
+        protected virtual void SendNotifications(Player player)
         {
-            if (gift)
-                player.Client.SendPacket(new GlobalNotification
-                {
-                    Text = "giftChestOccupied"
-                });
-
             player.Client.SendPacket(new networking.packets.outgoing.BuyResult
             {
                 Result = 0,
-                ResultString = gift ? "Item gifted as you had no available slots." : "Item purchased!"
+                ResultString = "Item purchased!"
             });
 
             Log.Info("[{0}]User {1} has bought {2} for {3} {4}.",

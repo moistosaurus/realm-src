@@ -12,8 +12,7 @@ namespace wServer.networking.packets.outgoing
     public class BuyResult : OutgoingMessage
     {
         public const int Success = 0;
-        public const int NotEnoughGold = 1;
-        public const int NotEnoughFame = 2;
+        public const int Dialog = 1;
 
         public int Result { get; set; }
         public string ResultString { get; set; }

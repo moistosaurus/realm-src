@@ -101,7 +101,4 @@
 	<Region type="0x10" id="Hallway 3">
 		<Color>0x62FFEC</Color>
 	</Region>
-	<Region type="0x14" id="Gifting Chest">
-		<Color>0x424452</Color>
-	</Region>
 </Regions>
