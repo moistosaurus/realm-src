@@ -26,7 +26,7 @@ namespace server.account
                     }
 
                     var currency = CurrencyType.Gold;
-                    var price = Program.Resources.Settings.NewAccounts.GetPrice(acc.MaxCharSlot);
+                    var price = Program.Resources.Settings.NewAccounts.SlotCost;
 
                     if (currency == CurrencyType.Gold && acc.Credits < price ||
                         currency == CurrencyType.Fame && acc.Fame < price)

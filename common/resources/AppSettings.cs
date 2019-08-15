@@ -13,9 +13,6 @@ namespace common.resources
 
         public readonly int UseExternalPayments;
         public readonly int MaxStackablePotions;
-        public readonly int PotionPurchaseCooldown;
-        public readonly int PotionPurchaseCostCooldown;
-        public readonly int[] PotionPurchaseCosts;
         public readonly NewAccounts NewAccounts;
         public readonly NewCharacters NewCharacters;
 
@@ -25,8 +22,6 @@ namespace common.resources
             Xml = e;
             UseExternalPayments = e.GetValue<int>("UseExternalPayments");
             MaxStackablePotions = e.GetValue<int>("MaxStackablePotions");
-            PotionPurchaseCooldown = e.GetValue<int>("PotionPurchaseCooldown");
-            PotionPurchaseCostCooldown = e.GetValue<int>("PotionPurchaseCostCooldown");
 
             var newAccounts = e.Element("NewAccounts");
             NewAccounts = new NewAccounts(e.Element("NewAccounts"));
@@ -35,11 +30,6 @@ namespace common.resources
             var newCharacters = e.Element("NewCharacters");
             NewCharacters = new NewCharacters(e.Element("NewCharacters"));
             newCharacters.Remove();
-
-            List<int> costs = new List<int>();
-            foreach (var i in e.Element("PotionPurchaseCosts").Elements("cost"))
-                costs.Add(Utils.GetInt(i.Value));
-            PotionPurchaseCosts = costs.ToArray();
         }
     }
 
@@ -49,7 +39,7 @@ namespace common.resources
         public readonly int VaultCount;
         public readonly int Fame;
         public readonly int Credits;
-        public readonly int[] Slots;
+        public readonly int SlotCost;
         public readonly bool ClassesUnlocked;
         public readonly bool SkinsUnlocked;
 
@@ -63,20 +53,7 @@ namespace common.resources
             ClassesUnlocked = e.HasElement("ClassesUnlocked");
             SkinsUnlocked = e.HasElement("SkinsUnlocked");
 
-            if (e.HasElement("Slots"))
-            {
-                List<int> slots = new List<int>();
-                foreach (var i in e.Element("Slots").Elements("cost"))
-                    slots.Add(Utils.GetInt(i.Value));
-                Slots = slots.ToArray();
-            }
-            else
-                Slots = new int[1] { 1000 };
-        }
-
-        public int GetPrice(int slot)
-        {
-            return Slots[Math.Max(Math.Min(slot - MaxCharSlot, Slots.Length - 1), 0)];
+            SlotCost = e.GetValue<int>("SlotCost", 1000);
         }
     }
 

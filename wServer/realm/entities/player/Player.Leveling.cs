@@ -239,7 +239,7 @@ namespace wServer.realm.entities
                 {
                     ObjectId = Id,
                     Color = new ARGB(0xFF00FF00),
-                    Message = "{\"key\": \"server.class_quest_complete\"}"
+                    Message = "Class Quest Complete!"
                 }, p => this.DistSqr(p) < RadiusSqr);
                 Stars = GetStars();
             }
@@ -304,7 +304,7 @@ namespace wServer.realm.entities
                 {
                     ObjectId = Id,
                     Color = new ARGB(0xFF00FF00),
-                    Message = "{\"key\":\"server.quest_complete\"}"
+                    Message = "Quest Complete!"
                 }, p => this.DistSqr(p) < RadiusSqr);
             if (exp != 0)
             {

@@ -195,7 +195,7 @@ namespace wServer.realm.entities.vendors
             player.Client.SendPacket(new networking.packets.outgoing.BuyResult
             {
                 Result = 0,
-                ResultString = "{\"key\":\"PackagePurchased.message\"}"
+                ResultString = "Item purchased"
             });
 
             Log.Info("[{0}]User {1} has bought {2} for {3} {4}.",

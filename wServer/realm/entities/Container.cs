@@ -56,7 +56,7 @@ namespace wServer.realm.entities
             stats[StatsType.Inventory5] = Inventory[5]?.ObjectType ?? -1;
             stats[StatsType.Inventory6] = Inventory[6]?.ObjectType ?? -1;
             stats[StatsType.Inventory7] = Inventory[7]?.ObjectType ?? -1;
-            stats[StatsType.OwnerAccountId] = (BagOwners.Length == 1 ? BagOwners[0] : -1).ToString();
+            stats[StatsType.OwnerAccountId] = (BagOwners.Length == 1 ? BagOwners[0] : -1);
             base.ExportStats(stats);
         }
 
