@@ -2,7 +2,7 @@
     "id": -5,
     "isLimbo": true,
     "name": "Vault",
-    "sbName": "{server.vault}",
+    "sbName": "Vault",
     "difficulty": -1,
     "background": 0,
     "restrictTp": false,

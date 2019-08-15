@@ -96,73 +96,75 @@ namespace wServer.realm.entities.vendors
 
         private static readonly List<ISellableItem> Keys = new List<ISellableItem>
         {
+        };
+
+        private static readonly List<ISellableItem> Store1 = new List<ISellableItem>
+        {
             new ShopItem("Undead Lair Key", 40),
             new ShopItem("Sprite World Key", 40),
             new ShopItem("Davy's Key", 150),
-            new ShopItem("The Crawling Depths Key", 200),
             new ShopItem("Candy Key", 80),
             new ShopItem("Abyss of Demons Key", 40),
             new ShopItem("Totem Key", 50),
             new ShopItem("Pirate Cave Key", 15),
-            new ShopItem("Shatters Key", 200),
-            new ShopItem("Asylum Key", 200),
             new ShopItem("Beachzone Key", 30),
-            new ShopItem("Ivory Wyvern Key", 150),
             new ShopItem("Lab Key", 40),
             new ShopItem("Manor Key", 60),
             new ShopItem("Cemetery Key", 100),
             new ShopItem("Ocean Trench Key", 200),
             new ShopItem("Snake Pit Key", 30),
-            new ShopItem("Bella's Key", 150),
-            new ShopItem("Shaitan's Key", 200),
             new ShopItem("Spider Den Key", 20),
             new ShopItem("Tomb of the Ancients Key", 200),
-            new ShopItem("Battle Nexus Key", 150),
-            //new ShopItem("Deadwater Docks Key", 500000),
-            new ShopItem("Woodland Labyrinth Key", 200),
-            new ShopItem("Theatre Key", 80),
-            new ShopItem("Ice Cave Key", 150),
-            new ShopItem("Tur-Key", 666)
         };
 
-        private static readonly List<ISellableItem> PurchasableFame = new List<ISellableItem>
+        private static readonly List<ISellableItem> Store2 = new List<ISellableItem>
         {
-            new ShopItem("50 Fame", 50),
-            new ShopItem("100 Fame", 100),
-            new ShopItem("500 Fame", 500),
-            new ShopItem("1000 Fame", 1000),
-            new ShopItem("5000 Fame", 5000)
+            new ShopItem("Amulet of Resurrection", 11500),
+            new ShopItem("Backpack", 2000),
         };
 
-        private static readonly List<ISellableItem> Consumables = new List<ISellableItem>
+        private static readonly List<ISellableItem> Store3 = new List<ISellableItem>
         {
-            new ShopItem("Saint Patty's Brew", 80),
-            new ShopItem("Mad God Ale", 25),
-            new ShopItem("XP Booster", 35),
-            new ShopItem("Backpack", 300),
-            new ShopItem("TEST Common Mystery Egg", 0)
+            new ShopItem("Black Cat Generator", 1750),
+            new ShopItem("Grey Cat Generator", 1200),
+            new ShopItem("Orange Cat Generator", 1200),
+            new ShopItem("Tan Cat Generator", 1200),
+            new ShopItem("Yellow Cat Generator", 1200),
+            new ShopItem("Brown Pup Generator", 1200),
+            new ShopItem("Golden Pup Generator", 2500),
+            new ShopItem("White Cat Generator", 1200),
+            new ShopItem("Blue Snail Generator", 800),
+            new ShopItem("Grey Wolf Generator", 1500),
+            new ShopItem("Brown Fox Generator", 1500),
+            new ShopItem("Green Frog Generator", 800),
+            new ShopItem("Lion Generator", 1750),
+            new ShopItem("Penguin Generator", 2500),
+            new ShopItem("Sheepdog Generator", 1200),
+            new ShopItem("Panda Generator", 7500),
         };
 
-        private static readonly List<ISellableItem> Special = new List<ISellableItem>
+        private static readonly List<ISellableItem> Store4 = new List<ISellableItem>
         {
-            new ShopItem("Amulet of Resurrection", 50000)
+            new ShopItem("Tincture of Dexterity", 100),
+            new ShopItem("Tincture of Defense", 100),
+            new ShopItem("Tincture of Life", 150),
+            new ShopItem("Tincture of Mana", 150),
+            new ShopItem("Effusion of Dexterity", 250),
+            new ShopItem("Effusion of Life", 250),
         };
 
         public static readonly Dictionary<TileRegion, Tuple<List<ISellableItem>, CurrencyType, /*Rank Req*/int>> Shops =
             new Dictionary<TileRegion, Tuple<List<ISellableItem>, CurrencyType, int>>()
         {
-            { TileRegion.Store_1, new Tuple<List<ISellableItem>, CurrencyType, int>(Weapons, CurrencyType.Fame, 0) },
-            { TileRegion.Store_2, new Tuple<List<ISellableItem>, CurrencyType, int>(Abilities, CurrencyType.Fame, 0) },
-            { TileRegion.Store_3, new Tuple<List<ISellableItem>, CurrencyType, int>(Armor, CurrencyType.Fame, 0) },
-            { TileRegion.Store_4, new Tuple<List<ISellableItem>, CurrencyType, int>(Rings, CurrencyType.Fame, 0) },
-            { TileRegion.Store_5, new Tuple<List<ISellableItem>, CurrencyType, int>(Keys, CurrencyType.Fame, 0) },
-            { TileRegion.Store_6, new Tuple<List<ISellableItem>, CurrencyType, int>(PurchasableFame, CurrencyType.Fame, 5) },
-            { TileRegion.Store_7, new Tuple<List<ISellableItem>, CurrencyType, int>(Consumables, CurrencyType.Fame, 0) },
-            { TileRegion.Store_8, new Tuple<List<ISellableItem>, CurrencyType, int>(Special, CurrencyType.Fame, 0) },
+            { TileRegion.Store_1, new Tuple<List<ISellableItem>, CurrencyType, int>(Store1, CurrencyType.Gold, 0) },
+            { TileRegion.Store_2, new Tuple<List<ISellableItem>, CurrencyType, int>(Store2, CurrencyType.Fame, 0) },
+            { TileRegion.Store_3, new Tuple<List<ISellableItem>, CurrencyType, int>(Store3, CurrencyType.Gold, 0) },
+            { TileRegion.Store_4, new Tuple<List<ISellableItem>, CurrencyType, int>(Store4, CurrencyType.Fame, 0) },
         };
 
         public static void Init(RealmManager manager)
         {
+            InitDyes(manager);
             foreach (var shop in Shops)
                 foreach (var shopItem in shop.Value.Item1.OfType<ShopItem>())
                 {
@@ -172,6 +174,21 @@ namespace wServer.realm.entities.vendors
                     else
                         shopItem.SetItem(id);
                 }
+        }
+
+        static void InitDyes(RealmManager manager)
+        {
+            var cloths = new List<ISellableItem>();
+            var accessories = new List<ISellableItem>();
+            foreach (var i in manager.Resources.GameData.Items)
+            {
+                if (i.Value.Tex1 != 0)
+                    cloths.Add(new ShopItem(i.Value.ObjectId, 100));
+                else if (i.Value.Tex2 != 0)
+                    accessories.Add(new ShopItem(i.Value.ObjectId, 100));
+            }
+            Shops[TileRegion.Store_5] = new Tuple<List<ISellableItem>, CurrencyType, int>(cloths, CurrencyType.Gold, 0);
+            Shops[TileRegion.Store_6] = new Tuple<List<ISellableItem>, CurrencyType, int>(accessories, CurrencyType.Gold, 0);
         }
     }
 }

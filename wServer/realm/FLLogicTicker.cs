@@ -19,7 +19,6 @@ namespace wServer.realm
         public readonly int MsPT;
 
         private readonly ManualResetEvent _mre;
-        private Task _worldTask;
         private RealmTime _worldTime;
 
         public FLLogicTicker(RealmManager manager)
@@ -110,23 +109,16 @@ namespace wServer.realm
             }
 
             // tick world every 200 ms
-            if (_worldTask == null || _worldTask.IsCompleted)
-            {
-                t.TickDelta = _worldTime.TickDelta;
-                t.ElaspedMsDelta = t.TickDelta * MsPT;
 
-                if (t.ElaspedMsDelta < 200)
-                    return;
+            t.TickDelta = _worldTime.TickDelta;
+            t.ElaspedMsDelta = t.TickDelta * MsPT;
 
-                _worldTime.TickDelta = 0;
-                _worldTask = Task.Factory.StartNew(() =>
-                {
-                    foreach (var i in _manager.Worlds.Values.Distinct())
-                        i.Tick(t);
-                }).ContinueWith(e =>
-                    Log.Error(e.Exception.InnerException.ToString()),
-                    TaskContinuationOptions.OnlyOnFaulted);
-            }
+            if (t.ElaspedMsDelta < 200)
+                return;
+
+            _worldTime.TickDelta = 0;
+            foreach (var i in _manager.Worlds.Values.Distinct())
+                i.Tick(t);
         }
 
         public void AddPendingAction(Action<RealmTime> callback,

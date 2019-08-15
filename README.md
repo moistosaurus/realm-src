@@ -59,12 +59,18 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [ ] Make dialogs/result packets nicer to work with (e.g. merchant dialogs)
 - [ ] Add all AEs
 - [x] Fix legends (/fame/list)
-- [ ] Update new char slot cost properly
-- [ ] Add graveyard (7.0 doesn't have anything to look at graveyard data, lulwut)
-- [ ] Fix up connecting bugs and add queue packets
+- [x] Update new char slot cost properly
+- [ ] Fix up connecting bugs and remove NR con queue
 - [ ] Fix map editor testing & visual bugs
 - [x] Fix containers
 - [ ] Fix cloak (& possibly others) tooltip not working when they are equipped
+- [x] Fix up good vault/nexus maps
+- [ ] Fix client loading up wrong character (causes skin view to bug out)
+- [x] Don't play sound FX and music in the background if they are disabled
+- [ ] Fix reskin in game UI bugging out
+- [ ] Fix dye merchants not showing the look of the dye 
+- [ ] Remove LootDrop, LootTier & XpBooster boosters
+- [ ] Add handlers for locking/ignoring
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 
