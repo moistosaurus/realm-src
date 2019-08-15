@@ -32,7 +32,7 @@ namespace wServer.logic.behaviors
                 Pos1 = new Position() { X = flashPeriod, Y = flashRepeats },
                 TargetObjectId = host.Id,
                 Color = new ARGB(color)
-            }, host, null, PacketPriority.Low);
+            }, host, null);
         }
     }
 }

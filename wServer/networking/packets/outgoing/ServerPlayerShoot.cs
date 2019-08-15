@@ -18,7 +18,7 @@ namespace wServer.networking.packets.outgoing
         {
             BulletId = rdr.ReadByte();
             OwnerId = rdr.ReadInt32();
-            ContainerType = rdr.ReadInt32();
+            ContainerType = rdr.ReadInt16();
             StartingPos = Position.Read(rdr);
             Angle = rdr.ReadSingle();
             Damage = rdr.ReadInt16();
@@ -27,7 +27,7 @@ namespace wServer.networking.packets.outgoing
         {
             wtr.Write(BulletId);
             wtr.Write(OwnerId);
-            wtr.Write(ContainerType);
+            wtr.Write((short)ContainerType);
             StartingPos.Write(wtr);
             wtr.Write(Angle);
             wtr.Write(Damage);

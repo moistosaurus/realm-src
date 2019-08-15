@@ -39,7 +39,7 @@ namespace wServer.realm.entities
                     Color = new ARGB(0xff9000ff),
                     TargetObjectId = Id,
                     Pos1 = new Position() { X = radius / 2 }
-                }, this, null, PacketPriority.Low);
+                }, this, null);
                 p++;
                 if (p == LIFETIME * 2)
                 {
@@ -65,7 +65,7 @@ namespace wServer.realm.entities
                 Color = new ARGB(0xff9000ff),
                 TargetObjectId = Id,
                 Pos1 = new Position() { X = radius }
-            }, this, null, PacketPriority.Low);
+            }, this, null);
             this.AOE(radius, false, enemy =>
             {
                 (enemy as Enemy).Damage(player, time, dmg, false, new ConditionEffect()

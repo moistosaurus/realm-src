@@ -168,7 +168,7 @@ namespace wServer.logic.behaviors
                             Color = new ARGB(0xffffbf00),
                             TargetObjectId = host.Id,
                             Pos1 = target
-                        }, target, PacketPriority.Low);
+                        }, target);
                     host.Owner.Timers.Add(new WorldTimer(1500, (world, t) =>
                     {
                         if (!world.IsPassable(target.X, target.Y, true))

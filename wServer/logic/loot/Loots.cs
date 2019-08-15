@@ -35,9 +35,6 @@ namespace wServer.logic.loot
         static readonly ushort CYAN_BAG = 0x0509;
         static readonly ushort POTION_BAG = 0x050B;
         static readonly ushort WHITE_BAG = 0x050C;
-        static readonly ushort WHITE_BAG2 = 0x050E;
-        static readonly ushort TROLL_WHITE_BAG = 0x050F;
-        static readonly ushort RED_BAG = 0x0510;
 
         public Loot(params MobDrops[] lootDefs)   //For independent loots(e.g. chests)
         {
@@ -112,14 +109,11 @@ namespace wServer.logic.loot
             var privateLoot = new Dictionary<Player, IList<Item>>();
             foreach (var player in eligiblePlayers)
             {
-                var lootDropBoost = player.Item1.LDBoostTime > 0 ? 1.5 : 1;
-                var luckStatBoost = 1 + player.Item1.Stats.Boost[10] / 100.0;
-
                 var loot = new List<Item>();
                 foreach (var i in possibleDrops)
                 {
                     if (i.Threshold > 0 && i.Threshold <= player.Item2 &&
-                        Rand.NextDouble() < i.Probabilty * lootDropBoost * luckStatBoost)
+                        Rand.NextDouble() < i.Probabilty)
                     {
                         loot.Add(i.Item);
                         reqDrops[i]--;
@@ -187,14 +181,8 @@ namespace wServer.logic.loot
             var ownerIds = owners.Select(x => x.AccountId).ToArray();
             var items = new Item[8];
             var idx = 0;
-            var boosted = false;
 
             var bagType = 0;
-
-            if (owners.Count() == 1 && owners[0].LDBoostTime > 0)
-            {
-                boosted = true;
-            }
 
             foreach (var i in loots)
             {
@@ -211,7 +199,7 @@ namespace wServer.logic.loot
                     continue;
                 }
 
-                ShowBag(enemy, ownerIds, bagType, items, boosted);
+                ShowBag(enemy, ownerIds, bagType, items);
 
                 bagType = 0;
                 items = new Item[8];
@@ -220,11 +208,11 @@ namespace wServer.logic.loot
 
             if (idx > 0)
             {
-                ShowBag(enemy, ownerIds, bagType, items, boosted);
+                ShowBag(enemy, ownerIds, bagType, items);
             }
         }
 
-        private static void ShowBag(Enemy enemy, int[] owners, int bagType, Item[] items, bool boosted)
+        private static void ShowBag(Enemy enemy, int[] owners, int bagType, Item[] items)
         {
             ushort bag = BROWN_BAG;
             switch (bagType)
@@ -236,14 +224,6 @@ namespace wServer.logic.loot
                 case 4: bag = CYAN_BAG; break;
                 case 5: bag = POTION_BAG; break;
                 case 6: bag = WHITE_BAG; break;
-                case 7: bag = WHITE_BAG2; break;
-                case 8: bag = TROLL_WHITE_BAG; break;
-            }
-
-            // allow white bags to override boosted bag
-            if (boosted && bag < WHITE_BAG)
-            {
-                bag = RED_BAG;
             }
 
             var container = new Container(enemy.Manager, bag, 1000 * 60, true);

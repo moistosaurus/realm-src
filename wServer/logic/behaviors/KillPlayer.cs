@@ -77,7 +77,7 @@ namespace wServer.logic.behaviors
                 TargetObjectId = host.Id,
                 Pos1 = new Position { X = player.X, Y = player.Y },
                 Color = new ARGB(0xffffffff)
-            }, host, null, PacketPriority.Low);
+            }, host, null);
 
             // kill player
             player.Death(host.ObjectDesc.DisplayId);

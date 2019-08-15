@@ -64,7 +64,7 @@ namespace wServer.realm.entities
                         TargetId = Id,
                         DamageAmount = (ushort)dmg,
                         Kill = HP <= 0,
-                    }, this, this, PacketPriority.Low);
+                    }, this, this);
 
                     if (HP <= 0)
                     {
@@ -98,7 +98,7 @@ namespace wServer.realm.entities
                     TargetId = Id,
                     DamageAmount = (ushort)dmg,
                     Kill = HP <= 0,
-                }, this, this, PacketPriority.Low);
+                }, this, this);
 
                 if (HP <= 0)
                 {

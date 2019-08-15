@@ -28,7 +28,7 @@ namespace wServer.networking.server
         private readonly Client _client;
         private readonly SocketAsyncEventArgs _send;
         private readonly SocketAsyncEventArgs _receive;
-        private ConcurrentQueue<Packet>[] _pendings;
+        private ConcurrentQueue<Packet> _pendings;
 
         public CommHandler(
             Client client,
@@ -45,9 +45,7 @@ namespace wServer.networking.server
             _send = send;
             _send.Completed += ProcessSend;
 
-            _pendings = new ConcurrentQueue<Packet>[3];
-            for (int i = 0; i < 3; i++)
-                _pendings[i] = new ConcurrentQueue<Packet>();
+            _pendings = new ConcurrentQueue<Packet>();
         }
 
         public void Reset()
@@ -55,9 +53,7 @@ namespace wServer.networking.server
             ((SendToken)_send.UserToken).Reset();
             ((ReceiveToken)_receive.UserToken).Reset();
 
-            _pendings = new ConcurrentQueue<Packet>[3];
-            for (var i = 0; i < 3; i++)
-                _pendings[i] = new ConcurrentQueue<Packet>();
+            _pendings = new ConcurrentQueue<Packet>(); // maybe .Clear() instead?
         }
 
         public void BeginHandling(Socket skt)
@@ -247,35 +243,35 @@ namespace wServer.networking.server
             StartSend(e, delay);
         }
 
-        public void SendPacket(Packet pkt, PacketPriority priority)
+        public void SendPacket(Packet pkt)
         {
             //if (priority == PacketPriority.Low && _client.IsLagging)
             //    return;
 
-            _pendings[(int)priority].Enqueue(pkt);
+            _pendings.Enqueue(pkt);
             //Console.WriteLine(pkt.GetType().ToString());
         }
 
-        public void SendPackets(IEnumerable<Packet> pkts, PacketPriority priority)
+        public void SendPackets(IEnumerable<Packet> pkts)
         {
             //if (priority == PacketPriority.Low && _client.IsLagging)
             //    return;
 
             foreach (var i in pkts)
-                _pendings[(int)priority].Enqueue(i);
+                _pendings.Enqueue(i);
         }
 
         private bool FlushPending(SendToken s)
         {
             Packet packet;
             for (var i = 0; i < 3; i++)
-                while (_pendings[i].TryDequeue(out packet))
+                while (_pendings.TryDequeue(out packet))
                 {
                     var bytesWritten = packet.Write(_client, s.Data, s.BytesAvailable);
 
                     if (bytesWritten == 0)
                     {
-                        _pendings[i].Enqueue(packet);
+                        _pendings.Enqueue(packet);
                         return true;
                     }
 

@@ -182,9 +182,9 @@ namespace wServer.realm.entities.vendors
             var accessories = new List<ISellableItem>();
             foreach (var i in manager.Resources.GameData.Items)
             {
-                if (i.Value.Tex1 != 0)
+                if (i.Value.Texture1 != 0)
                     cloths.Add(new ShopItem(i.Value.ObjectId, 100));
-                else if (i.Value.Tex2 != 0)
+                else if (i.Value.Texture2 != 0)
                     accessories.Add(new ShopItem(i.Value.ObjectId, 100));
             }
             Shops[TileRegion.Store_5] = new Tuple<List<ISellableItem>, CurrencyType, int>(cloths, CurrencyType.Gold, 0);

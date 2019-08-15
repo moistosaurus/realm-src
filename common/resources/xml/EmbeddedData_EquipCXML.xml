@@ -7131,6 +7131,7 @@
         <Soulbound/>
 		<BagType>1</BagType>
 		<OldSound>use_potion</OldSound>
+    <Activate>Backpack</Activate>
 	</Object>
     <Object type="0xc6e" id="Resurrected Warrior's Armor">
 		<Class>Equipment</Class>

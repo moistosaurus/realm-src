@@ -52,7 +52,7 @@ namespace wServer.networking.handlers
                 Angle = packet.Angle,
                 ContainerType = packet.ContainerType,
                 BulletId = packet.BulletId
-            }, player, player, PacketPriority.Low);
+            }, player, player);
             player.FameCounter.Shoot(prj);
         }
     }

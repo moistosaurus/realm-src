@@ -156,13 +156,6 @@ namespace wServer.realm.entities
             set { _hasBackpack.SetValue(value); }
         }
 
-        private readonly SV<bool> _xpBoosted;
-        public bool XPBoosted
-        {
-            get { return _xpBoosted.GetValue(); }
-            set { _xpBoosted.SetValue(value); }
-        }
-
         private readonly SV<int> _oxygenBar;
         public int OxygenBar
         {
@@ -170,9 +163,6 @@ namespace wServer.realm.entities
             set { _oxygenBar.SetValue(value); }
         }
 
-        public int XPBoostTime { get; set; }
-        public int LDBoostTime { get; set; }
-        public int LTBoostTime { get; set; }
         public int? GuildInvite { get; set; }
         public bool Muted { get; set; }
 
@@ -246,10 +236,6 @@ namespace wServer.realm.entities
             stats[StatsType.HealthStackCount] = HealthPots.Count;
             stats[StatsType.MagicStackCount] = MagicPots.Count;
             stats[StatsType.HasBackpack] = (HasBackpack) ? 1 : 0;
-            stats[StatsType.XPBoost] = (XPBoostTime != 0) ? 1 : 0;
-            stats[StatsType.XPBoostTime] = XPBoostTime / 1000;
-            stats[StatsType.LDBoostTime] = LDBoostTime / 1000;
-            stats[StatsType.LTBoostTime] = LTBoostTime / 1000;
             stats[StatsType.OxygenBar] = OxygenBar;
         }
 
@@ -270,9 +256,6 @@ namespace wServer.realm.entities
             chr.HealthStackCount = HealthPots.Count;
             chr.MagicStackCount = MagicPots.Count;
             chr.HasBackpack = HasBackpack;
-            chr.XPBoostTime = XPBoostTime;
-            chr.LDBoostTime = LDBoostTime;
-            chr.LTBoostTime = LTBoostTime;
             //chr.PetId = Pet?.PetId ?? 0;
             chr.Items = Inventory.GetItemTypes();
         }
@@ -307,16 +290,11 @@ namespace wServer.realm.entities
             _glow = new SV<int>(this, StatsType.Glow, 0);
             _mp = new SV<int>(this, StatsType.MP, client.Character.MP);
             _hasBackpack = new SV<bool>(this, StatsType.HasBackpack, client.Character.HasBackpack, true);
-            _xpBoosted = new SV<bool>(this, StatsType.XPBoost, client.Character.XPBoostTime != 0, true);
             _oxygenBar = new SV<int>(this, StatsType.OxygenBar, -1, true);
 
             Name = client.Account.Name;
             HP = client.Character.HP;
             ConditionEffects = 0;
-
-            XPBoostTime = client.Character.XPBoostTime;
-            LDBoostTime = client.Character.LDBoostTime;
-            LTBoostTime = client.Character.LTBoostTime;
 
             var s = (ushort)client.Character.Skin;
             if (gameData.Skins.Keys.Contains(s))
@@ -434,7 +412,6 @@ namespace wServer.realm.entities
                 HandleRegen(time);
                 HandleEffects(time);
                 HandleOceanTrenchGround(time);
-                TickActivateEffects(time);
                 FameCounter.Tick(time);
 
                 // TODO, server side ground damage
@@ -452,26 +429,6 @@ namespace wServer.realm.entities
                 Death("Unknown");
                 return;
             }
-        }
-
-        void TickActivateEffects(RealmTime time)
-        {
-            var dt = time.ElaspedMsDelta;
-
-            if (XPBoostTime != 0)
-                if (Level >= 20)
-                    XPBoostTime = 0;
-
-            if (XPBoostTime > 0)
-                XPBoostTime = Math.Max(XPBoostTime - dt, 0);
-            if (XPBoostTime == 0)
-                XPBoosted = false;
-
-            if (LDBoostTime > 0)
-                LDBoostTime = Math.Max(LDBoostTime - dt, 0);
-
-            if (LTBoostTime > 0)
-                LTBoostTime = Math.Max(LTBoostTime - dt, 0);
         }
 
         float _hpRegenCounter;
@@ -549,7 +506,7 @@ namespace wServer.realm.entities
             foreach (var plr in Owner.Players.Values)
             {
                 plr.AwaitGotoAck(time.TotalElapsedMs);
-                plr.Client.SendPackets(tpPkts, PacketPriority.Low);
+                plr.Client.SendPackets(tpPkts);
             }
         }
 
@@ -634,7 +591,7 @@ namespace wServer.realm.entities
                 Kill = HP <= 0,
                 BulletId = projectile.ProjectileId,
                 ObjectId = projectile.ProjectileOwner.Self.Id
-            }, this, this, PacketPriority.Low);
+            }, this, this);
 
             if (HP <= 0)
                 Death(projectile.ProjectileOwner.Self.ObjectDesc.DisplayId ??
@@ -660,7 +617,7 @@ namespace wServer.realm.entities
                 Kill = HP <= 0,
                 BulletId = 0,
                 ObjectId = src.Id
-            }, this, this, PacketPriority.Low);
+            }, this, this);
 
             if (HP <= 0)
                 Death(src.ObjectDesc.DisplayId ??

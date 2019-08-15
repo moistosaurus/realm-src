@@ -2,7 +2,7 @@
     "id": 0,
     "isLimbo": false,
     "name": "Castle",
-    "sbName": "{oryx.OryxAPOSs_Castle}",
+    "sbName": "Oryx's Castle",
     "difficulty": 4,
     "background": 0,
     "blocking": 1,

@@ -50,20 +50,20 @@ namespace wServer.logic.behaviors
                             EffectType = EffectType.Potion,
                             TargetObjectId = entity.Id,
                             Color = new ARGB(0xffffffff)
-                        }, entity, null, PacketPriority.Low);
+                        }, entity, null);
                         entity.Owner.BroadcastPacketNearby(new ShowEffect()
                         {
                             EffectType = EffectType.Trail,
                             TargetObjectId = host.Id,
                             Pos1 = new Position { X = entity.X, Y = entity.Y },
                             Color = new ARGB(0xffffffff)
-                        }, host, null, PacketPriority.Low);
+                        }, host, null);
                         entity.Owner.BroadcastPacketNearby(new Notification()
                         {
                             ObjectId = entity.Id,
                             Message = "+" + n,
                             Color = new ARGB(0xff00ff00)
-                        }, entity, null, PacketPriority.Low);
+                        }, entity, null);
                     }
                 }
                 cool = _coolDown.Next(Random);

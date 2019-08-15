@@ -127,12 +127,12 @@ namespace wServer.logic.behaviors
                 Txt = taunt
             };
             if (broadcast)
-                host.Owner.BroadcastPacket(packet, null, PacketPriority.Low);
+                host.Owner.BroadcastPacket(packet, null);
             else
                 foreach (var i in host.Owner.PlayersCollision.HitTest(host.X, host.Y, 15).Where(e => e is Player))
                 {
                     if (i is Player && host.Dist(i) < 15)
-                        (i as Player).Client.SendPacket(packet, PacketPriority.Low);
+                        (i as Player).Client.SendPacket(packet);
                 }
         }
     }

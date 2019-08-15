@@ -22,7 +22,7 @@ namespace wServer.realm.entities
                     if (plr == null || pac.Item1 == null || !pac.Item2(plr))
                         continue;
 
-                    plr._client.SendPacket(pac.Item1, PacketPriority.Low);
+                    plr._client.SendPacket(pac.Item1);
                 }
         }
 

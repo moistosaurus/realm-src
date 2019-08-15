@@ -43,7 +43,7 @@ namespace wServer.networking.handlers
                     {
                         CharId = client.Character.CharId,
                         ObjectId = target.EnterWorld(client.Player)
-                    }, PacketPriority.High);
+                    });
 
                     client.State = ProtocolState.Ready;
                     client.Manager.ConMan.ClientConnected(client);

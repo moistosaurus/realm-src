@@ -106,7 +106,7 @@ namespace wServer.realm
                 NumStars = -1,
                 Name = $"#{name}",
                 Txt = text
-            }, null, PacketPriority.Low);
+            }, null);
             log.Info($"[{world.Name}({world.Id})] <{name}> {text}");
         }
 
@@ -161,7 +161,7 @@ namespace wServer.realm
                 NumStars = -1,
                 Name = "#Oryx the Mad God",
                 Txt = text
-            }, null, PacketPriority.Low);
+            }, null);
             log.Info("[{0}({1})] <Oryx the Mad God> {2}", world.Name, world.Id, text);
         }
 

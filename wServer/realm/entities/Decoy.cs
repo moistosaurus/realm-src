@@ -71,7 +71,7 @@ namespace wServer.realm.entities
                     Color = new ARGB(0xffff0000),
                     TargetObjectId = Id,
                     Pos1 = new Position() { X = 1 }
-                }, this, null, PacketPriority.Low);
+                }, this, null);
             }
             base.Tick(time);
         }

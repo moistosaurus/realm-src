@@ -214,7 +214,7 @@ namespace wServer.realm.commands
                 Color = new ARGB(0xffff0000),
                 ObjectId = player.Id,
                 Message = notif
-            }, null, PacketPriority.Low);
+            }, null);
 
             w.BroadcastPacket(new Text
             {
@@ -222,7 +222,7 @@ namespace wServer.realm.commands
                 NumStars = player.Stars,
                 BubbleTime = 0,
                 Txt = notif
-            }, null, PacketPriority.Low);
+            }, null);
         }
 
         private void QueueSpawnEvent(

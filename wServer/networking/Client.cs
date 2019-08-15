@@ -112,21 +112,21 @@ namespace wServer.networking
             _handler.BeginHandling(Skt);
         }
 
-        public void SendPacket(Packet pkt, PacketPriority priority = PacketPriority.Normal)
+        public void SendPacket(Packet pkt)
         {
             using (TimedLock.Lock(DcLock))
             {
                 if (State != ProtocolState.Disconnected)
-                    _handler.SendPacket(pkt, priority);
+                    _handler.SendPacket(pkt);
             }
         }
 
-        public void SendPackets(IEnumerable<Packet> pkts, PacketPriority priority = PacketPriority.Normal)
+        public void SendPackets(IEnumerable<Packet> pkts)
         {
             using (TimedLock.Lock(DcLock))
             {
                 if (State != ProtocolState.Disconnected)
-                    _handler.SendPackets(pkts, priority);
+                    _handler.SendPackets(pkts);
             }
         }
 
@@ -150,7 +150,7 @@ namespace wServer.networking
 
                 try
                 {
-                    Log.Info("Handling packet '{0}'...", pkt.ID);
+                    //Log.Info("Handling packet '{0}'...", pkt.ID);
 
                     IPacketHandler handler;
                     if (!PacketHandlers.Handlers.TryGetValue(pkt.ID, out handler))

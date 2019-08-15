@@ -33,13 +33,6 @@ namespace wServer.realm
         Creation,
     }
 
-    public enum PacketPriority
-    {
-        High,
-        Normal,
-        Low // no guarantees that packets of low priority will be sent
-    }
-
     public class RealmManager
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();

@@ -71,7 +71,7 @@ namespace wServer.logic.behaviors
                         Color = new ARGB(color),
                         TargetObjectId = host.Id,
                         Pos1 = target
-                    }, host, null, PacketPriority.Low);
+                    }, host, null);
                     host.Owner.Timers.Add(new WorldTimer(1500, (world, t) =>
                     {
                         world.BroadcastPacketNearby(new Aoe()
@@ -82,7 +82,7 @@ namespace wServer.logic.behaviors
                             Duration = 0,
                             Effect = 0,
                             OrigType = host.ObjectType
-                        }, host, null, PacketPriority.Low);
+                        }, host, null);
                         world.AOE(target, radius, true, p =>
                         {
                             (p as IPlayer).Damage(damage, host);

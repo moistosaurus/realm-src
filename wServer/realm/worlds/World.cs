@@ -467,61 +467,53 @@ namespace wServer.realm.worlds
 
         public void BroadcastPacket(
             Packet pkt,
-            Player exclude,
-            PacketPriority priority = PacketPriority.Normal)
+            Player exclude)
         {
             foreach (var i in Players)
                 if (i.Value != exclude)
-                    i.Value.Client.SendPacket(pkt, priority);
+                    i.Value.Client.SendPacket(pkt);
         }
 
         public void BroadcastPackets(
             IEnumerable<Packet> pkts,
-            Player exclude,
-            PacketPriority priority = PacketPriority.Normal)
+            Player exclude)
         {
             foreach (var i in Players)
                 if (i.Value != exclude)
-                    i.Value.Client.SendPackets(pkts, priority);
+                    i.Value.Client.SendPackets(pkts);
         }
 
         public void BroadcastPacketNearby(
             Packet pkt,
             Entity entity,
-            Player exclude = null,
-            PacketPriority priority = PacketPriority.Normal)
+            Player exclude = null)
         {
             if (exclude == null)
                 BroadcastPacketConditional(
                     pkt,
-                    p => p.DistSqr(entity) < Player.RadiusSqr,
-                    priority);
+                    p => p.DistSqr(entity) < Player.RadiusSqr);
             else
                 BroadcastPacketConditional(
                     pkt,
-                    p => p != exclude && p.DistSqr(entity) < Player.RadiusSqr,
-                    priority);
+                    p => p != exclude && p.DistSqr(entity) < Player.RadiusSqr);
         }
 
         public void BroadcastPacketNearby(
             Packet pkt,
-            Position pos,
-            PacketPriority priority = PacketPriority.Normal)
+            Position pos)
         {
             BroadcastPacketConditional(
                 pkt,
-                p => MathsUtils.DistSqr(p.X, p.Y, pos.X, pos.Y) < Player.RadiusSqr,
-                priority);
+                p => MathsUtils.DistSqr(p.X, p.Y, pos.X, pos.Y) < Player.RadiusSqr);
         }
 
         public void BroadcastPacketConditional(
             Packet pkt,
-            Predicate<Player> cond,
-            PacketPriority priority = PacketPriority.Normal)
+            Predicate<Player> cond)
         {
             foreach (var i in Players)
                 if (cond(i.Value))
-                    i.Value.Client.SendPacket(pkt, priority);
+                    i.Value.Client.SendPacket(pkt);
         }
 
         public void WorldAnnouncement(string msg)
@@ -539,7 +531,7 @@ namespace wServer.realm.worlds
             BroadcastPacket(new ShowEffect()
             {
                 EffectType = EffectType.Earthquake
-            }, null, PacketPriority.Low);
+            }, null);
 
             Timers.Add(new WorldTimer(8000, (w, t) =>
             {

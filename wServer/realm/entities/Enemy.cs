@@ -85,7 +85,7 @@ namespace wServer.realm.entities
                     Kill = HP < 0,
                     BulletId = 0,
                     ObjectId = from.Id
-                }, this, null, PacketPriority.Low);
+                }, this, null);
 
                 counter.HitBy(from, time, null, dmg);
 
@@ -122,7 +122,7 @@ namespace wServer.realm.entities
                     Kill = HP < 0,
                     BulletId = projectile.ProjectileId,
                     ObjectId = projectile.ProjectileOwner.Self.Id
-                }, this, (projectile.ProjectileOwner as Player), PacketPriority.Low);
+                }, this, (projectile.ProjectileOwner as Player));
 
                 counter.HitBy(projectile.ProjectileOwner as Player, time, projectile, dmg);
 

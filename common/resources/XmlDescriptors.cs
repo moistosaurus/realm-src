@@ -111,7 +111,8 @@ namespace common.resources
         RemoveNegativeConditionsSelf,
         ShurikenAbility,
         DazeBlast,
-        PermaPet
+        PermaPet,
+        Backpack
     }
 
     [Flags]
@@ -150,36 +151,35 @@ namespace common.resources
 
     public enum ConditionEffectIndex
     {
-        Nothing = 0,
-        Dead = 1,
-        Quiet = 2,
-        Weak = 3,
-        Slowed = 4,
-        Sick = 5,
-        Dazed = 6,
-        Stunned = 7,
-        Blind = 8,
-        Hallucinating = 9,
-        Drunk = 10,
-        Confused = 11,
-        StunImmune = 12,
-        Invisible = 13,
-        Paralyzed = 14,
-        Speedy = 15,
-        Bleeding = 16,
-        NotUsed = 17,
-        Healing = 18,
-        Damaging = 19,
-        Berserk = 20,
-        Paused = 21,
-        Stasis = 22,
-        StasisImmune = 23,
-        Invincible = 24,
-        Invulnerable = 25,
-        Armored = 26,
-        ArmorBroken = 27,
-        Hexed = 28,
-        NinjaSpeedy = 29
+        Dead = 0,
+        Quiet = 1,
+        Weak = 2,
+        Slowed = 3,
+        Sick = 4,
+        Dazed = 5,
+        Stunned = 6,
+        Blind = 7,
+        Hallucinating = 8,
+        Drunk = 9,
+        Confused = 10,
+        StunImmune = 11,
+        Invisible = 12,
+        Paralyzed = 13,
+        Speedy = 14,
+        Bleeding = 15,
+        NotUsed = 16,
+        Healing = 17,
+        Damaging = 18,
+        Berserk = 19,
+        Paused = 20,
+        Stasis = 21,
+        StasisImmune = 22,
+        Invincible = 23,
+        Invulnerable = 24,
+        Armored = 25,
+        ArmorBroken = 26,
+        Hexed = 27,
+        NinjaSpeedy = 28,
     }
 
     public class ObjectDesc
@@ -319,9 +319,11 @@ namespace common.resources
         public readonly bool IntergamePortal;
         public readonly bool Locked;
         public readonly int Timeout;
+        public readonly bool NexusPortal;
 
         public PortalDesc(ushort type, XElement e) : base(type, e)
         {
+            NexusPortal = e.HasElement("NexusPortal");
             DungeonName = e.GetValue<string>("DungeonName");
             IntergamePortal = e.HasElement("IntergamePortal");
             Locked = e.HasElement("LockedPortal");
@@ -441,8 +443,8 @@ namespace common.resources
         public readonly string Class;
         public readonly string DisplayId;
         public readonly string DisplayName;
-        public readonly int Tex1;
-        public readonly int Tex2;
+        public readonly int Texture1;
+        public readonly int Texture2;
         public readonly int SlotType;
         public readonly string Description;
         public readonly bool Consumable;
@@ -465,6 +467,7 @@ namespace common.resources
         public readonly bool LTBoosted;
         public readonly bool XpBoost;
         public readonly float Timer;
+        public readonly int MpEndCost;
 
         public readonly KeyValuePair<int, int>[] StatsBoost;
         public readonly ActivateEffect[] ActivateEffects;
@@ -477,8 +480,8 @@ namespace common.resources
             Class = e.GetValue<string>("Class");
             DisplayId = e.GetValue<string>("DisplayId");
             DisplayName = string.IsNullOrWhiteSpace(DisplayId) ? ObjectId : DisplayId;
-            Tex1 = e.GetValue<int>("Tex1");
-            Tex2 = e.GetValue<int>("Tex2");
+            Texture1 = e.GetValue<int>("Tex1");
+            Texture2 = e.GetValue<int>("Tex2");
             SlotType = e.GetValue<int>("SlotType");
             Description = e.GetValue<string>("Description");
             Consumable = e.HasElement("Consumable");
@@ -502,6 +505,7 @@ namespace common.resources
             LTBoosted = e.HasElement("LTBoosted");
             XpBoost = e.HasElement("XpBoost");
             Timer = e.GetValue<float>("Timer");
+            MpEndCost = e.GetValue<int>("MpEndCost", 0);
 
             var stats = new List<KeyValuePair<int, int>>();
             foreach (XElement i in e.Elements("ActivateOnEquip"))
@@ -608,9 +612,11 @@ namespace common.resources
         public readonly string Id;
         public readonly int MaxTargets;
         public readonly uint? Color;
-        public readonly int Stat;
+        public readonly int Stats;
         public readonly float Cooldown;
         public readonly bool RemoveSelf;
+        public readonly string DungeonName;
+        public readonly string LockedName;
 
         public ActivateEffect(XElement e)
         {
@@ -634,16 +640,18 @@ namespace common.resources
             Radius = e.GetAttribute<float>("radius");
             EffectDuration = e.GetAttribute<float>("condDuration");
             DurationSec = e.GetAttribute<float>("duration");
-            DurationMS = (int)(DurationMS * 1000.0f);
+            DurationMS = (int)(DurationSec * 1000.0f);
             Amount = e.GetAttribute<int>("amount");
             Range = e.GetAttribute<float>("range");
             ObjectId = e.GetAttribute<string>("objectId");
             Id = e.GetAttribute<string>("id");
             MaximumDistance = e.GetAttribute<float>("maxDistance");
             MaxTargets = e.GetAttribute<int>("maxTargets");
-            Stat = e.GetAttribute<int>("stat");
+            Stats = e.GetAttribute<int>("stat");
             Cooldown = e.GetAttribute<float>("cooldown");
             RemoveSelf = e.GetAttribute<bool>("removeSelf");
+            DungeonName = e.GetAttribute<string>("dungeonName");
+            LockedName = e.GetAttribute<string>("lockedName");
         }
     }
 

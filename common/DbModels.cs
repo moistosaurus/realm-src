@@ -626,24 +626,6 @@ namespace common
             get { return GetValue<bool>("hasBackpack"); }
             set { SetValue<bool>("hasBackpack", value); }
         }
-
-        public int XPBoostTime
-        {
-            get { return GetValue<int>("xpBoost"); }
-            set { SetValue<int>("xpBoost", value); }
-        }
-
-        public int LDBoostTime
-        {
-            get { return GetValue<int>("ldBoost"); }
-            set { SetValue<int>("ldBoost", value); }
-        }
-
-        public int LTBoostTime
-        {
-            get { return GetValue<int>("ltBoost"); }
-            set { SetValue<int>("ltBoost", value); }
-        }
     }
 
     public class DbDeath : RedisObject
@@ -799,7 +781,7 @@ namespace common
 
     public static class DbLegend
     {
-        private const int MaxListings = 10;
+        private const int MaxListings = 20;
         private static readonly Dictionary<string, TimeSpan> TimeSpans = new Dictionary<string, TimeSpan>()
         {
             {"week", TimeSpan.FromDays(7) },
