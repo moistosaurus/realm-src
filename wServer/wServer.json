@@ -17,6 +17,7 @@
         "adminOnly": "false"
     },
     "serverSettings": {
+        "logFolder": "./logs",
         "resourceFolder": "./resources",
         "version": "7.0",
         "tps": "20",

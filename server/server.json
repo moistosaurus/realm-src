@@ -12,6 +12,7 @@
         "port": "80"
     },
     "serverSettings": {
+        "logFolder": "./logs",
         "resourceFolder": "./resources",
         "sendGridApiKey": ""
     }

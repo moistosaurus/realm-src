@@ -47,7 +47,6 @@ namespace common
         public Coordinates coordinates { get; set; } = new Coordinates();
         public int players { get; set; } = 0;
         public int maxPlayers { get; set; } = 100;
-        public int queueLength { get; set; } = 0;
         public bool adminOnly { get; set; } = false;
         public int minRank { get; set; } = 0;
         public string instanceId { get; set; } = "";
@@ -56,6 +55,7 @@ namespace common
 
     public class ServerSettings
     {
+        public string logFolder { get; set; } = "./logs";
         public string resourceFolder { get; set; } = "./resources";
         public string version { get; set; } = "1.0.0";
         public int tps { get; set; } = 20;

@@ -22,6 +22,7 @@ namespace wServer.networking.handlers
 
             var gameData = client.Manager.Resources.GameData;
 
+            client.Account.Reload("skins"); // get newest skin data
             var ownedSkins = client.Account.Skins;
             var currentClass = client.Player.ObjectType;
 

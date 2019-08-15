@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 using common;
 using NLog;
@@ -87,8 +88,8 @@ namespace wServer.networking.server
                 return;
             }
 
-            if (!willRaiseEvent)
-                ProcessReceive(null, e);
+            //if (!willRaiseEvent)
+            //    ProcessReceive(null, e);
         }
 
         private void ProcessReceive(object sender, SocketAsyncEventArgs e)
@@ -179,16 +180,17 @@ namespace wServer.networking.server
             return bytesNotRead - remainingBytes;
         }
 
-        private async void StartSend(SocketAsyncEventArgs e, int msDelay = 0)
+        private async void StartSend(SocketAsyncEventArgs e, bool needsData = false)
         {
             if (_client.State == ProtocolState.Disconnected)
                 return;
 
+            //if (needsData)
+            //{
+            //    await Task.Delay(1);
+            //}
+
             var s = (SendToken)e.UserToken;
-
-            if (msDelay > 0)
-                await Task.Delay(msDelay);
-
             if (s.BytesAvailable <= 0)
             {
                 s.Reset();
@@ -213,8 +215,8 @@ namespace wServer.networking.server
                 return;
             }
 
-            if (!willRaiseEvent)
-                ProcessSend(null, e);
+            //if (!willRaiseEvent)
+            //    ProcessSend(null, e);
         }
 
         private void ProcessSend(object sender, SocketAsyncEventArgs e)
@@ -236,27 +238,16 @@ namespace wServer.networking.server
             s.BytesSent += e.BytesTransferred;
             s.BytesAvailable -= s.BytesSent;
 
-            var delay = 0;
-            if (s.BytesAvailable <= 0)
-                delay = 5;
-
-            StartSend(e, delay);
+            StartSend(e, s.BytesAvailable <= 0);
         }
 
         public void SendPacket(Packet pkt)
         {
-            //if (priority == PacketPriority.Low && _client.IsLagging)
-            //    return;
-
             _pendings.Enqueue(pkt);
-            //Console.WriteLine(pkt.GetType().ToString());
         }
 
         public void SendPackets(IEnumerable<Packet> pkts)
         {
-            //if (priority == PacketPriority.Low && _client.IsLagging)
-            //    return;
-
             foreach (var i in pkts)
                 _pendings.Enqueue(i);
         }
@@ -264,19 +255,18 @@ namespace wServer.networking.server
         private bool FlushPending(SendToken s)
         {
             Packet packet;
-            for (var i = 0; i < 3; i++)
-                while (_pendings.TryDequeue(out packet))
+            while (_pendings.TryDequeue(out packet))
+            {
+                var bytesWritten = packet.Write(_client, s.Data, s.BytesAvailable);
+
+                if (bytesWritten == 0)
                 {
-                    var bytesWritten = packet.Write(_client, s.Data, s.BytesAvailable);
-
-                    if (bytesWritten == 0)
-                    {
-                        _pendings.Enqueue(packet);
-                        return true;
-                    }
-
-                    s.BytesAvailable += bytesWritten;
+                    _pendings.Enqueue(packet);
+                    return true;
                 }
+
+                s.BytesAvailable += bytesWritten;
+            }
 
             if (s.BytesAvailable <= 0)
                 return false;

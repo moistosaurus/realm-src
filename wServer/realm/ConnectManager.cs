@@ -3,8 +3,10 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using common;
 using NLog;
 using wServer.networking;
+using wServer.networking.packets.incoming;
 using wServer.networking.packets.outgoing;
 using wServer.realm.worlds;
 using wServer.realm.worlds.logic;
@@ -12,6 +14,55 @@ using File = System.IO.File;
 
 namespace wServer.realm
 {
+    public class ConInfo : IEquatable<ConInfo>
+    {
+        public readonly Client Client;
+        public readonly DbAccount Account;
+        public readonly string GUID;
+        public readonly int GameId;
+        public readonly byte[] Key;
+        public readonly bool Reconnecting;
+        public readonly string MapInfo;
+        public readonly long Time;
+
+
+        public ConInfo(Client client, Hello pkt)
+        {
+            Client = client;
+            Account = client.Account;
+            GUID = pkt.GUID;
+            GameId = pkt.GameId;
+            Key = pkt.Key;
+            Reconnecting = !Key.SequenceEqual(Empty<byte>.Array);
+            MapInfo = pkt.MapJSON;
+            Time = DateTime.UtcNow.ToUnixTimestamp();
+        }
+
+        public bool Equals(ConInfo other)
+        {
+            return GUID.Equals(other.GUID);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (obj is ConInfo)
+            {
+                var p = (ConInfo)obj;
+                return Equals(p);
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return GUID.GetHashCode();
+        }
+    }
+
     public class ReconInfo
     {
         public readonly int Destination;
@@ -36,7 +87,6 @@ namespace wServer.realm
         private readonly RealmManager _manager;
         private readonly int _maxPlayerCount;
         private readonly int _maxPlayerCountWithPriority;
-        private readonly ConnectionQueue _queue;
         private readonly ConcurrentDictionary<int, ReconInfo> _recon;
         private readonly ConcurrentDictionary<Client, DateTime> _connecting;
         private long _lastTick;
@@ -47,7 +97,6 @@ namespace wServer.realm
             _maxPlayerCount = maxPlayerCount;
             _maxPlayerCountWithPriority = maxPlayerCountWithPriority;
             _recon = new ConcurrentDictionary<int, ReconInfo>();
-            _queue = new ConnectionQueue();
             _connecting = new ConcurrentDictionary<Client, DateTime>();
         }
 
@@ -60,40 +109,15 @@ namespace wServer.realm
                 return;
             }
 
-            // don't use queue for ranked players
-            if (conInfo.Account.Admin)
+            if (GetPlayerCount() < 
+                (conInfo.Account.Admin ? _maxPlayerCountWithPriority : _maxPlayerCount))
             {
-                if (GetPlayerCount() < _maxPlayerCountWithPriority)
-                {
-                    Connect(conInfo);
-                    return;
-                }
-
-                conInfo.Client.SendFailure("Server at max capacity.");
+                Connect(conInfo);
                 return;
             }
 
-            if (!_queue.Add(conInfo))
-            {
-                conInfo.Client.SendFailure("Account already in queue.",
-                    Failure.MessageWithDisconnect);
-                return;
-            }
-
-            conInfo.Client.State = ProtocolState.Queued;
-
-            var position = _queue.Position(conInfo);
-            if (_maxPlayerCount - GetPlayerCount() >= position)
-            {
-                return;
-            }
-
-            // send server full
-            //conInfo.Client.SendPacket(new ServerFull()
-            //{
-            //    Position = position,
-            //    Count = _queue.Count
-            //});
+            conInfo.Client.SendFailure("Server at max capacity.");
+            return;
         }
 
         public void AddReconnect(int accountId, Reconnect rcp)
@@ -107,12 +131,6 @@ namespace wServer.realm
 
         public void Tick(RealmTime time)
         {
-            _queue.KeepAlive(time);
-
-            // connect player if possible
-            if (GetPlayerCount() < _maxPlayerCount && _queue.Count > 0)
-                Connect(_queue.Remove());
-
             if (time.TotalElapsedMs - _lastTick > 5000)
             {
                 _lastTick = time.TotalElapsedMs;
@@ -206,6 +224,13 @@ namespace wServer.realm
             }
 
             var world = client.Manager.GetWorld(gameId);
+
+            if (gameId == World.Test && acc.Admin)
+            {
+                world = new Test();
+                _manager.AddWorld(world);
+            }
+
             if (world == null || world.Deleted)
             {
                 client.SendPacket(new Text()
@@ -254,7 +279,7 @@ namespace wServer.realm
             if (world is Test && !(world as Test).JsonLoaded)
             {
                 // save map
-                var mapFolder = $"./mapLogs";
+                var mapFolder = $"{_manager.Config.serverSettings.logFolder}/maps";
                 if (!Directory.Exists(mapFolder))
                     Directory.CreateDirectory(mapFolder);
                 File.WriteAllText($"{mapFolder}/{acc.Name}_{DateTime.Now.Ticks}.jm", conInfo.MapInfo);
@@ -265,6 +290,7 @@ namespace wServer.realm
 
                 world.SBName = dreamName;
                 world.Name = dreamName;
+
                 //client.Manager.Monitor.AddPortal(world.Id);
             }
 
@@ -326,11 +352,6 @@ namespace wServer.realm
             var plrInfo = client.Manager.Clients[client];
             plrInfo.WorldInstance = client.Player.Owner.Id;
             plrInfo.WorldName = client.Player.Owner.Name;
-        }
-
-        public int QueueLength()
-        {
-            return _queue.Count;
         }
     }
 }

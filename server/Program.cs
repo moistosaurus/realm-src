@@ -38,6 +38,9 @@ namespace server
                 ServerConfig.ReadFile(args[0]) :
                 ServerConfig.ReadFile("server.json");
 
+            LogManager.Configuration.Variables["logDirectory"] = Config.serverSettings.resourceFolder;
+            LogManager.ReconfigExistingLoggers();
+
             using (Resources = new Resources(Config.serverSettings.resourceFolder, false))
             using (Database = new Database(Resources, Config))
             {

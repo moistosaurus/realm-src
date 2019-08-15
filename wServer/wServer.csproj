@@ -287,7 +287,6 @@
     <Compile Include="realm\Collision.cs" />
     <Compile Include="realm\commands\Command.cs" />
     <Compile Include="realm\commands\RankedCommands.cs" />
-    <Compile Include="realm\ConnectionQueue.cs" />
     <Compile Include="realm\ConnectManager.cs" />
     <Compile Include="realm\DbEvents.cs" />
     <Compile Include="realm\DbServerManager.cs" />

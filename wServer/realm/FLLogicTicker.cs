@@ -113,6 +113,10 @@ namespace wServer.realm
             t.TickDelta = _worldTime.TickDelta;
             t.ElaspedMsDelta = t.TickDelta * MsPT;
 
+            if (t.ElaspedMsDelta > 170 && t.ElaspedMsDelta < 200)
+            {
+                Log.Fatal("OOF" + t.ElaspedMsDelta);
+            }
             if (t.ElaspedMsDelta < 200)
                 return;
 

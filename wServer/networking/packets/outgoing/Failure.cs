@@ -4,10 +4,11 @@ namespace wServer.networking.packets.outgoing
 {
     public class Failure : OutgoingMessage
     {
-        public const int MessageNoDisconnect = 0;
-        public const int ClientUpdateNeeded = 4;
-        public const int MessageWithDisconnect = 5;
-        public const int InvalidTeleportTarget = 6;
+        public const int MessageNoDisconnect = -1;
+        public const int MessageWithDisconnect = 0;
+        public const int ClientUpdateNeeded = 1;
+        public const int ForceCloseGame = 2;
+        public const int InvalidTeleportTarget = 3;
 
         public int ErrorId { get; set; }
         public string ErrorDescription { get; set; }

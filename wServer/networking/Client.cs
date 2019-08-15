@@ -22,7 +22,6 @@ namespace wServer.networking
         Disconnected,
         Connected,
         Handshaked,
-        Queued,
         Ready
     }
 
@@ -179,7 +178,7 @@ namespace wServer.networking
             SendPacket(pkt);
         }
 
-        public async void SendFailure(string text, int errorId = 0)
+        public async void SendFailure(string text, int errorId = Failure.MessageWithDisconnect)
         {
             SendPacket(new Failure()
             {
@@ -187,8 +186,8 @@ namespace wServer.networking
                 ErrorDescription = text
             });
 
-
-            if (errorId == Failure.MessageWithDisconnect)
+            if (errorId == Failure.MessageWithDisconnect ||
+                errorId == Failure.ForceCloseGame)
             {
                 var t = Task.Delay(1000);
                 await t;

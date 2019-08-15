@@ -119,7 +119,7 @@ namespace wServer.realm.entities.vendors
 
         private static readonly List<ISellableItem> Store2 = new List<ISellableItem>
         {
-            new ShopItem("Amulet of Resurrection", 11500),
+            new ShopItem("Amulet of Resurrection", 11250),
             new ShopItem("Backpack", 2000),
         };
 
@@ -139,7 +139,7 @@ namespace wServer.realm.entities.vendors
             new ShopItem("Green Frog Generator", 800),
             new ShopItem("Lion Generator", 1750),
             new ShopItem("Penguin Generator", 2500),
-            new ShopItem("Sheepdog Generator", 1200),
+            new ShopItem("Sheepdog Generator", 1750),
             new ShopItem("Panda Generator", 7500),
         };
 

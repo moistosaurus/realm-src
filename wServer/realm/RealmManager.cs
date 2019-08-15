@@ -165,7 +165,6 @@ namespace wServer.realm
             // recalculate usage statistics
             Config.serverInfo.players = ConMan.GetPlayerCount();
             Config.serverInfo.maxPlayers = Config.serverSettings.maxPlayers;
-            Config.serverInfo.queueLength = ConMan.QueueLength();
             Config.serverInfo.playerList.Add(plrInfo);
             return true;
         }
@@ -180,7 +179,6 @@ namespace wServer.realm
 
             // recalculate usage statistics
             Config.serverInfo.players = ConMan.GetPlayerCount();
-            Config.serverInfo.queueLength = ConMan.QueueLength();
             Config.serverInfo.playerList.Remove(plrInfo);
         }
 
