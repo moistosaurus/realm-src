@@ -33,8 +33,8 @@ namespace wServer
                 ServerConfig.ReadFile(args[0]) :
                 ServerConfig.ReadFile("wServer.json");
 
-            LogManager.Configuration.Variables["logDirectory"] = Config.serverSettings.resourceFolder;
-            LogManager.ReconfigExistingLoggers();
+            LogManager.Configuration.Variables["logDirectory"] = Config.serverSettings.logFolder + "/wServer";
+            LogManager.Configuration.Variables["buildConfig"] = Utils.GetBuildConfiguration();
 
             using (Resources = new Resources(Config.serverSettings.resourceFolder, true))
             using (Database = new Database(Resources, Config))

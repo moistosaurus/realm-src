@@ -493,8 +493,8 @@ namespace common.resources
                 Tier = e.GetValue<int>("Tier");
             BagType = e.GetValue<int>("BagType");
             FameBonus = e.GetValue<int>("FameBonus");
-            NumProjectiles = e.GetValue<int>("NumProjectiles");
-            ArcGap = e.GetValue<float>("ArcGap");
+            NumProjectiles = e.GetValue<int>("NumProjectiles", 1);
+            ArcGap = e.GetValue<float>("ArcGap", 11.25f);
             MpCost = e.GetValue<int>("MpCost");
             Cooldown = e.GetValue<float>("Cooldown", 0.5f);
             Doses = e.GetValue<int>("Doses");

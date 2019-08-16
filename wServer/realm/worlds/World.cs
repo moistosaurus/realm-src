@@ -31,11 +31,11 @@ namespace wServer.realm.worlds
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         protected static readonly Random Rand = new Random((int)DateTime.Now.Ticks);
 
-        public const int Realm = 1;
         public const int Tutorial = -1;
         public const int Nexus = -2;
         public const int NexusExplanation = -3;
         public const int Vault = -4;
+        public const int Realm = -5;
         public const int Test = -6;
         public const int GuildHall = -7;
 

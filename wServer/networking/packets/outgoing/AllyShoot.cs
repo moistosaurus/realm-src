@@ -16,14 +16,14 @@ namespace wServer.networking.packets.outgoing
         {
             BulletId = rdr.ReadByte();
             OwnerId = rdr.ReadInt32();
-            ContainerType = rdr.ReadUInt16();
+            ContainerType = (ushort)rdr.ReadInt16();
             Angle = rdr.ReadSingle();
         }
         protected override void Write(NWriter wtr)
         {
             wtr.Write(BulletId);
             wtr.Write(OwnerId);
-            wtr.Write(ContainerType);
+            wtr.Write((short)ContainerType);
             wtr.Write(Angle);
         }
     }

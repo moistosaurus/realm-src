@@ -149,7 +149,7 @@ namespace wServer.networking
 
                 try
                 {
-                    //Log.Info("Handling packet '{0}'...", pkt.ID);
+                    Log.Debug("Handling packet '{0}'...", pkt.ID);
 
                     IPacketHandler handler;
                     if (!PacketHandlers.Handlers.TryGetValue(pkt.ID, out handler))

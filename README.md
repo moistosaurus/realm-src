@@ -91,6 +91,9 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Fix UsePortal disposing map when entering a portal that isn't implemented
 - [x] Fix Loot bags
 - [ ] Fix con retry issue with client socket data
+- [ ] Remove client sided /help command
+- [x] Fix Ally Shoot issues
+- [x] Add guild halls
 - [ ] Add realm behaviors
 - [ ] Add Abyss of Demons
 - [ ] Add Undead Lair

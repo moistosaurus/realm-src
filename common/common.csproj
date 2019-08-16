@@ -127,6 +127,21 @@
     <None Include="resources\worlds\Abyss.jw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="resources\worlds\GuildHall.jw">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\worlds\GuildHall0.wmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\worlds\GuildHall1.wmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\worlds\GuildHall2.wmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="resources\worlds\GuildHall3.wmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="resources\worlds\Nexus.jm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
