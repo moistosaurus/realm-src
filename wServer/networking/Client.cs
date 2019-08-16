@@ -107,7 +107,7 @@ namespace wServer.networking
                 IP = "";
             }
 
-            Log.Info("Received client @ {0}.", IP);
+            Log.Trace("Received client @ {0}.", IP);
             _handler.BeginHandling(Skt);
         }
 

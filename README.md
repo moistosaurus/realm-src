@@ -84,16 +84,17 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [ ] Add tab switching like on prod (really important!!!)
 - [x] Fix merchant taking gold if inv is full
 - [x] Fix vault chest purchashing
+- [x] Fix interact key always entering ghall
 - [x] Make PacketIds ordered
 - [x] Fix "skin not owned" after buying a skin in game
 - [x] Setup NLog properly for dynamic log dir
 - [x] Add random realm naming
 - [x] Fix UsePortal disposing map when entering a portal that isn't implemented
 - [x] Fix Loot bags
-- [ ] Fix con retry issue with client socket data
+- [x] Fix con retry issue with client socket data
 - [x] Remove client sided /help command
 - [x] Fix Ally Shoot issues
-- [ ] Fix Scrollbars (make them scrollable via mouse wheel)
+- [x] Fix Scrollbars (make them scrollable via mouse wheel, only when mouse above bar)
 - [ ] Add Hardware Accel (old clients don't have it)
 - [ ] Add unnecessary particles option
 - [ ] Add hp bars option

@@ -107,10 +107,7 @@ namespace wServer.networking.handlers
                     queue.Dequeue()();
 
                 player.Client.SendPacket(new InvResult() { Result = 0 });
-
-                // if execute failed, undo inventory changes
-                //if (!Inventory.Revert(conATrans, conBTrans))
-                //    Log.Warn($"Failed to revert changes. {player.Name} has an extra {itemA?.ObjectId} or {itemB?.ObjectId}");
+                return;
             }
 
             a.ForceUpdate(slotA);
