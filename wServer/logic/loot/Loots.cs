@@ -82,13 +82,6 @@ namespace wServer.logic.loot
 
             // generate a list of all possible loot drops
             var possibleDrops = GetPossibleDrops();
-            var possibleWorldDrops = enemy.Owner.WorldLoot.GetPossibleDrops();
-            foreach (var wDrop in possibleWorldDrops.Where(drop => drop.Item.ObjectType != 0xa22 && drop.Item.ObjectType != 0xa23))
-            {
-                // so we can override drops with world drops if we want to. For example, Oryx's arena key not dropping in OA.
-                possibleDrops.RemoveAll(d => d.Item == wDrop.Item);
-            }
-            possibleDrops.AddRange(possibleWorldDrops); // adds world drops
             var reqDrops = possibleDrops.ToDictionary(drop => drop, drop => drop.NumRequired);
 
             // generate public loot

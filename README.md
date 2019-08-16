@@ -74,14 +74,12 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Fix up connecting bugs and remove NR con queue
 - [x] Fix map editor testing & visual bugs
 - [x] Fix cloak (& possibly others) tooltip not working when they are equipped
-- [ ] Fix client loading up wrong character (causes skin view to bug out (and dyes/skin))
-- [ ] Fix reskin in game UI bugging out
+- [x] Fix client loading up wrong character (causes skin view to bug out)
+- [x] Fix skin ownership parsing
 - [x] Fix dye merchants not showing the look of the dye 
-- [ ] Fix weird particle rendering in AS3 client
 - [x] Remove gifts completely (really want this source to be barebones!)
 - [x] Fix small network latency even on localhost (Tasks are bad, try reset events.)
-- [ ] Add permapets (yay)
-- [ ] Add tab switching like on prod (really important!!!)
+- [x] Add tab switching like on prod (really important!!!)
 - [x] Fix merchant taking gold if inv is full
 - [x] Fix vault chest purchashing
 - [x] Fix interact key always entering ghall
@@ -94,12 +92,14 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Fix con retry issue with client socket data
 - [x] Remove client sided /help command
 - [x] Fix Ally Shoot issues
-- [x] Fix Scrollbars (make them scrollable via mouse wheel, only when mouse above bar)
+- [x] Fix Scrollbars (make them scrollable via mouse wheel)
+- [ ] Add some more skins from prod (cause cute)
 - [ ] Add Hardware Accel (old clients don't have it)
 - [ ] Add unnecessary particles option
 - [ ] Add hp bars option
 - [ ] Add server sided projectile, AOE, and ground damage tracking (fix godmode basically)
 - [x] Add guild halls
+- [ ] Add permapets (yay)
 - [ ] Add realm behaviors
 - [ ] Add Abyss of Demons
 - [ ] Add Undead Lair

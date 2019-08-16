@@ -89,7 +89,7 @@ namespace server
         {
             try
             {
-                Log.Info("Dispatching '{0}'@{1}",
+                Log.Trace("Dispatching '{0}'@{1}",
                     rContext.Request.Url.LocalPath,
                     rContext.Request.ClientIP());
 

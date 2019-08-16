@@ -430,7 +430,7 @@ namespace common.resources
             ObjectId = e.GetAttribute<string>("id");
             PlayerClassType = e.GetValue<ushort>("PlayerClassType");
             UnlockLevel = e.GetValue<int>("UnlockLevel");
-            Cost = e.GetValue<int>("Cost", 500);
+            Cost = e.GetValue<int>("Cost", 900);
             Size = e.GetValue<int>("Size", 100);
         }
     }

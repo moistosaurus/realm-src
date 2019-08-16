@@ -23,11 +23,6 @@ namespace wServer.realm.worlds
 {
     public class World
     {
-        // world loot has a chance to drop with any mob death
-        public Loot WorldLoot = new Loot(
-                new TierLoot(1, ItemType.Potion, .03)
-            );
-
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
         protected static readonly Random Rand = new Random((int)DateTime.Now.Ticks);
 

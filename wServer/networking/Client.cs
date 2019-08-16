@@ -149,7 +149,7 @@ namespace wServer.networking
 
                 try
                 {
-                    Log.Debug("Handling packet '{0}'...", pkt.ID);
+                    Log.Trace("Handling packet '{0}'...", pkt.ID);
 
                     IPacketHandler handler;
                     if (!PacketHandlers.Handlers.TryGetValue(pkt.ID, out handler))
@@ -173,7 +173,7 @@ namespace wServer.networking
                 return;
             }
 
-            Log.Info("Reconnecting client ({0}) @ {1} to {2}...", Account.Name, IP, pkt.Name);
+            Log.Trace("Reconnecting client ({0}) @ {1} to {2}...", Account.Name, IP, pkt.Name);
             Manager.ConMan.AddReconnect(Account.AccountId, pkt);
             SendPacket(pkt);
         }
@@ -206,7 +206,7 @@ namespace wServer.networking
                 State = ProtocolState.Disconnected;
 
                 if (!string.IsNullOrEmpty(reason))
-                    Log.Info("Disconnecting client ({0}) @ {1}... {2}",
+                    Log.Trace("Disconnecting client ({0}) @ {1}... {2}",
                         Account?.Name ?? " ", IP, reason);
 
                 if (Account != null)
