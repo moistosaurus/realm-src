@@ -4,7 +4,8 @@
     <VaultCount>1</VaultCount>
     <Fame>0</Fame>
     <Credits>0</Credits>
-    <SlotCost>500</SlotCost>
+    <SlotCost>1500</SlotCost>
+    <SlotCurrency>1</SlotCurrency>
     <!--<ClassesUnlocked/>-->
     <!--<SkinsUnlocked/>-->
   </NewAccounts>

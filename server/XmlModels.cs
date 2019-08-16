@@ -276,6 +276,7 @@ namespace server
 
         public int Credits { get; private set; }
         public int NextCharSlotPrice { get; private set; }
+        public int NextCharSlotCurrency { get; private set; }
 
         public Vault Vault { get; private set; }
         public Stats Stats { get; private set; }
@@ -296,6 +297,7 @@ namespace server
 
                 Credits = acc.Credits,
                 NextCharSlotPrice = Program.Resources.Settings.NewAccounts.SlotCost,
+                NextCharSlotCurrency = (int)Program.Resources.Settings.NewAccounts.SlotCurrency,
 
                 Vault = Vault.FromDb(acc, new DbVault(acc)),
                 Stats = Stats.FromDb(acc, new DbClassStats(acc)),
@@ -318,9 +320,9 @@ namespace server
 
                     new XElement("Credits", Credits),
                     new XElement("NextCharSlotPrice", NextCharSlotPrice),
+                    new XElement("NextCharSlotCurrency", NextCharSlotCurrency),
 
                     Vault.ToXml(),
-                    // gifts here
                     Stats.ToXml(),
                     Guild.ToXml()
                 );

@@ -69,7 +69,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Fix condition effects
 - [x] Remove packet priority (everything should be sent logically, no priorities needed)
 - [x] Make particles render in a static way (only try to update texture on update, not every frame, performance boost)
-- [ ] Make it possible to control char slot currency through server (XML tag)
+- [x] Make it possible to control char slot currency through server (XML tag)
 - [x] Make dialogs/result packets nicer to work with (e.g. merchant dialogs) - added FlexibleDialog.as
 - [x] Fix up connecting bugs and remove NR con queue
 - [x] Fix map editor testing & visual bugs
@@ -91,8 +91,13 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Fix UsePortal disposing map when entering a portal that isn't implemented
 - [x] Fix Loot bags
 - [ ] Fix con retry issue with client socket data
-- [ ] Remove client sided /help command
+- [x] Remove client sided /help command
 - [x] Fix Ally Shoot issues
+- [ ] Fix Scrollbars (make them scrollable via mouse wheel)
+- [ ] Add Hardware Accel (old clients don't have it)
+- [ ] Add unnecessary particles option
+- [ ] Add hp bars option
+- [ ] Add server sided projectile, AOE, and ground damage tracking (fix godmode basically)
 - [x] Add guild halls
 - [ ] Add realm behaviors
 - [ ] Add Abyss of Demons
@@ -109,6 +114,11 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [ ] Add Tomb of the Ancients
 - [ ] Add Davy's Jones Locker
 - [ ] Add Manor of the Immortals
+- [ ] Add Haunted Cemetery
+- [ ] Add Oryx's Castle
+- [ ] Add Oryx's Chamber
+- [ ] Add Wine Cellar
+- [ ] Add Cave of a Thousand Treasures
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 

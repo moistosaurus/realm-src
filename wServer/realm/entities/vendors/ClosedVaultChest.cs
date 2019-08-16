@@ -9,8 +9,8 @@ namespace wServer.realm.entities.vendors
     {
         public ClosedVaultChest(RealmManager manager, ushort objType) : base(manager, objType)
         {
-            Price = 500;
-            Currency = CurrencyType.Gold;
+            Price = 750;
+            Currency = CurrencyType.Fame;
         }
 
         public override void Buy(Player player)

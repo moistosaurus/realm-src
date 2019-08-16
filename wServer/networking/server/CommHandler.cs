@@ -76,20 +76,12 @@ namespace wServer.networking.server
             e.SetBuffer(e.Offset, _bufferSize);
 
             // Post async receive operation on the socket.
-            bool willRaiseEvent;
-            try
-            {
-                willRaiseEvent = e.AcceptSocket.ReceiveAsync(e);
-
-            }
+            try { e.AcceptSocket.ReceiveAsync(e); }
             catch (Exception exception)
             {
                 _client.Disconnect($"[{_client.Account?.Name}:{_client.Account?.AccountId} {_client.IP}] {exception}");
                 return;
             }
-
-            //if (!willRaiseEvent)
-            //    ProcessReceive(null, e);
         }
 
         private void ProcessReceive(object sender, SocketAsyncEventArgs e)
@@ -180,15 +172,10 @@ namespace wServer.networking.server
             return bytesNotRead - remainingBytes;
         }
 
-        private async void StartSend(SocketAsyncEventArgs e, bool needsData = false)
+        private void StartSend(SocketAsyncEventArgs e)
         {
             if (_client.State == ProtocolState.Disconnected)
                 return;
-
-            //if (needsData)
-            //{
-            //    await Task.Delay(1);
-            //}
 
             var s = (SendToken)e.UserToken;
             if (s.BytesAvailable <= 0)
@@ -204,19 +191,12 @@ namespace wServer.networking.server
             Buffer.BlockCopy(s.Data, s.BytesSent,
                 e.Buffer, s.BufferOffset, bytesToSend);
 
-            bool willRaiseEvent;
-            try
-            {
-                willRaiseEvent = e.AcceptSocket.SendAsync(e);
-            }
+            try { e.AcceptSocket.SendAsync(e); }
             catch (Exception exception)
             {
                 _client.Disconnect($"[{_client.Account?.Name}:{_client.Account?.AccountId} {_client.IP}] {exception}");
                 return;
             }
-
-            //if (!willRaiseEvent)
-            //    ProcessSend(null, e);
         }
 
         private void ProcessSend(object sender, SocketAsyncEventArgs e)
@@ -238,7 +218,7 @@ namespace wServer.networking.server
             s.BytesSent += e.BytesTransferred;
             s.BytesAvailable -= s.BytesSent;
 
-            StartSend(e, s.BytesAvailable <= 0);
+            StartSend(e);
         }
 
         public void SendPacket(Packet pkt)

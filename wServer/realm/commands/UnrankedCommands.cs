@@ -16,6 +16,23 @@ using wServer.networking.packets.outgoing;
 
 namespace wServer.realm.commands
 {
+    class GLandCommand : Command
+    {
+        public GLandCommand() : base("gland", alias: "glands") { }
+
+        protected override bool Process(Player player, RealmTime time, string args)
+        {
+            if (!(player.Owner is Realm))
+            {
+                player.SendError("This command requires you to be in realm first.");
+                return false;
+            }
+
+            player.TeleportPosition(time, 1512 + 0.5f, 1048 + 0.5f);
+            return true;
+        }
+    }
+
     class JoinGuildCommand : Command
     {
         public JoinGuildCommand() : base("join") { }
