@@ -29,12 +29,10 @@ namespace wServer.logic.loot
         static readonly Random Rand = new Random();
 
         static readonly ushort BROWN_BAG = 0x0500;
-        static readonly ushort PINK_BAG = 0x0506;
-        static readonly ushort PURPLE_BAG = 0x0507;
-        static readonly ushort EGG_BASKET = 0x0508;
-        static readonly ushort CYAN_BAG = 0x0509;
-        static readonly ushort POTION_BAG = 0x050B;
-        static readonly ushort WHITE_BAG = 0x050C;
+        static readonly ushort PURPLE_BAG = 0x0506;
+        static readonly ushort CYAN_BAG = 0x0507;
+        static readonly ushort POTION_BAG = 0x0508;
+        static readonly ushort WHITE_BAG = 0x0509;
 
         public Loot(params MobDrops[] lootDefs)   //For independent loots(e.g. chests)
         {
@@ -218,12 +216,10 @@ namespace wServer.logic.loot
             switch (bagType)
             {
                 case 0: bag = BROWN_BAG; break;
-                case 1: bag = PINK_BAG; break;
-                case 2: bag = PURPLE_BAG; break;
-                case 3: bag = EGG_BASKET; break;
-                case 4: bag = CYAN_BAG; break;
-                case 5: bag = POTION_BAG; break;
-                case 6: bag = WHITE_BAG; break;
+                case 1: bag = PURPLE_BAG; break;
+                case 2: bag = CYAN_BAG; break;
+                case 3: bag = POTION_BAG; break;
+                case 4: bag = WHITE_BAG; break;
             }
 
             var container = new Container(enemy.Manager, bag, 1000 * 60, true);
@@ -235,7 +231,7 @@ namespace wServer.logic.loot
             container.Move(
                 enemy.X + (float)((Rand.NextDouble() * 2 - 1) * 0.5),
                 enemy.Y + (float)((Rand.NextDouble() * 2 - 1) * 0.5));
-            container.SetDefaultSize(bagType > 3 ? 120 : 80);
+            container.SetDefaultSize(80);
             enemy.Owner.EnterWorld(container);
         }
     }

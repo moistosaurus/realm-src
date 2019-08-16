@@ -29,6 +29,8 @@ namespace wServer.networking.handlers
             {
                 player.Move(newX, newY);
             }
+
+            //player.SendUpdate(time);
         }
     }
 }

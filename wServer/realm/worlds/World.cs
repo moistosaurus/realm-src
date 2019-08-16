@@ -118,7 +118,7 @@ namespace wServer.realm.worlds
         {
             if (SBName != null && SBName.Length > 0)
             {
-                return SBName[0] == '{' ? Name : SBName;
+                return SBName;
             }
             else
             {

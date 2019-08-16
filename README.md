@@ -87,7 +87,25 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Make PacketIds ordered
 - [x] Fix "skin not owned" after buying a skin in game
 - [x] Setup NLog properly for dynamic log dir
-- [ ] Add random realm naming
+- [x] Add random realm naming
+- [x] Fix UsePortal disposing map when entering a portal that isn't implemented
+- [x] Fix Loot bags
+- [ ] Fix con retry issue with client socket data
+- [ ] Add realm behaviors
+- [ ] Add Abyss of Demons
+- [ ] Add Undead Lair
+- [ ] Add Snake Pit
+- [ ] Add Spider Den
+- [ ] Add Ocean Trench
+- [ ] Add Mad Lab
+- [ ] Add Sprite World
+- [ ] Add Pirate Cave
+- [ ] Add Forbidden Jungle
+- [ ] Add Beachzone
+- [ ] Add Candyland
+- [ ] Add Tomb of the Ancients
+- [ ] Add Davy's Jones Locker
+- [ ] Add Manor of the Immortals
 
 If you find a problem in the source, feel free to open an issue [here](https://github.com/moistosaurus/realm-src/issues).
 

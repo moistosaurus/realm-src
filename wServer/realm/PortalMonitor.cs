@@ -19,7 +19,6 @@ namespace wServer.realm
         private readonly World _world;
         private readonly RealmManager _manager;
         private readonly Random _rand;
-        private readonly Regex _playerCountRgx;
         private readonly object _worldLock;
 
         public PortalMonitor(RealmManager manager, World world)
@@ -31,7 +30,6 @@ namespace wServer.realm
             _portals = new Dictionary<int, Portal>();
 
             _rand = new Random();
-            _playerCountRgx = new Regex(@" \((\d+)\)$");
             _worldLock = new object();
         }
 
@@ -237,7 +235,7 @@ namespace wServer.realm
                         continue;
 
                     var count = p.WorldInstance.Players.Count;
-                    var updatedCount = _playerCountRgx.Replace(p.Name, $" ({count})");
+                    var updatedCount = p.WorldInstance.GetDisplayName() + $" ({count})";
                     if (p.Name.Equals(updatedCount))
                         continue;
 

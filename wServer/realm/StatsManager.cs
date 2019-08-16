@@ -142,7 +142,7 @@ namespace wServer.realm
             var vit = this[6];
             if (Owner.HasConditionEffect(ConditionEffects.Sick))
                 vit = 0;
-            return 1 + 0.12f * vit;
+            return 1 + vit / 8f;
         }
 
         public float GetMPRegen()
@@ -150,7 +150,7 @@ namespace wServer.realm
             int wis = this[7];
             if (Owner.HasConditionEffect(ConditionEffects.Quiet))
                 return 0;
-            return 0.5f + 0.06f * wis;
+            return 0.8f + wis / 16.7f;
         }
 
         /*public float Dex()

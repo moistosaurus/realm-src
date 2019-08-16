@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using common.resources;
@@ -11,6 +12,25 @@ namespace wServer.realm.worlds.logic
 {
     public class Realm : World
     {
+        private static string[] _realmNames = 
+        {
+            "Lich", "Goblin", "Ghost",
+            "Giant", "Gorgon","Blob",
+            "Leviathan", "Unicorn", "Minotaur",
+            "Cube", "Pirate", "Spider",
+            "Snake", "Deathmage", "Gargoyle",
+            "Scorpion", "Djinn", "Phoenix",
+            "Satyr", "Drake", "Orc",
+            "Flayer", "Cyclops", "Sprite",
+            "Chimera", "Kraken", "Hydra",
+            "Slime", "Ogre", "Hobbit",
+            "Titan", "Medusa", "Golem",
+            "Demon", "Skeleton", "Mummy",
+            "Imp", "Bat", "Wyrm",
+            "Spectre", "Reaper", "Beholder",
+            "Dragon", "Harpy"
+        };
+
         static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         private Oryx _overseer;
@@ -35,6 +55,7 @@ namespace wServer.realm.worlds.logic
         {
             Log.Info("Initializing Game World {0}({1}) from map {2}...", Id, Name, _mapId);
 
+            SBName = _realmNames[Environment.TickCount % _realmNames.Length];
             FromWorldMap(new MemoryStream(Manager.Resources.Worlds["Realm"].wmap[_mapId - 1]));
             SetPieces.ApplySetPieces(this);
 

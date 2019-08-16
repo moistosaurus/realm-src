@@ -471,14 +471,15 @@ namespace wServer.realm.entities
 
             Owner.Timers.Add(new WorldTimer(timeoutTime * 1000, (world, t) => world.LeaveWorld(entity)));
 
+            string openedByMsg = gameData.Portals[objType].DungeonName + " opened by " + Name + "!";
             Owner.BroadcastPacket(new Notification
             {
                 Color = new ARGB(0xFF00FF00),
                 ObjectId = Id,
-                Message = "Opened by " + Name
+                Message = openedByMsg
             }, null);
             foreach (var player in Owner.Players.Values)
-                player.SendInfo(gameData.Portals[objType].DungeonName + " opened by " + Name + "!");
+                player.SendInfo(openedByMsg);
         }
 
         private void AEIncrementStat(RealmTime time, Item item, Position target, ActivateEffect eff)
