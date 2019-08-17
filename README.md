@@ -99,6 +99,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [ ] Add unnecessary particles option
 - [ ] Add hp bars option
 - [ ] Add server sided projectile, AOE, and ground damage tracking (fix godmode basically)
+- [ ] Fix projectile Z value when standing on ProtectFromGroundDamage objects
 - [x] Add guild halls
 - [x] Add permapets (yay)
 - [ ] Add realm behaviors

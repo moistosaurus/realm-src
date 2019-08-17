@@ -30,6 +30,7 @@ namespace wServer.networking.server
         private readonly SocketAsyncEventArgs _send;
         private readonly SocketAsyncEventArgs _receive;
         private ConcurrentQueue<Packet> _pendings;
+        private ManualResetEvent _reset;
 
         public CommHandler(
             Client client,
@@ -47,6 +48,7 @@ namespace wServer.networking.server
             _send.Completed += ProcessSend;
 
             _pendings = new ConcurrentQueue<Packet>();
+            _reset = new ManualResetEvent(true);
         }
 
         public void Reset()
@@ -55,6 +57,7 @@ namespace wServer.networking.server
             ((ReceiveToken)_receive.UserToken).Reset();
 
             _pendings = new ConcurrentQueue<Packet>(); // maybe .Clear() instead?
+            _reset.Reset();
         }
 
         public void BeginHandling(Socket skt)
@@ -218,18 +221,25 @@ namespace wServer.networking.server
             s.BytesSent += e.BytesTransferred;
             s.BytesAvailable -= s.BytesSent;
 
+            if (s.BytesAvailable <= 0)
+            {
+                _reset.Reset();
+                _reset.WaitOne();
+            }
             StartSend(e);
         }
 
         public void SendPacket(Packet pkt)
         {
             _pendings.Enqueue(pkt);
+            _reset.Set();
         }
 
         public void SendPackets(IEnumerable<Packet> pkts)
         {
             foreach (var i in pkts)
                 _pendings.Enqueue(i);
+            _reset.Set();
         }
 
         private bool FlushPending(SendToken s)
