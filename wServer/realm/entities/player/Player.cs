@@ -163,6 +163,8 @@ namespace wServer.realm.entities
             set { _oxygenBar.SetValue(value); }
         }
 
+        public int PetId { get; set; }
+        public Pet Pet { get; set; }
         public int? GuildInvite { get; set; }
         public bool Muted { get; set; }
 
@@ -256,7 +258,7 @@ namespace wServer.realm.entities
             chr.HealthStackCount = HealthPots.Count;
             chr.MagicStackCount = MagicPots.Count;
             chr.HasBackpack = HasBackpack;
-            //chr.PetId = Pet?.PetId ?? 0;
+            chr.PetId = PetId;
             chr.Items = Inventory.GetItemTypes();
         }
 
@@ -309,6 +311,8 @@ namespace wServer.realm.entities
                 Guild = guild.Name;
                 GuildRank = client.Account.GuildRank;
             }
+
+            PetId = client.Character.PetId;
 
             HealthPots = new ItemStacker(this, 254, 0x0A22,
                 client.Character.HealthStackCount, settings.MaxStackablePotions);
@@ -365,18 +369,7 @@ namespace wServer.realm.entities
             tiles = new byte[owner.Map.Width, owner.Map.Height];
 
             // spawn pet if player has one attached
-            //var petId = _client.Character.PetId;
-            //if (petId > 0 && Manager.Config.serverSettings.enablePets)
-            //{
-            //    var dbPet = new DbPet(Client.Account, petId);
-            //    if (dbPet.ObjectType != 0)
-            //    {
-            //        var pet = new Pet(Manager, this, dbPet);
-            //        pet.Move(X, Y);
-            //        owner.EnterWorld(pet);
-            //        Pet = pet;
-            //    }
-            //}
+            SpawnPetIfAttached(owner);
 
             FameCounter = new FameCounter(this);
             FameGoal = GetFameGoal(FameCounter.ClassStats[ObjectType].BestFame);
@@ -394,6 +387,23 @@ namespace wServer.realm.entities
             }
 
             base.Init(owner);
+        }
+
+        private void SpawnPetIfAttached(World owner)
+        {   
+            // despawn old pet if found
+            Pet?.Owner?.LeaveWorld(Pet); 
+
+            // create new pet
+            var petId = PetId;
+            if (petId != 0)
+            {
+                var pet = new Pet(Manager, this, (ushort)petId);
+                pet.Move(X, Y);
+                owner.EnterWorld(pet);
+                pet.SetDefaultSize(pet.ObjectDesc.Size);
+                Pet = pet;
+            }
         }
 
         public override void Tick(RealmTime time)
@@ -430,7 +440,6 @@ namespace wServer.realm.entities
 
         float _hpRegenCounter;
         float _mpRegenCounter;
-        float _hpPotRegenCounter;
         void HandleRegen(RealmTime time)
         {
             // hp regen

@@ -94,6 +94,7 @@ namespace wServer.realm.entities
         {
             using (TimedLock.Lock(_useLock))
             {
+                Log.Debug(objId + ":" + slot);
                 var entity = Owner.GetEntity(objId);
                 if (entity == null)
                 {
@@ -157,15 +158,18 @@ namespace wServer.realm.entities
                 {
                     slotType = container.SlotTypes[slot];
 
-                    if (item.Consumable)
+                    if (item.TypeOfConsumable)
                     {
                         var gameData = Manager.Resources.GameData;
                         var db = Manager.Database;
 
-                        Item successor = null;
-                        if (item.SuccessorId != null)
-                            successor = gameData.Items[gameData.IdToObjectType[item.SuccessorId]];
-                        cInv[slot] = successor;
+                        if (item.Consumable)
+                        {
+                            Item successor = null;
+                            if (item.SuccessorId != null)
+                                successor = gameData.Items[gameData.IdToObjectType[item.SuccessorId]];
+                            cInv[slot] = successor;
+                        }
 
                         if (!Inventory.Execute(cInv)) // can result in the loss of an item if inv trans fails...
                         {
@@ -202,8 +206,12 @@ namespace wServer.realm.entities
                     FameCounter.DrinkPot();
                 }
 
+                Log.Debug(item.SlotType + ":" + slotType);
                 if (item.Consumable || item.SlotType == slotType)
+                {
+                    Log.Debug("HUH");
                     Activate(time, item, pos);
+                }
                 else
                     Client.SendPacket(new InvResult() { Result = 1 });
             }
@@ -297,7 +305,9 @@ namespace wServer.realm.entities
                         AEShurikenAbility(time, item, target, eff);
                         break;
                     case ActivateEffects.DazeBlast:
+                        break;
                     case ActivateEffects.PermaPet:
+                        AEPermaPet(time, item, target, eff);
                         break;
                     case ActivateEffects.Backpack:
                         AEBackpack(time, item, target, eff);
@@ -313,6 +323,17 @@ namespace wServer.realm.entities
         {
             HasBackpack = true;
         }
+
+        private void AEPermaPet(RealmTime time, Item item, Position target, ActivateEffect eff)
+        {
+            var type = Manager.Resources.GameData.IdToObjectType[eff.ObjectId];
+            var desc = Manager.Resources.GameData.ObjectDescs[type];
+            Log.Debug(desc.ObjectType);
+            PetId = desc.ObjectType;
+            SpawnPetIfAttached(Owner);
+            Log.Debug("hey!");
+        }
+
         private void AEUnlockPortal(RealmTime time, Item item, Position target, ActivateEffect eff)
         {
             var gameData = Manager.Resources.GameData;

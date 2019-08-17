@@ -224,7 +224,7 @@ namespace wServer.realm.entities
                     yield return i.Value;
 
             foreach (var i in Owner.PlayersCollision.HitTest(X, Y, Radius))
-                if ((i is Decoy) && _clientEntities.Add(i))
+                if ((i is Decoy || i is Pet) && _clientEntities.Add(i))
                     yield return i;
 
             var p = new IntPoint(0, 0);

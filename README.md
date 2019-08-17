@@ -93,13 +93,14 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Remove client sided /help command
 - [x] Fix Ally Shoot issues
 - [x] Fix Scrollbars (make them scrollable via mouse wheel)
-- [ ] Add some more skins from prod (cause cute)
+- [x] Add some more skins from prod (cause cute)
+- [x] Allow to view skins when no char slots available like on prod
 - [ ] Add Hardware Accel (old clients don't have it)
 - [ ] Add unnecessary particles option
 - [ ] Add hp bars option
 - [ ] Add server sided projectile, AOE, and ground damage tracking (fix godmode basically)
 - [x] Add guild halls
-- [ ] Add permapets (yay)
+- [x] Add permapets (yay)
 - [ ] Add realm behaviors
 - [ ] Add Abyss of Demons
 - [ ] Add Undead Lair

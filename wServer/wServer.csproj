@@ -97,6 +97,7 @@
     <Compile Include="logic\behaviors\Order.cs" />
     <Compile Include="logic\behaviors\OrderOnce.cs" />
     <Compile Include="logic\behaviors\OrderOnDeath.cs" />
+    <Compile Include="logic\behaviors\PetFollow.cs" />
     <Compile Include="logic\behaviors\Prioritize.cs" />
     <Compile Include="logic\behaviors\Protect.cs" />
     <Compile Include="logic\behaviors\RelativeSpawn.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="logic\Cooldown.cs" />
     <Compile Include="logic\CycleBehavior.cs" />
     <Compile Include="logic\DamageCounter.cs" />
+    <Compile Include="logic\db\BehaviorDb.Misc.cs" />
     <Compile Include="logic\FameCounter.cs" />
     <Compile Include="logic\loot\Loots.cs" />
     <Compile Include="logic\loot\MobDrops.cs" />
@@ -299,6 +301,7 @@
     <Compile Include="realm\entities\GiftChest.cs" />
     <Compile Include="realm\entities\GuildHallPortal.cs" />
     <Compile Include="realm\entities\OneWayContainer.cs" />
+    <Compile Include="realm\entities\Pet.cs" />
     <Compile Include="realm\entities\Placeholder.cs" />
     <Compile Include="realm\entities\player\Player.AntiCheat.cs" />
     <Compile Include="realm\entities\player\Player.Chat.cs" />
@@ -396,8 +399,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="logic\db\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

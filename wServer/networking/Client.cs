@@ -159,7 +159,7 @@ namespace wServer.networking
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Error when handling packet '{{0}, {1}}'...", pkt.ToString(), e);
+                    Log.Error("Error when handling packet '{{0}, {1}}'...", pkt.ToString(), e.ToString());
                     Disconnect("Packet handling error.");
                 }
             }

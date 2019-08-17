@@ -910,7 +910,7 @@ namespace common
                 Tex1 = 0,
                 Tex2 = 0,
                 Skin = skinType,
-                PetId = 0xffff,
+                PetId = 0,
                 FameStats = new byte[0],
                 CreateTime = DateTime.Now,
                 LastSeen = DateTime.Now

@@ -447,6 +447,8 @@ namespace common.resources
         public readonly int SlotType;
         public readonly string Description;
         public readonly bool Consumable;
+        public readonly bool InvUse;
+        public readonly bool TypeOfConsumable;
         public readonly bool Soulbound;
         public readonly bool Potion;
         public readonly bool Usable;
@@ -505,6 +507,8 @@ namespace common.resources
             XpBoost = e.HasElement("XpBoost");
             Timer = e.GetValue<float>("Timer");
             MpEndCost = e.GetValue<int>("MpEndCost", 0);
+            InvUse = e.HasElement("InvUse");
+            TypeOfConsumable = InvUse || Consumable;
 
             var stats = new List<KeyValuePair<int, int>>();
             foreach (XElement i in e.Elements("ActivateOnEquip"))

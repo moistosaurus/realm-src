@@ -88,6 +88,19 @@ namespace wServer.logic
                     InitDb.Definitions.Add(dat.IdToObjectType[id], new Tuple<State, Loot>(rootState, null));
                 return this;
             }
+
+            public ctor InitMany(string objTypeMin, string objTypeMax, Func<string, State> rootState, params MobDrops[] defs)
+            {
+                XmlData dat = InitDb.Manager.Resources.GameData;
+                ushort idMin = dat.IdToObjectType[objTypeMin];
+                ushort idMax = dat.IdToObjectType[objTypeMax];
+                int count = idMax - idMin;
+                for (int i = 0; i <= count; i++)
+                    if (!InitDb.Definitions.ContainsKey((ushort)(idMin + i)))
+                        Init(dat.ObjectTypeToId[(ushort)(idMin + i)],
+                            rootState(dat.ObjectTypeToId[(ushort)(idMin + i)]), defs);
+                return this;
+            }
         }
         static ctor Behav()
         {
