@@ -131,7 +131,38 @@
     <Compile Include="logic\Cooldown.cs" />
     <Compile Include="logic\CycleBehavior.cs" />
     <Compile Include="logic\DamageCounter.cs" />
+    <Compile Include="logic\db\BehaviorDb.Abyss.cs" />
+    <Compile Include="logic\db\BehaviorDb.Beachzone.cs" />
+    <Compile Include="logic\db\BehaviorDb.Candyland.cs" />
+    <Compile Include="logic\db\BehaviorDb.Crystal.cs" />
+    <Compile Include="logic\db\BehaviorDb.CubeGod.cs" />
+    <Compile Include="logic\db\BehaviorDb.Cyclops.cs" />
+    <Compile Include="logic\db\BehaviorDb.Deathmage.cs" />
+    <Compile Include="logic\db\BehaviorDb.EntAncient.cs" />
+    <Compile Include="logic\db\BehaviorDb.GhostKing.cs" />
+    <Compile Include="logic\db\BehaviorDb.GhostShip.cs" />
+    <Compile Include="logic\db\BehaviorDb.Golems.cs" />
+    <Compile Include="logic\db\BehaviorDb.Hermit.cs" />
+    <Compile Include="logic\db\BehaviorDb.Lab.cs" />
+    <Compile Include="logic\db\BehaviorDb.Lich.cs" />
+    <Compile Include="logic\db\BehaviorDb.LotLL.cs" />
+    <Compile Include="logic\db\BehaviorDb.Lowland.cs" />
+    <Compile Include="logic\db\BehaviorDb.Midland.cs" />
     <Compile Include="logic\db\BehaviorDb.Misc.cs" />
+    <Compile Include="logic\db\BehaviorDb.Mountain.cs" />
+    <Compile Include="logic\db\BehaviorDb.OceanTrench.cs" />
+    <Compile Include="logic\db\BehaviorDb.Pentaract.cs" />
+    <Compile Include="logic\db\BehaviorDb.Phoenix.cs" />
+    <Compile Include="logic\db\BehaviorDb.RedDemon.cs" />
+    <Compile Include="logic\db\BehaviorDb.Shore.cs" />
+    <Compile Include="logic\db\BehaviorDb.SkullShrine.cs" />
+    <Compile Include="logic\db\BehaviorDb.SnakePit.cs" />
+    <Compile Include="logic\db\BehaviorDb.Sphinx.cs" />
+    <Compile Include="logic\db\BehaviorDb.SpiderDen.cs" />
+    <Compile Include="logic\db\BehaviorDb.SpriteWorld.cs" />
+    <Compile Include="logic\db\BehaviorDb.Tomb.cs" />
+    <Compile Include="logic\db\BehaviorDb.UndeadLair.cs" />
+    <Compile Include="logic\db\Oasis.cs" />
     <Compile Include="logic\FameCounter.cs" />
     <Compile Include="logic\loot\Loots.cs" />
     <Compile Include="logic\loot\MobDrops.cs" />
@@ -394,6 +425,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <Compile Include="logic\db\BehaviorDb.CaveTT.cs" />
     <None Include="packages.config" />
     <None Include="wServer.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

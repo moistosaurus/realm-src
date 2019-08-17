@@ -94,7 +94,7 @@ namespace wServer.realm.entities
         {
             using (TimedLock.Lock(_useLock))
             {
-                Log.Debug(objId + ":" + slot);
+                //Log.Debug(objId + ":" + slot);
                 var entity = Owner.GetEntity(objId);
                 if (entity == null)
                 {
@@ -206,10 +206,10 @@ namespace wServer.realm.entities
                     FameCounter.DrinkPot();
                 }
 
-                Log.Debug(item.SlotType + ":" + slotType);
+                //Log.Debug(item.SlotType + ":" + slotType);
                 if (item.Consumable || item.SlotType == slotType)
                 {
-                    Log.Debug("HUH");
+                    //Log.Debug("HUH");
                     Activate(time, item, pos);
                 }
                 else
@@ -519,6 +519,11 @@ namespace wServer.realm.entities
                     boostAmount = 20;
                 Stats.Boost.ActivateBoost[idx].AddOffset(boostAmount);
                 Stats.ReCalculateValues();
+                SendInfo("Already maxed... Stat boosted!");
+            }
+            else
+            {
+                SendInfo("Potion consumed...");
             }
         }
         private void AERemoveNegativeConditionSelf(RealmTime time, Item item, Position target, ActivateEffect eff)

@@ -95,14 +95,14 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Fix Scrollbars (make them scrollable via mouse wheel)
 - [x] Add some more skins from prod (cause cute)
 - [x] Allow to view skins when no char slots available like on prod
-- [ ] Add Hardware Accel (old clients don't have it)
-- [ ] Add unnecessary particles option
+- [x] Add Hardware Accel (old clients don't have it, this will be quite difficult...)
+- [x] Add unnecessary particles option
 - [ ] Add hp bars option
 - [ ] Add server sided projectile, AOE, and ground damage tracking (fix godmode basically)
-- [ ] Fix projectile Z value when standing on ProtectFromGroundDamage objects
+- [x] Fix projectile Z value when standing on ProtectFromGroundDamage objects
 - [x] Add guild halls
 - [x] Add permapets (yay)
-- [ ] Add realm behaviors
+- [x] Add realm behaviors
 - [ ] Add Abyss of Demons
 - [ ] Add Undead Lair
 - [ ] Add Snake Pit
