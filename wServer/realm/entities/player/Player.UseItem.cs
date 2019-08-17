@@ -328,10 +328,10 @@ namespace wServer.realm.entities
         {
             var type = Manager.Resources.GameData.IdToObjectType[eff.ObjectId];
             var desc = Manager.Resources.GameData.ObjectDescs[type];
-            Log.Debug(desc.ObjectType);
+            //Log.Debug(desc.ObjectType);
             PetId = desc.ObjectType;
             SpawnPetIfAttached(Owner);
-            Log.Debug("hey!");
+            //Log.Debug("hey!");
         }
 
         private void AEUnlockPortal(RealmTime time, Item item, Position target, ActivateEffect eff)
@@ -887,7 +887,10 @@ namespace wServer.realm.entities
         {
             var condition = eff.CheckExistingEffect;
             ConditionEffects conditions = 0;
-            conditions |= (ConditionEffects)(1 << (Byte)condition.Value);
+
+            if (condition.HasValue)
+                conditions |= (ConditionEffects)(1 << (Byte)condition.Value);
+
             if (!condition.HasValue || HasConditionEffect(conditions))
             {
                 ApplyConditionEffect(new ConditionEffect()

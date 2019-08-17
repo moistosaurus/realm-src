@@ -97,6 +97,7 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Allow to view skins when no char slots available like on prod
 - [x] Add Hardware Accel (old clients don't have it, this will be quite difficult...)
 - [x] Add unnecessary particles option
+- [x] Don't use queued status texts (why is this even a thing...)
 - [ ] Add hp bars option
 - [ ] Add server sided projectile, AOE, and ground damage tracking (fix godmode basically)
 - [x] Fix projectile Z value when standing on ProtectFromGroundDamage objects

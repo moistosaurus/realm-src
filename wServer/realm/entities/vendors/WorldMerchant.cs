@@ -44,11 +44,7 @@ namespace wServer.realm.entities.vendors
                 }
             }
 
-            i++;
-            if (ItemList.Count <= i)
-                i = 0;
-
-            var nextItem = ItemList[i];
+            var nextItem = ItemList.OneElement(Rand);
             ShopItem = nextItem;
             Item = nextItem.ItemId;
             Price = nextItem.Price;

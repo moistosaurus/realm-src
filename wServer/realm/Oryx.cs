@@ -886,7 +886,7 @@ namespace wServer.realm
         public void InitCloseRealm()
         {
             Closing = true;
-            _world.Manager.Chat.Announce("Realm closing in 1 minute.", true);
+            _world.Manager.Chat.Announce(string.Format("{0} closing in 1 minute.", _world.Name), true);
             _world.Timers.Add(new WorldTimer(60000, (w, t) => CloseRealm()));
         }
 

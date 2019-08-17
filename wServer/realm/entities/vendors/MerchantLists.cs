@@ -100,27 +100,30 @@ namespace wServer.realm.entities.vendors
 
         private static readonly List<ISellableItem> Store1 = new List<ISellableItem>
         {
-            new ShopItem("Undead Lair Key", 40),
-            new ShopItem("Sprite World Key", 40),
-            new ShopItem("Davy's Key", 150),
-            new ShopItem("Candy Key", 80),
-            new ShopItem("Abyss of Demons Key", 40),
+            new ShopItem("Pirate Cave Key", 25),
+            new ShopItem("Spider Den Key", 25),
+            new ShopItem("Undead Lair Key", 50),
+            new ShopItem("Sprite World Key", 50),
+            new ShopItem("Abyss of Demons Key", 50),
+            new ShopItem("Snake Pit Key", 50),
+            new ShopItem("Beachzone Key", 50),
+            new ShopItem("Lab Key", 50),
             new ShopItem("Totem Key", 50),
-            new ShopItem("Pirate Cave Key", 15),
-            new ShopItem("Beachzone Key", 30),
-            new ShopItem("Lab Key", 40),
-            new ShopItem("Manor Key", 60),
-            new ShopItem("Cemetery Key", 100),
-            new ShopItem("Ocean Trench Key", 200),
-            new ShopItem("Snake Pit Key", 30),
-            new ShopItem("Spider Den Key", 20),
-            new ShopItem("Tomb of the Ancients Key", 200),
+            new ShopItem("Manor Key", 80),
+            new ShopItem("Candy Key", 100),
+            new ShopItem("Cemetery Key", 150),
+            new ShopItem("Davy's Key", 200),
+            new ShopItem("Ocean Trench Key", 300),
+            new ShopItem("Tomb of the Ancients Key", 400)
         };
 
         private static readonly List<ISellableItem> Store2 = new List<ISellableItem>
         {
             new ShopItem("Amulet of Resurrection", 11250),
             new ShopItem("Backpack", 2000),
+            new ShopItem("Elixir of Health 7", 500),
+            new ShopItem("Elixir of Magic 7", 500),
+            new ShopItem("Transformation Potion", 500),
         };
 
         private static readonly List<ISellableItem> Store3 = new List<ISellableItem>
@@ -145,12 +148,16 @@ namespace wServer.realm.entities.vendors
 
         private static readonly List<ISellableItem> Store4 = new List<ISellableItem>
         {
+            new ShopItem("Tincture of Fear", 100),
+            new ShopItem("Tincture of Courage", 150),
             new ShopItem("Tincture of Dexterity", 100),
             new ShopItem("Tincture of Defense", 100),
             new ShopItem("Tincture of Life", 150),
             new ShopItem("Tincture of Mana", 150),
             new ShopItem("Effusion of Dexterity", 250),
             new ShopItem("Effusion of Life", 250),
+            new ShopItem("Effusion of Mana", 250),
+            new ShopItem("Effusion of Defense", 250),
         };
 
         public static readonly Dictionary<TileRegion, Tuple<List<ISellableItem>, CurrencyType, /*Rank Req*/int>> Shops =
@@ -178,17 +185,33 @@ namespace wServer.realm.entities.vendors
 
         static void InitDyes(RealmManager manager)
         {
-            var cloths = new List<ISellableItem>();
-            var accessories = new List<ISellableItem>();
-            foreach (var i in manager.Resources.GameData.Items)
+            var d1 = new List<ISellableItem>();
+            var d2 = new List<ISellableItem>();
+            foreach (var i in manager.Resources.GameData.Items.Values)
             {
-                if (i.Value.Texture1 != 0)
-                    cloths.Add(new ShopItem(i.Value.ObjectId, 100));
-                else if (i.Value.Texture2 != 0)
-                    accessories.Add(new ShopItem(i.Value.ObjectId, 100));
+                if (!i.Class.Equals("Dye"))
+                    continue;
+
+                if (i.Texture1 != 0)
+                {
+                    ushort price = 60;
+                    if (i.ObjectId.Contains("Cloth") && i.ObjectId.Contains("Large"))
+                        price *= 2;
+                    d1.Add(new ShopItem(i.ObjectId, price));
+                    continue;
+                }
+
+                if (i.Texture2 != 0)
+                {
+                    ushort price = 60;
+                    if (i.ObjectId.Contains("Cloth") && i.ObjectId.Contains("Small"))
+                        price *= 2;
+                    d2.Add(new ShopItem(i.ObjectId, price));
+                    continue;
+                }
             }
-            Shops[TileRegion.Store_5] = new Tuple<List<ISellableItem>, CurrencyType, int>(cloths, CurrencyType.Gold, 0);
-            Shops[TileRegion.Store_6] = new Tuple<List<ISellableItem>, CurrencyType, int>(accessories, CurrencyType.Gold, 0);
+            Shops[TileRegion.Store_5] = new Tuple<List<ISellableItem>, CurrencyType, int>(d1, CurrencyType.Gold, 0);
+            Shops[TileRegion.Store_6] = new Tuple<List<ISellableItem>, CurrencyType, int>(d2, CurrencyType.Gold, 0);
         }
     }
 }

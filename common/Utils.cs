@@ -321,6 +321,16 @@ namespace common
             return dateTime;
         }
 
+        public static T OneElement<T>(this List<T> list, Random rand)
+        {
+            return list[rand.Next(list.Count)];
+        }
+
+        public static T OneElement<T>(this T[] array, Random rand)
+        {
+            return array[rand.Next(array.Length)];
+        }
+
         public static string GetBuildConfiguration()
         {
             string buildConfig;
