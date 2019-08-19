@@ -93,12 +93,14 @@ I chose to make the server compatible with version 7.0 because I feel that it is
 - [x] Remove client sided /help command
 - [x] Fix Ally Shoot issues
 - [x] Fix Scrollbars (make them scrollable via mouse wheel)
-- [x] Add some more skins from prod (cause cute)
 - [x] Allow to view skins when no char slots available like on prod
 - [x] Add Hardware Accel (old clients don't have it, this will be quite difficult...)
 - [x] Add unnecessary particles option
 - [x] Don't use queued status texts (why is this even a thing...)
-- [ ] Add hp bars option
+- [x] Add hp bars option (make them prettier tho...)
+- [x] Add option to disable Ally Shots (server player shoot as well unless its main player ID)
+- [x] Add option to disable Ally Damage (damage dealt to and by allies on enemies/themselves)
+- [x] Add option to disable Ally notifications (EXP & noti packet)
 - [ ] Add server sided projectile, AOE, and ground damage tracking (fix godmode basically)
 - [x] Fix projectile Z value when standing on ProtectFromGroundDamage objects
 - [x] Add guild halls
